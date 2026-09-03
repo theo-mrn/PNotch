@@ -1,0 +1,119 @@
+import Defaults
+import SwiftUI
+
+/// Root view of the notch window: the black notch shape, growing from the camera housing
+/// into the opened panel or the music live activity.
+struct ContentView: View {
+    @Environment(PNotchViewModel.self) private var vm
+    @Environment(MusicManager.self) private var music
+    @Default(.showMusicLiveActivity) private var showMusicLiveActivity
+    @State private var hoverFeedbackTrigger = false
+
+    var body: some View {
+        notch
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+            .preferredColorScheme(.dark)
+    }
+
+    // MARK: Notch
+
+    private var isOpen: Bool {
+        vm.notchState == .open
+    }
+
+    /// The closed notch widens around the camera while music plays.
+    private var showsMusicActivity: Bool {
+        !isOpen && showMusicLiveActivity && music.isPlaying
+    }
+
+    /// Size of the notch body, ears excluded.
+    private var bodySize: CGSize {
+        if isOpen {
+            return vm.openedSize
+        }
+        if showsMusicActivity {
+            return vm.geometry.sneakPeekSize
+        }
+        return vm.notchSize
+    }
+
+    private var cornerRadii: NotchCornerRadii {
+        if isOpen {
+            return .opened
+        }
+        return showsMusicActivity || vm.isHovering ? .sneakPeek : .closed
+    }
+
+    private var notch: some View {
+        let radii = cornerRadii
+
+        return ZStack(alignment: .top) {
+            if isOpen {
+                ZStack(alignment: .top) {
+                    // Pages cross-fade while the notch resizes from one to the other.
+                    // The new page slides in from the side of its tab while its pieces bloom; the old one melts away.
+                    openedContent
+                        .id(vm.page)
+                        .transition(.asymmetric(
+                            insertion: .pageArriving(from: vm.pageDirection),
+                            removal: .pageLeaving
+                        ))
+                }
+                .frame(width: vm.openedSize.width, height: vm.openedSize.height, alignment: .top)
+                .transition(.notchContent)
+            } else if showsMusicActivity {
+                MusicLiveActivityView(notchSize: vm.geometry.notchSize)
+                    .transition(.opacity.combined(with: .blur(radius: 6)))
+            }
+        }
+        .frame(width: bodySize.width, height: bodySize.height, alignment: .top)
+        .padding(.horizontal, radii.top)
+        .background {
+            NotchBackground(isOpen: isOpen)
+        }
+        .clipShape(NotchShape(radii: radii))
+        .shadow(color: .black.opacity(isOpen ? 0.5 : 0), radius: 16, y: 6)
+        .contentShape(NotchShape(radii: radii))
+        .onHover(perform: handleHover)
+        .gesture(
+            TapGesture().onEnded { vm.handleTapOnClosedNotch() },
+            including: isOpen ? .subviews : .all
+        )
+        .sensoryFeedback(.alignment, trigger: hoverFeedbackTrigger) { _, _ in
+            Defaults[.enableHaptics]
+        }
+        .animation(isOpen ? .notchOpen : .notchClose, value: isOpen)
+        // Switching page or to the list, or the list following its results as you type.
+        .animation(Motion.layout, value: vm.openedSize)
+        .animation(.sneakPeek, value: showsMusicActivity)
+        .animation(.notchHover, value: vm.isHovering)
+    }
+
+    @ViewBuilder
+    private var openedContent: some View {
+        switch vm.layout {
+        case .music:
+            MusicView()
+        }
+    }
+
+    private func handleHover(_ hovering: Bool) {
+        if hovering, !isOpen {
+            hoverFeedbackTrigger.toggle()
+        }
+        vm.handleHover(hovering)
+    }
+}
+
+// MARK: - NotchBackground
+
+/// Pure black, like the camera housing it grows from.
+private struct NotchBackground: View {
+    let isOpen: Bool
+
+    var body: some View {
+        Rectangle()
+            .fill(.black)
+
+    }
+}
