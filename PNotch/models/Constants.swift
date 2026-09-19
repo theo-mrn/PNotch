@@ -18,7 +18,19 @@ extension Defaults.Keys {
     // MARK: Music
 
     static let showMusicLiveActivity = Key<Bool>("showMusicLiveActivity", default: true)
+
+    // MARK: Clipboard
+
+    static let clipboardHistoryLimit = Key<Int>("clipboardHistoryLimit", default: 200)
+    static let fetchLinkPreviews = Key<Bool>("fetchLinkPreviews", default: true)
+    static let showCopySneakPeek = Key<Bool>("showCopySneakPeek", default: true)
+    static let closeNotchAfterCopy = Key<Bool>("closeNotchAfterCopy", default: true)
+    /// Choosing an item pastes it into the app in use (needs the Accessibility permission), ⌥ only copies.
+    static let pasteDirectly = Key<Bool>("pasteDirectly", default: true)
 }
+
+/// History sizes offered in Settings.
+let clipboardHistoryLimitOptions = [50, 100, 200, 500]
 
 extension NotchPage: Defaults.Serializable {}
 

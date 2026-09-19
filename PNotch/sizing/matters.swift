@@ -33,6 +33,33 @@ nonisolated enum MusicMetrics {
     static let horizontalPadding: CGFloat = NotchMetrics.pageInset
 }
 
+nonisolated enum ClipboardListMetrics {
+    /// As wide as the music page.
+    static let width: CGFloat = 640
+    static let searchHeight: CGFloat = 50
+    static let rowHeight: CGFloat = 56
+    static let rowSpacing: CGFloat = 6
+    static let rowCornerRadius: CGFloat = 12
+    static let thumbnailSize: CGFloat = 40
+    /// With the rows' own 8 points, their content lines up with the page inset.
+    static let horizontalPadding: CGFloat = NotchMetrics.pageInset - 8
+    /// Same as `rowSpacing`, so the visible rows fill the list exactly, without a sliver of the next one.
+    static let verticalPadding: CGFloat = 6
+    /// Keeps the scrolling rows clear of the notch's rounded bottom corners.
+    static let bottomInset: CGFloat = 10
+    static let maxVisibleRows = 6
+
+    /// Rows the list makes room for: one per result up to `maxVisibleRows`, two for the empty state.
+    static func visibleRows(forItemCount count: Int) -> Int {
+        count == 0 ? 2 : min(count, maxVisibleRows)
+    }
+
+    static func bodyHeight(rows: Int) -> CGFloat {
+        let rows = CGFloat(rows)
+        return searchHeight + 1 + verticalPadding * 2 + rows * rowHeight + max(rows - 1, 0) * rowSpacing + bottomInset
+    }
+}
+
 /// The top row of every page, level with the menu bar.
 nonisolated enum NotchHeaderMetrics {
     /// The same inset as the pages', so the tabs and the content share one edge.

@@ -115,12 +115,14 @@ extension NotchPage {
     var title: String {
         switch self {
         case .music: String(localized: "Music")
+        case .clipboard: String(localized: "Clipboard")
         }
     }
 
     var symbolName: String {
         switch self {
         case .music: "music.note"
+        case .clipboard: "doc.on.clipboard"
         }
     }
 }

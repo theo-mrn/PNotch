@@ -1,4 +1,5 @@
 import Defaults
+import KeyboardShortcuts
 import os
 import ServiceManagement
 import SwiftUI
@@ -28,7 +29,9 @@ struct SettingsView: View {
                 switch selection {
                 case .general: GeneralPane()
                 case .tabs: ModulesPane()
+                case .clipboard: ClipboardPane()
                 case .music: MusicPane()
+                case .shortcuts: ShortcutsPane()
                 case .about: AboutPane()
                 }
             }
@@ -44,7 +47,9 @@ struct SettingsView: View {
 enum SettingsPane: String, CaseIterable, Identifiable {
     case general
     case tabs
+    case clipboard
     case music
+    case shortcuts
     case about
 
     var id: Self {
@@ -55,7 +60,9 @@ enum SettingsPane: String, CaseIterable, Identifiable {
         switch self {
         case .general: "General"
         case .tabs: "Modules"
+        case .clipboard: "Clipboard"
         case .music: "Music"
+        case .shortcuts: "Shortcuts"
         case .about: "About"
         }
     }
@@ -64,7 +71,9 @@ enum SettingsPane: String, CaseIterable, Identifiable {
         switch self {
         case .general: "gearshape.fill"
         case .tabs: "square.grid.2x2.fill"
+        case .clipboard: "doc.on.clipboard.fill"
         case .music: "music.note"
+        case .shortcuts: "command"
         case .about: "info.circle.fill"
         }
     }
@@ -170,6 +179,8 @@ private struct ModulesPane: View {
                         Text(page.title).tag(NotchPage?.some(page))
                     }
                 }
+            } footer: {
+                Text("The keyboard shortcuts always open the clipboard.")
             }
         }
     }
@@ -243,6 +254,100 @@ private struct ModuleRow: View {
     }
 }
 
+// MARK: - Clipboard
+
+private struct ClipboardPane: View {
+    @Environment(ClipboardStateViewModel.self) private var clipboard
+    @Default(.pasteDirectly) private var pasteDirectly
+    @Default(.clipboardHistoryLimit) private var historyLimit
+    @Default(.fetchLinkPreviews) private var fetchLinkPreviews
+    @Default(.showCopySneakPeek) private var showCopySneakPeek
+    @Default(.closeNotchAfterCopy) private var closeNotchAfterCopy
+    @State private var isConfirmingClear = false
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle("Paste directly into the app in use", isOn: $pasteDirectly)
+                if pasteDirectly {
+                    AccessibilityStatusRow()
+                }
+            } header: {
+                Text("Pasting")
+            } footer: {
+                Text("Hold ⌥ (Option) while choosing an item to copy it without pasting.")
+            }
+
+            Section {
+                Picker("Keep", selection: $historyLimit) {
+                    ForEach(clipboardHistoryLimitOptions, id: \.self) { limit in
+                        Text("\(limit) items").tag(limit)
+                    }
+                }
+                Toggle("Fetch link previews", isOn: $fetchLinkPreviews)
+                Toggle("Show a sneak peek when something is copied", isOn: $showCopySneakPeek)
+                Toggle("Close the notch after copying", isOn: $closeNotchAfterCopy)
+                Button("Clear History…", role: .destructive) {
+                    isConfirmingClear = true
+                }
+                .confirmationDialog("Clear the clipboard history?", isPresented: $isConfirmingClear) {
+                    Button("Clear History", role: .destructive) {
+                        clipboard.clearHistory()
+                    }
+                } message: {
+                    Text("Pinned items are kept.")
+                }
+            } header: {
+                Text("History")
+            } footer: {
+                Text("Passwords and other content marked as confidential are never recorded. Pinned items are never removed automatically.")
+            }
+
+            Section("In the notch") {
+                ShortcutRow(title: "Select", keys: "↑ ↓")
+                ShortcutRow(title: pasteDirectly ? "Paste" : "Copy", keys: "↩")
+                if pasteDirectly {
+                    ShortcutRow(title: "Copy without pasting", keys: "⌥↩")
+                }
+                ShortcutRow(title: "Use as plain text", keys: "⇧↩")
+                ShortcutRow(title: "Search", keys: "⌘F")
+                ShortcutRow(title: "Pin / unpin", keys: "⌘P")
+                ShortcutRow(title: "Delete", keys: "⌘⌫")
+            }
+        }
+    }
+}
+
+/// Whether PNotch may paste, with the way to grant it. Refreshes while shown,
+/// so it turns green as soon as access is given in System Settings.
+private struct AccessibilityStatusRow: View {
+    @State private var isTrusted = PasteService.isTrusted
+
+    var body: some View {
+        LabeledContent {
+            if !isTrusted {
+                Button("Open System Settings") {
+                    PasteService.requestPermissionIfNeeded()
+                    PasteService.openAccessibilitySettings()
+                }
+            }
+        } label: {
+            Label {
+                Text(isTrusted ? "Accessibility access granted" : "Needs Accessibility access to paste")
+            } icon: {
+                Image(systemName: isTrusted ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                    .foregroundStyle(isTrusted ? Palette.accent : Palette.danger)
+            }
+        }
+        .task {
+            while !Task.isCancelled {
+                isTrusted = PasteService.isTrusted
+                try? await Task.sleep(for: .seconds(1))
+            }
+        }
+    }
+}
+
 // MARK: - Music
 
 private struct MusicPane: View {
@@ -254,6 +359,20 @@ private struct MusicPane: View {
                 Toggle("Show what's playing around the closed notch", isOn: $showMusicLiveActivity)
             } footer: {
                 Text("Works with any app that reports to Now Playing: Music, Spotify, podcasts, video in a browser…")
+            }
+        }
+    }
+}
+
+// MARK: - Shortcuts
+
+private struct ShortcutsPane: View {
+    var body: some View {
+        Form {
+            Section {
+                KeyboardShortcuts.Recorder("Clipboard", name: .clipboardList)
+            } footer: {
+                Text("Press the list shortcut again to move to the next item, then ↩ to use it.")
             }
         }
     }
@@ -274,7 +393,7 @@ private struct AboutPane: View {
                             .font(.title2.weight(.semibold))
                         Text("Version \(appVersion)")
                             .foregroundStyle(.secondary)
-                        Text("Your music, in the notch.")
+                        Text("Your music and clipboard, in the notch.")
                             .foregroundStyle(.secondary)
                     }
                 }

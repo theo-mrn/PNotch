@@ -23,15 +23,20 @@ enum NotchCloseReason {
     case clickOutside
     case escape
     case shortcut
+    case copied
+    case pasted
     case settings
 }
 
 /// Pages of the opened notch: the modules plugged in, which are its tabs.
 nonisolated enum NotchPage: String, CaseIterable, Sendable {
     case music
+    case clipboard
 }
 
 /// What the opened notch shows, which decides its size.
 nonisolated enum NotchLayout: Equatable, Sendable {
     case music
+    /// The searchable list, shrinking around `itemCount` results.
+    case clipboardList(itemCount: Int)
 }

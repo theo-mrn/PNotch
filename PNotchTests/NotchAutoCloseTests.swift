@@ -16,7 +16,7 @@ struct NotchAutoCloseTests {
 
     private func makeOpenedNotch(reason: NotchOpenReason = .click) -> PNotchViewModel {
         let pointer = pointer
-        let vm = PNotchViewModel(screen: nil, page: .music) { pointer.location }
+        let vm = PNotchViewModel(screen: nil, page: .clipboard) { pointer.location }
         pointer.location = CGPoint(x: vm.openedScreenRect.midX, y: vm.openedScreenRect.midY)
         vm.open(reason: reason)
         return vm
