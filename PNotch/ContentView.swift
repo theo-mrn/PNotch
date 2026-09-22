@@ -2,9 +2,10 @@ import Defaults
 import SwiftUI
 
 /// Root view of the notch window: the black notch shape, growing from the camera housing
-/// into the opened panel or the music live activity.
+/// into the opened panel, a sneak peek or the music live activity.
 struct ContentView: View {
     @Environment(PNotchViewModel.self) private var vm
+    @Environment(PNotchViewCoordinator.self) private var coordinator
     @Environment(MusicManager.self) private var music
     @Default(.showMusicLiveActivity) private var showMusicLiveActivity
     @State private var hoverFeedbackTrigger = false
@@ -21,9 +22,24 @@ struct ContentView: View {
         vm.notchState == .open
     }
 
+    private var sneakPeek: SneakPeek? {
+        isOpen ? nil : coordinator.sneakPeek
+    }
+
+    // What the closed notch shows around the camera, most important first: a sneak peek, then the music.
+
+    private var isClosedAndFree: Bool {
+        !isOpen && sneakPeek == nil
+    }
+
     /// The closed notch widens around the camera while music plays.
     private var showsMusicActivity: Bool {
-        !isOpen && showMusicLiveActivity && music.isPlaying
+        isClosedAndFree && showMusicLiveActivity && music.isPlaying
+    }
+
+    /// Something is shown on both sides of the camera.
+    private var showsSideActivity: Bool {
+        sneakPeek != nil || showsMusicActivity
     }
 
     /// Size of the notch body, ears excluded.
@@ -31,7 +47,7 @@ struct ContentView: View {
         if isOpen {
             return vm.openedSize
         }
-        if showsMusicActivity {
+        if showsSideActivity {
             return vm.geometry.sneakPeekSize
         }
         return vm.notchSize
@@ -41,7 +57,7 @@ struct ContentView: View {
         if isOpen {
             return .opened
         }
-        return showsMusicActivity || vm.isHovering ? .sneakPeek : .closed
+        return showsSideActivity || vm.isHovering ? .sneakPeek : .closed
     }
 
     private var notch: some View {
@@ -61,6 +77,14 @@ struct ContentView: View {
                 }
                 .frame(width: vm.openedSize.width, height: vm.openedSize.height, alignment: .top)
                 .transition(.notchContent)
+            } else if let sneakPeek {
+                Group {
+                    switch sneakPeek.content {
+                    case let .copy(copy):
+                        ClipboardSneakPeekView(peek: copy, id: sneakPeek.id, notchSize: vm.geometry.notchSize)
+                    }
+                }
+                .transition(.opacity.combined(with: .blur(radius: 6)))
             } else if showsMusicActivity {
                 MusicLiveActivityView(notchSize: vm.geometry.notchSize)
                     .transition(.opacity.combined(with: .blur(radius: 6)))
@@ -85,6 +109,7 @@ struct ContentView: View {
         .animation(isOpen ? .notchOpen : .notchClose, value: isOpen)
         // Switching page or to the list, or the list following its results as you type.
         .animation(Motion.layout, value: vm.openedSize)
+        .animation(.sneakPeek, value: sneakPeek)
         .animation(.sneakPeek, value: showsMusicActivity)
         .animation(.notchHover, value: vm.isHovering)
     }
@@ -94,6 +119,8 @@ struct ContentView: View {
         switch vm.layout {
         case .music:
             MusicView()
+        case .clipboardList:
+            ClipboardListView()
         }
     }
 

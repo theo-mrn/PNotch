@@ -22,6 +22,17 @@ struct NotchGeometryTests {
         #expect(externalDisplay.closedSize == NotchMetrics.fallbackNotchSize)
     }
 
+    @Test func clipboardIsAListAsWideAsTheOtherPages() {
+        let list = macBookPro14.openedSize(for: .clipboardList(itemCount: .max))
+
+        #expect(list.width == ClipboardListMetrics.width)
+        #expect(list.width == MusicMetrics.width)
+        // It grows with the results, up to six rows; the empty state gets two.
+        #expect(macBookPro14.openedSize(for: .clipboardList(itemCount: 2)).height < list.height)
+        #expect(macBookPro14.openedSize(for: .clipboardList(itemCount: 0)).height == macBookPro14.openedSize(for: .clipboardList(itemCount: 2)).height)
+        #expect(macBookPro14.windowFrame.height >= list.height)
+    }
+
     @Test func windowIsNoWiderThanTheWidestPage() {
         let overflow = NotchCornerRadii.opened.top + NotchMetrics.shadowPadding
         #expect(macBookPro14.windowFrame.width == MusicMetrics.width + 2 * overflow)
@@ -35,9 +46,9 @@ struct NotchGeometryTests {
     }
 
     @Test func headerWingsHoldTheTabsSideAndTheButtonsSide() {
-        // Right of the camera: up to two page buttons and settings.
+        // Right of the camera: up to two page buttons (the clipboard's) and settings.
         let buttons = 3 * NotchHeaderMetrics.controlHeight + 2 * 6
-        for layout in [NotchLayout.music] {
+        for layout in [NotchLayout.music, .clipboardList(itemCount: 3)] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(buttons <= wing, "\(layout)")
@@ -46,7 +57,7 @@ struct NotchGeometryTests {
 
     @Test func everyModuleTabFitsLeftOfTheCameraWithoutScrolling() {
         let all = NotchModules.catalog.count
-        for layout in [NotchLayout.music] {
+        for layout in [NotchLayout.music, .clipboardList(itemCount: 3)] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(NotchHeaderMetrics.iconBarWidth(count: all) <= wing, "\(layout)")
@@ -66,6 +77,34 @@ struct NotchGeometryTests {
         #expect(frame.maxY == secondaryDisplay.screenFrame.maxY)
         #expect(frame.midX == secondaryDisplay.screenFrame.midX)
         #expect(frame.width <= secondaryDisplay.screenFrame.width)
-        #expect(frame.height >= secondaryDisplay.openedSize(for: .music).height)
+        #expect(frame.height >= secondaryDisplay.openedSize(for: .clipboardList(itemCount: .max)).height)
+    }
+}
+
+struct RelativeTimeFormatterTests {
+    private let now = Date(timeIntervalSince1970: 1_000_000)
+
+    @Test(arguments: [
+        (5.0, "now"),
+        (59.0, "now"),
+        (60.0, "1m"),
+        (45 * 60.0, "45m"),
+        (3 * 3600.0, "3h"),
+        (2 * 86400.0, "2d"),
+    ])
+    func formatsRecentDates(secondsAgo: TimeInterval, expected: String) {
+        let string = RelativeTimeFormatter.string(
+            for: now.addingTimeInterval(-secondsAgo),
+            relativeTo: now,
+            locale: Locale(identifier: "en_US")
+        )
+        #expect(string == expected)
+    }
+
+    @Test func formatsOlderDatesAsADay() {
+        let date = Date(timeIntervalSince1970: 15 * 86400) // Mid-January 1970, whatever the time zone.
+        let twoMonthsLater = date.addingTimeInterval(60 * 86400)
+        let string = RelativeTimeFormatter.string(for: date, relativeTo: twoMonthsLater, locale: Locale(identifier: "en_US"))
+        #expect(string.contains("Jan"))
     }
 }

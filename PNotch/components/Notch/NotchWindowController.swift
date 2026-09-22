@@ -15,15 +15,18 @@ final class NotchWindowController: NSWindowController {
     ]
 
     private let viewModel: PNotchViewModel
+    private let clipboard: ClipboardStateViewModel
     private var keyDownMonitor: EventMonitor?
     private var outsideClickMonitor: EventMonitor?
 
     init(
         viewModel: PNotchViewModel,
         coordinator: PNotchViewCoordinator,
+        clipboard: ClipboardStateViewModel,
         music: MusicManager
     ) {
         self.viewModel = viewModel
+        self.clipboard = clipboard
 
         let window = PNotchWindow(contentRect: viewModel.geometry.windowFrame)
         super.init(window: window)
@@ -31,6 +34,7 @@ final class NotchWindowController: NSWindowController {
         let rootView = ContentView()
             .environment(viewModel)
             .environment(coordinator)
+            .environment(clipboard)
             .environment(music)
         let hostingView = NSHostingView(rootView: rootView)
         // The window frame is driven by the display geometry, never by the SwiftUI content.
@@ -65,6 +69,8 @@ final class NotchWindowController: NSWindowController {
 
         if wantsFocus {
             window.makeKey()
+            // The search bar is the only text input: with the keyboard at hand, typing searches right away.
+            clipboard.focusSearch()
         } else if window.isKeyWindow {
             // A non-activating panel can't hand key status back directly: ordering it out returns
             // the keyboard to the frontmost app, so ⌘V lands where the user was typing.
@@ -84,12 +90,17 @@ final class NotchWindowController: NSWindowController {
         }
     }
 
-    /// Keyboard handling inside the opened notch. Returns `nil` when the event was handled.
+    /// Keyboard navigation inside the opened notch. Returns `nil` when the event was handled.
+    ///
+    /// Arrows move between cards even while typing in the search bar, like in Spotlight;
+    /// with a modifier (⌥←, ⌘→…) they keep editing the text.
     private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
         guard viewModel.notchState == .open, event.window === window else { return event }
 
         let modifiers = event.modifierFlags.intersection([.command, .option, .control, .shift])
+        // A text field, or the notepad of the Tasks page.
         let isEditingText = window?.firstResponder is NSTextView
+        let isEditingQuery = (window?.firstResponder as? NSTextView)?.isFieldEditor == true && clipboard.isSearching
         let key = event.charactersIgnoringModifiers?.lowercased() ?? ""
 
         if isEditingText, modifiers == .command, let action = Self.editingActions[key] {
@@ -99,12 +110,43 @@ final class NotchWindowController: NSWindowController {
             return NSApp.sendAction(Selector(("redo:")), to: nil, from: self) ? nil : event
         }
 
-        // esc closes the notch; while writing, it first stops writing. The rest belongs to text fields.
-        guard Int(event.keyCode) == kVK_Escape else { return event }
-        if isEditingText {
-            window?.makeFirstResponder(nil)
-        } else {
-            viewModel.close(reason: .escape)
+        // Other pages only close with esc; the rest belongs to their text fields.
+        // While writing, esc first stops writing.
+        guard viewModel.page == .clipboard else {
+            guard Int(event.keyCode) == kVK_Escape else { return event }
+            if isEditingText {
+                window?.makeFirstResponder(nil)
+            } else {
+                viewModel.close(reason: .escape)
+            }
+            return nil
+        }
+
+        switch Int(event.keyCode) {
+        case kVK_Escape:
+            if clipboard.isSearching {
+                clipboard.clearSearch()
+            } else {
+                viewModel.close(reason: .escape)
+            }
+        case kVK_Return, kVK_ANSI_KeypadEnter:
+            clipboard.activateSelectedItem(
+                asPlainText: modifiers.contains(.shift),
+                copyOnly: modifiers.contains(.option)
+            )
+        // ← → stay with the search field's cursor.
+        case kVK_UpArrow where modifiers.isEmpty:
+            clipboard.moveSelection(by: -1)
+        case kVK_DownArrow where modifiers.isEmpty:
+            clipboard.moveSelection(by: 1)
+        case kVK_ANSI_F where modifiers == .command:
+            viewModel.requestKeyboardFocus()
+        case kVK_Delete where modifiers == .command && !isEditingQuery:
+            clipboard.deleteSelectedItem()
+        case kVK_ANSI_P where modifiers == .command:
+            clipboard.togglePinOnSelectedItem()
+        default:
+            return event
         }
         return nil
     }

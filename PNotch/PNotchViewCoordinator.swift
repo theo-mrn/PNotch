@@ -1,10 +1,52 @@
 import Observation
 import SwiftUI
 
-/// App-wide UI state that is not tied to the notch geometry: navigation to Settings.
+/// A short-lived activity shown around the closed notch: something was copied…
+struct SneakPeek: Equatable, Identifiable {
+    enum Content: Equatable {
+        case copy(Copy)
+    }
+
+    struct Copy: Equatable {
+        let kind: ClipboardKind
+        let sourceApp: SourceApplication?
+        let color: ColorValue?
+    }
+
+    let id = UUID()
+    let content: Content
+
+    init(item: ClipboardItem) {
+        var color: ColorValue?
+        if case let .color(value) = item.content {
+            color = value
+        }
+        content = .copy(Copy(kind: item.kind, sourceApp: item.sourceApp, color: color))
+    }
+}
+
+/// App-wide UI state that is not tied to the notch geometry: sneak peeks, navigation to Settings.
 @Observable
 final class PNotchViewCoordinator {
+    private(set) var sneakPeek: SneakPeek?
+
     @ObservationIgnored var onShowSettings: (() -> Void)?
+    @ObservationIgnored private var sneakPeekTask: Task<Void, Never>?
+
+    func showSneakPeek(_ peek: SneakPeek, duration: Duration = .seconds(1.8)) {
+        sneakPeekTask?.cancel()
+        sneakPeek = peek
+        sneakPeekTask = Task { [weak self] in
+            try? await Task.sleep(for: duration)
+            guard let self, !Task.isCancelled, sneakPeek?.id == peek.id else { return }
+            sneakPeek = nil
+        }
+    }
+
+    func dismissSneakPeek() {
+        sneakPeekTask?.cancel()
+        sneakPeek = nil
+    }
 
     func showSettings() {
         onShowSettings?()

@@ -23,10 +23,13 @@ final class PNotchViewModel {
     /// A page that needs the user more than the usual one, e.g. something waiting for an answer.
     /// Opening the notch shows it.
     @ObservationIgnored var urgentPage: () -> NotchPage? = { nil }
+    /// Number of items the list shows, so it can shrink around few results.
+    @ObservationIgnored var listItemCount: () -> Int = { .max }
 
     @ObservationIgnored private let pointerLocation: () -> CGPoint
     @ObservationIgnored private var hoverTask: Task<Void, Never>?
     @ObservationIgnored private var pointerAwayTask: Task<Void, Never>?
+    @ObservationIgnored private var copyCloseTask: Task<Void, Never>?
     @ObservationIgnored private var hasPointerVisitedOpenNotch = false
     @ObservationIgnored private var isMenuTracking = false
     @ObservationIgnored private var menuObservers: [NSObjectProtocol] = []
@@ -57,6 +60,7 @@ final class PNotchViewModel {
     var layout: NotchLayout {
         switch page {
         case .music: .music
+        case .clipboard: .clipboardList(itemCount: listItemCount())
         }
     }
 
@@ -95,10 +99,15 @@ final class PNotchViewModel {
             hasPointerVisitedOpenNotch = reason == .hover || reason == .click
             notchState = .open
         }
-        // Opened from the keyboard, it takes the keyboard. Hovering never steals it.
-        if reason == .keyboard {
+        // Explicit opens of the clipboard take the keyboard so typing searches right away.
+        // Hovering never steals it.
+        if reason == .keyboard || (reason == .click && self.page == .clipboard) {
             onKeyboardFocusRequest?(true)
         }
+    }
+
+    var isShowingClipboard: Bool {
+        notchState == .open && page == .clipboard
     }
 
     /// Switches tab from the header. The choice is remembered for the next opening.
@@ -129,6 +138,23 @@ final class PNotchViewModel {
     /// Requests keyboard focus without changing the notch state, e.g. when the search field is clicked.
     func requestKeyboardFocus() {
         onKeyboardFocusRequest?(true)
+    }
+
+    /// Gets out of the way before ⌘V is sent.
+    func dismissForPaste() {
+        close(reason: .pasted)
+    }
+
+    /// Lets the "Copied" feedback play before folding the notch back.
+    func closeAfterCopy() {
+        guard Defaults[.closeNotchAfterCopy], notchState == .open else { return }
+
+        copyCloseTask?.cancel()
+        copyCloseTask = Task { [weak self] in
+            try? await Task.sleep(for: .milliseconds(450))
+            guard let self, !Task.isCancelled else { return }
+            close(reason: .copied)
+        }
     }
 
     // MARK: Pointer events
@@ -206,6 +232,7 @@ final class PNotchViewModel {
     private func cancelPendingTransitions() {
         hoverTask?.cancel()
         pointerAwayTask?.cancel()
+        copyCloseTask?.cancel()
     }
 
     private func observeMenuTracking() {

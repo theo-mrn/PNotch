@@ -11,4 +11,8 @@ extension Color {
             opacity: opacity
         )
     }
+
+    init(_ value: ColorValue) {
+        self.init(.sRGB, red: value.red, green: value.green, blue: value.blue, opacity: value.alpha)
+    }
 }
