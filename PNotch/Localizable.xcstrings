@@ -14,6 +14,96 @@
         }
       }
     },
+    "%lld files" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld fichiers"
+          }
+        }
+      }
+    },
+    "%lld items" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld éléments"
+          }
+        }
+      }
+    },
+    "%lldd" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld j"
+          }
+        }
+      }
+    },
+    "%lldd ago" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %lld j"
+          }
+        }
+      }
+    },
+    "%lldh" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld h"
+          }
+        }
+      }
+    },
+    "%lldh ago" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %lld h"
+          }
+        }
+      }
+    },
+    "%lldm" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        }
+      }
+    },
+    "%lldm ago" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %lld min"
+          }
+        }
+      }
+    },
+    "^[%lld result](inflect: true)" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "^[%lld résultat](inflect: true)"
+          }
+        }
+      }
+    },
     "About" : {
       "localizations" : {
         "fr" : {
@@ -24,12 +114,32 @@
         }
       }
     },
+    "Accessibility access granted" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accès à l’accessibilité autorisé"
+          }
+        }
+      }
+    },
     "Acknowledgements" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Remerciements"
+          }
+        }
+      }
+    },
+    "All" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tout"
           }
         }
       }
@@ -84,6 +194,196 @@
         }
       }
     },
+    "Clear history" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer l’historique"
+          }
+        }
+      }
+    },
+    "Clear History" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer l’historique"
+          }
+        }
+      }
+    },
+    "Clear History…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer l’historique…"
+          }
+        }
+      }
+    },
+    "Clear search (esc)" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer la recherche (esc)"
+          }
+        }
+      }
+    },
+    "Clear the clipboard history?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effacer l’historique du presse-papiers ?"
+          }
+        }
+      }
+    },
+    "Click again to clear unpinned items" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez à nouveau pour effacer les éléments non épinglés"
+          }
+        }
+      }
+    },
+    "Clipboard" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Presse-papiers"
+          }
+        }
+      }
+    },
+    "Close the notch after copying" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fermer l’encoche après une copie"
+          }
+        }
+      }
+    },
+    "Code" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Code"
+          }
+        }
+      }
+    },
+    "Color" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Couleur"
+          }
+        }
+      }
+    },
+    "Contact" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact"
+          }
+        }
+      }
+    },
+    "Copied" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copié"
+          }
+        }
+      }
+    },
+    "Copy" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier"
+          }
+        }
+      }
+    },
+    "Copy anything — text, links, images, colors — and it lands here." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copiez n’importe quoi — texte, liens, images, couleurs — et ça arrive ici."
+          }
+        }
+      }
+    },
+    "Copy as Plain Text" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier en texte brut"
+          }
+        }
+      }
+    },
+    "Copy without pasting" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copier sans coller"
+          }
+        }
+      }
+    },
+    "Delete" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supprimer"
+          }
+        }
+      }
+    },
+    "Fetch link previews" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Charger les aperçus des liens"
+          }
+        }
+      }
+    },
+    "File" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fichier"
+          }
+        }
+      }
+    },
     "General" : {
       "localizations" : {
         "fr" : {
@@ -104,6 +404,66 @@
         }
       }
     },
+    "History" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Historique"
+          }
+        }
+      }
+    },
+    "Hold ⌥ (Option) while choosing an item to copy it without pasting." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maintenez ⌥ (Option) en choisissant un élément pour le copier sans le coller."
+          }
+        }
+      }
+    },
+    "Image" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image"
+          }
+        }
+      }
+    },
+    "Image  ·  %lld × %lld" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Image  ·  %lld × %lld"
+          }
+        }
+      }
+    },
+    "Images" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Images"
+          }
+        }
+      }
+    },
+    "In the notch" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dans l’encoche"
+          }
+        }
+      }
+    },
     "Installed" : {
       "comment" : "A toggle that lets the user install or uninstall a module.",
       "isCommentAutoGenerated" : true,
@@ -116,12 +476,52 @@
         }
       }
     },
+    "just now" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "à l’instant"
+          }
+        }
+      }
+    },
+    "Keep" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conserver"
+          }
+        }
+      }
+    },
     "Launch at login" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ouvrir à l’ouverture de session"
+          }
+        }
+      }
+    },
+    "Link" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lien"
+          }
+        }
+      }
+    },
+    "Links" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liens"
           }
         }
       }
@@ -168,6 +568,16 @@
         }
       }
     },
+    "Needs Accessibility access to paste" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Accès à l’accessibilité requis pour coller"
+          }
+        }
+      }
+    },
     "Next track" : {
       "localizations" : {
         "fr" : {
@@ -178,12 +588,92 @@
         }
       }
     },
+    "No images yet" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore d’images"
+          }
+        }
+      }
+    },
+    "No links yet" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pas encore de liens"
+          }
+        }
+      }
+    },
+    "No results" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun résultat"
+          }
+        }
+      }
+    },
+    "No results for “%@”" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun résultat pour « %@ »"
+          }
+        }
+      }
+    },
     "Nothing playing" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune lecture en cours"
+          }
+        }
+      }
+    },
+    "now" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "à l’instant"
+          }
+        }
+      }
+    },
+    "Open Clipboard" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir le presse-papiers"
+          }
+        }
+      }
+    },
+    "Open Link" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir le lien"
+          }
+        }
+      }
+    },
+    "Open System Settings" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ouvrir les Réglages Système"
           }
         }
       }
@@ -218,12 +708,102 @@
         }
       }
     },
+    "Passwords and other content marked as confidential are never recorded. Pinned items are never removed automatically." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les mots de passe et autres contenus marqués comme confidentiels ne sont jamais enregistrés. Les éléments épinglés ne sont jamais supprimés automatiquement."
+          }
+        }
+      }
+    },
+    "Paste" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coller"
+          }
+        }
+      }
+    },
+    "Paste as Plain Text" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coller en texte brut"
+          }
+        }
+      }
+    },
+    "Paste directly into the app in use" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coller directement dans l’app utilisée"
+          }
+        }
+      }
+    },
+    "Pasting" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collage"
+          }
+        }
+      }
+    },
     "Pause" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Pause"
+          }
+        }
+      }
+    },
+    "Pause recording copies" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suspendre l’enregistrement des copies"
+          }
+        }
+      }
+    },
+    "Pin" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Épingler"
+          }
+        }
+      }
+    },
+    "Pin / unpin" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Épingler / désépingler"
+          }
+        }
+      }
+    },
+    "Pinned items are kept." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les éléments épinglés sont conservés."
           }
         }
       }
@@ -278,6 +858,16 @@
         }
       }
     },
+    "Press the list shortcut again to move to the next item, then ↩ to use it." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Appuyez à nouveau sur le raccourci de la liste pour passer à l’élément suivant, puis sur ↩ pour l’utiliser."
+          }
+        }
+      }
+    },
     "Previous track" : {
       "localizations" : {
         "fr" : {
@@ -294,6 +884,66 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Quitter PNotch"
+          }
+        }
+      }
+    },
+    "Resume recording copies" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reprendre l’enregistrement des copies"
+          }
+        }
+      }
+    },
+    "Rich Text" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte enrichi"
+          }
+        }
+      }
+    },
+    "Screenshots, pictures from the web and image files from Finder show up here." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les captures d’écran, les images du web et les fichiers image du Finder apparaissent ici."
+          }
+        }
+      }
+    },
+    "Search" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher"
+          }
+        }
+      }
+    },
+    "Search clipboard…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rechercher dans le presse-papiers…"
+          }
+        }
+      }
+    },
+    "Select" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sélectionner"
           }
         }
       }
@@ -318,6 +968,36 @@
         }
       }
     },
+    "Shortcuts" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Raccourcis"
+          }
+        }
+      }
+    },
+    "Show a sneak peek when something is copied" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher un aperçu quand quelque chose est copié"
+          }
+        }
+      }
+    },
+    "Show in Finder" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Afficher dans le Finder"
+          }
+        }
+      }
+    },
     "Show menu bar icon" : {
       "localizations" : {
         "fr" : {
@@ -338,12 +1018,32 @@
         }
       }
     },
+    "Text" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Texte"
+          }
+        }
+      }
+    },
     "The installed modules are the notch's tabs, in this order." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Les modules installés sont les onglets de l’encoche, dans cet ordre."
+          }
+        }
+      }
+    },
+    "The keyboard shortcuts always open the clipboard." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les raccourcis clavier ouvrent toujours le presse-papiers."
           }
         }
       }
@@ -358,12 +1058,42 @@
         }
       }
     },
+    "Try another word, or clear the search with esc." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Essayez un autre mot, ou effacez la recherche avec esc."
+          }
+        }
+      }
+    },
+    "Unpin" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Désépingler"
+          }
+        }
+      }
+    },
     "Updates" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mises à jour"
+          }
+        }
+      }
+    },
+    "Use as plain text" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Utiliser en texte brut"
           }
         }
       }
@@ -378,6 +1108,16 @@
         }
       }
     },
+    "Web addresses you copy show up here, with a preview of the page." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Les adresses web que vous copiez apparaissent ici, avec un aperçu de la page."
+          }
+        }
+      }
+    },
     "Works with any app that reports to Now Playing: Music, Spotify, podcasts, video in a browser…" : {
       "localizations" : {
         "fr" : {
@@ -388,12 +1128,22 @@
         }
       }
     },
-    "Your music, in the notch." : {
+    "Your clipboard is empty" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Votre musique, dans l’encoche."
+            "value" : "Votre presse-papiers est vide"
+          }
+        }
+      }
+    },
+    "Your music and clipboard, in the notch." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Votre musique et votre presse-papiers, dans l’encoche."
           }
         }
       }
