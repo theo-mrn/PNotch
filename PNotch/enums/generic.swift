@@ -32,11 +32,13 @@ enum NotchCloseReason {
 nonisolated enum NotchPage: String, CaseIterable, Sendable {
     case music
     case clipboard
+    case system
 }
 
 /// What the opened notch shows, which decides its size.
 nonisolated enum NotchLayout: Equatable, Sendable {
     case music
+    case system
     /// The searchable list, shrinking around `itemCount` results.
     case clipboardList(itemCount: Int)
 }

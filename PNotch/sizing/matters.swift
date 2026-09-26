@@ -33,6 +33,20 @@ nonisolated enum MusicMetrics {
     static let horizontalPadding: CGFloat = NotchMetrics.pageInset
 }
 
+nonisolated enum SystemMetricsLayout {
+    static let tileCount = 6
+    static let tileSize = CGSize(width: 132, height: 122)
+    static let tileSpacing: CGFloat = 10
+    static let tileCornerRadius: CGFloat = 14
+    static let horizontalPadding: CGFloat = NotchMetrics.pageInset
+    static let bodyHeight: CGFloat = 146
+
+    static var width: CGFloat {
+        let tiles = CGFloat(tileCount)
+        return tiles * tileSize.width + (tiles - 1) * tileSpacing + horizontalPadding * 2
+    }
+}
+
 nonisolated enum ClipboardListMetrics {
     /// As wide as the music page.
     static let width: CGFloat = 640

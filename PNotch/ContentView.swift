@@ -119,6 +119,8 @@ struct ContentView: View {
         switch vm.layout {
         case .music:
             MusicView()
+        case .system:
+            SystemView()
         case .clipboardList:
             ClipboardListView()
         }

@@ -4,10 +4,10 @@ import Foundation
 /// The modules plugged into the notch: they are its tabs, in this order.
 nonisolated struct NotchModules: Equatable, Sendable {
     /// Everything that can be plugged in, in the order Settings shows it.
-    static let catalog: [NotchPage] = [.music, .clipboard]
+    static let catalog: [NotchPage] = [.music, .clipboard, .system]
 
     /// What a fresh install starts with.
-    static let defaultInstalled: [NotchPage] = [.music, .clipboard]
+    static let defaultInstalled: [NotchPage] = [.music, .clipboard, .system]
 
     /// Installed modules, in tab order. Never empty: the notch always has something to show.
     private(set) var installed: [NotchPage]

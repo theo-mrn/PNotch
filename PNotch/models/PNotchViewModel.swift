@@ -60,6 +60,7 @@ final class PNotchViewModel {
     var layout: NotchLayout {
         switch page {
         case .music: .music
+        case .system: .system
         case .clipboard: .clipboardList(itemCount: listItemCount())
         }
     }
