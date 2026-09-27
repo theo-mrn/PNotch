@@ -27,15 +27,15 @@ struct PasteActivationTests {
 
 struct NotchModulesTests {
     @Test func plugsAndUnplugs() {
-        var modules = NotchModules(installed: [.music])
-        modules.install(.clipboard)
-        #expect(modules.installed == [.music, .clipboard])
-        modules.install(.clipboard)
-        #expect(modules.installed == [.music, .clipboard])
+        var modules = NotchModules(installed: [.music, .clipboard])
+        modules.install(.system)
+        #expect(modules.installed == [.music, .clipboard, .system])
+        modules.install(.system)
+        #expect(modules.installed == [.music, .clipboard, .system])
 
         let unplugged = modules.uninstall(.music)
         #expect(unplugged)
-        #expect(modules.installed == [.clipboard])
+        #expect(modules.installed == [.clipboard, .system])
     }
 
     @Test func neverRunsOutOfModules() {
@@ -45,17 +45,17 @@ struct NotchModulesTests {
         #expect(modules.installed == [.clipboard])
         // Nothing valid stored: back to the defaults.
         #expect(NotchModules(installed: []).installed == NotchModules.defaultInstalled)
-        #expect(NotchModules(installed: [.music, .music]).installed == [.music])
+        #expect(NotchModules(installed: [.system, .system]).installed == [.system])
     }
 
     @Test func reorders() {
-        var modules = NotchModules(installed: [.music, .clipboard])
-        modules.move(.clipboard, by: -1)
-        #expect(modules.installed == [.clipboard, .music])
-        modules.move(.clipboard, by: -5)
-        #expect(modules.installed == [.clipboard, .music])
+        var modules = NotchModules(installed: [.music, .clipboard, .system])
+        modules.move(.system, by: -1)
+        #expect(modules.installed == [.music, .system, .clipboard])
+        modules.move(.music, by: -5)
+        #expect(modules.installed == [.music, .system, .clipboard])
         modules.move(.clipboard, onto: .music)
-        #expect(modules.installed == [.music, .clipboard])
+        #expect(modules.installed == [.clipboard, .music, .system])
     }
 
     struct OpeningCase: Sendable, CustomTestStringConvertible {
@@ -70,10 +70,10 @@ struct NotchModulesTests {
     }
 
     @Test(arguments: [
-        OpeningCase(startPage: .clipboard, lastPage: .music, installed: [.music, .clipboard], expected: .clipboard),
+        OpeningCase(startPage: .system, lastPage: .music, installed: [.music, .system], expected: .system),
         OpeningCase(startPage: nil, lastPage: .clipboard, installed: [.music, .clipboard], expected: .clipboard),
-        OpeningCase(startPage: .clipboard, lastPage: .music, installed: [.music], expected: .music),
-        OpeningCase(startPage: nil, lastPage: .clipboard, installed: [.music], expected: .music),
+        OpeningCase(startPage: .system, lastPage: .clipboard, installed: [.music, .clipboard], expected: .clipboard),
+        OpeningCase(startPage: nil, lastPage: .system, installed: [.music, .clipboard], expected: .music),
     ])
     func picksThePageToOpen(_ testCase: OpeningCase) {
         let modules = NotchModules(installed: testCase.installed)

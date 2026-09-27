@@ -1,6 +1,6 @@
 # PNotch
 
-A notch app for the MacBook: a music player and a clipboard manager living in the camera housing. Hover the notch and it unfolds under the menu bar: what's playing, your recent copies in a searchable list (text, rich text, code, links with previews, colors, images, files and contacts).
+A notch app for the MacBook: a music player, a clipboard manager and a system monitor living in the camera housing. Hover the notch and it unfolds under the menu bar: what's playing, your recent copies in a searchable list (text, rich text, code, links with previews, colors, images, files and contacts), or how the Mac is doing.
 
 The interface is in English and French, following the system language.
 
@@ -11,6 +11,12 @@ The interface is in English and French, following the system language.
 - **Now playing** from any app that reports to the system: Music, Spotify, podcasts, video in a browser… Cover with the player's icon, title, artist, scrubbable progress, previous / play-pause / next, and a halo in the cover's color.
 - **Live activity**: while music plays, the closed notch widens to show the cover and a bouncing equalizer.
 - Since macOS 15.4 only Apple processes may read the system "Now Playing". PNotch uses [MediaRemoteAdapter](Vendor/MediaRemoteAdapter/README.md), loaded into `/usr/bin/perl`, like boring.notch does.
+
+### System
+
+- **Live metrics**: CPU (user and system), GPU, memory (colored by memory pressure), network download and upload, free storage, battery and time left (uptime on desktop Macs). Each with its last minute as a chart.
+- Read with public APIs (Mach, sysctl, IOKit), sampled every second only while the page is on screen.
+- A button opens Activity Monitor for a closer look.
 
 ### Clipboard
 
@@ -26,7 +32,7 @@ The interface is in English and French, following the system language.
 
 ### Modules
 
-Each page of the notch is a module. The plugged-in modules are the tabs, in order. Settings › Modules plugs them in or out with switches, sets their order and the page the notch opens on. A fresh install starts with Music and Clipboard.
+Each page of the notch is a module. The plugged-in modules are the tabs, in order. Settings › Modules plugs them in or out with switches, sets their order and the page the notch opens on. A fresh install starts with Music, Clipboard and System.
 
 ## Requirements
 
@@ -61,8 +67,9 @@ Before a release, on a notched MacBook:
 4. Click an item (permission granted): it's pasted into the app in use; <kbd>⌥</kbd>-click only copies.
 5. <kbd>⌃⌘V</kbd>: the list opens; pressing it again moves down; <kbd>↩</kbd> pastes.
 6. Play music in Music, Spotify, then a browser: live activity, cover, scrubbing, play/pause, next.
-7. Settings › Modules: unplug and reorder modules, change the start page.
-8. Switch the system language between English and French.
+7. System tab: values move, Activity Monitor opens.
+8. Settings › Modules: unplug and reorder modules, change the start page.
+9. Switch the system language between English and French.
 
 ## Localization
 
@@ -84,6 +91,7 @@ PNotch/
 ├── components/
 │   ├── Notch/                 Window, window controller (keyboard, focus), shape, header and tabs
 │   ├── Music/                 Player page, artwork, progress, controls, equalizer, live activity
+│   ├── System/                Metric tiles, sparklines, system page
 │   ├── Clipboard/
 │   │   ├── Models/            ClipboardItem, ClipboardContent, ClipboardHistory, filters
 │   │   ├── Services/          Pasteboard monitor/reader/writer, classifier, persistence, previews
@@ -92,9 +100,9 @@ PNotch/
 │   └── Settings/              Settings window (General, Tabs, Clipboard, Music, Shortcuts, About)
 ├── enums/                     Notch states
 ├── extensions/                NSScreen notch geometry, Color helpers
-├── helpers/                   Image processing, syntax highlighting, app icons, artwork colors
-├── managers/                  MusicManager, UpdateManager (Sparkle)
-├── models/                    PNotchViewModel, NotchGeometry, modules, PlaybackState, Defaults keys
+├── helpers/                   Image processing, syntax highlighting, app icons, artwork colors, metric readers
+├── managers/                  MusicManager, SystemMonitor, UpdateManager (Sparkle)
+├── models/                    PNotchViewModel, NotchGeometry, modules, PlaybackState, SystemMetrics, Defaults keys
 ├── observers/                 NSEvent monitors
 ├── Shortcuts/                 Global keyboard shortcut names
 ├── sizing/                    Metrics

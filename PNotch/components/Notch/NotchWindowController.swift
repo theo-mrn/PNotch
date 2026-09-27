@@ -23,7 +23,8 @@ final class NotchWindowController: NSWindowController {
         viewModel: PNotchViewModel,
         coordinator: PNotchViewCoordinator,
         clipboard: ClipboardStateViewModel,
-        music: MusicManager
+        music: MusicManager,
+        system: SystemMonitor
     ) {
         self.viewModel = viewModel
         self.clipboard = clipboard
@@ -36,6 +37,7 @@ final class NotchWindowController: NSWindowController {
             .environment(coordinator)
             .environment(clipboard)
             .environment(music)
+            .environment(system)
         let hostingView = NSHostingView(rootView: rootView)
         // The window frame is driven by the display geometry, never by the SwiftUI content.
         hostingView.sizingOptions = []

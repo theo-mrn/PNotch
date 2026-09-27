@@ -4,6 +4,26 @@
     "" : {
 
     },
+    "%@ left" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encore %@"
+          }
+        }
+      }
+    },
+    "%@ of %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ sur %@"
+          }
+        }
+      }
+    },
     "%@, %@" : {
       "localizations" : {
         "fr" : {
@@ -44,6 +64,16 @@
         }
       }
     },
+    "%lldd %lldh" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld j %lld h"
+          }
+        }
+      }
+    },
     "%lldd ago" : {
       "localizations" : {
         "fr" : {
@@ -60,6 +90,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld h"
+          }
+        }
+      }
+    },
+    "%lldh %lldm" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld h %lld min"
           }
         }
       }
@@ -160,6 +200,37 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Disponibles dans les versions publiées"
+          }
+        }
+      }
+    },
+    "B" : {
+      "comment" : "Symbol of the byte, in network rates",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "o"
+          }
+        }
+      }
+    },
+    "Battery" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Batterie"
+          }
+        }
+      }
+    },
+    "Charging" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En charge"
           }
         }
       }
@@ -354,6 +425,16 @@
         }
       }
     },
+    "CPU" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Processeur"
+          }
+        }
+      }
+    },
     "Delete" : {
       "localizations" : {
         "fr" : {
@@ -384,12 +465,53 @@
         }
       }
     },
+    "free of %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "libres sur %@"
+          }
+        }
+      }
+    },
+    "Full in %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pleine dans %@"
+          }
+        }
+      }
+    },
+    "GB" : {
+      "comment" : "Symbol of the gigabyte, in network rates",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Go"
+          }
+        }
+      }
+    },
     "General" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Général"
+          }
+        }
+      }
+    },
+    "GPU" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GPU"
           }
         }
       }
@@ -486,6 +608,17 @@
         }
       }
     },
+    "KB" : {
+      "comment" : "Symbol of the kilobyte, in network rates",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ko"
+          }
+        }
+      }
+    },
     "Keep" : {
       "localizations" : {
         "fr" : {
@@ -522,6 +655,37 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Liens"
+          }
+        }
+      }
+    },
+    "MB" : {
+      "comment" : "Symbol of the megabyte, in network rates",
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mo"
+          }
+        }
+      }
+    },
+    "Measuring…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mesure…"
+          }
+        }
+      }
+    },
+    "Memory" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mémoire"
           }
         }
       }
@@ -568,12 +732,32 @@
         }
       }
     },
+    "Music, clipboard and system monitor, in the notch." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Musique, presse-papiers et moniteur système, dans l’encoche."
+          }
+        }
+      }
+    },
     "Needs Accessibility access to paste" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Accès à l’accessibilité requis pour coller"
+          }
+        }
+      }
+    },
+    "Network" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Réseau"
           }
         }
       }
@@ -644,6 +828,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "à l’instant"
+          }
+        }
+      }
+    },
+    "On battery" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sur batterie"
           }
         }
       }
@@ -778,6 +972,16 @@
         }
       }
     },
+    "Peak %@ · 1 min" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Pic %@ · 1 min"
+          }
+        }
+      }
+    },
     "Pin" : {
       "localizations" : {
         "fr" : {
@@ -834,6 +1038,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Position de lecture"
+          }
+        }
+      }
+    },
+    "Plugged in" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Branché"
           }
         }
       }
@@ -1018,6 +1232,36 @@
         }
       }
     },
+    "Since last restart" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Depuis le dernier démarrage"
+          }
+        }
+      }
+    },
+    "Storage" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stockage"
+          }
+        }
+      }
+    },
+    "System" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Système"
+          }
+        }
+      }
+    },
     "Text" : {
       "localizations" : {
         "fr" : {
@@ -1058,12 +1302,32 @@
         }
       }
     },
+    "The Mac is running hot" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le Mac chauffe"
+          }
+        }
+      }
+    },
     "Try another word, or clear the search with esc." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Essayez un autre mot, ou effacez la recherche avec esc."
+          }
+        }
+      }
+    },
+    "Unavailable" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indisponible"
           }
         }
       }
@@ -1088,12 +1352,32 @@
         }
       }
     },
+    "Uptime" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Activité"
+          }
+        }
+      }
+    },
     "Use as plain text" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Utiliser en texte brut"
+          }
+        }
+      }
+    },
+    "User %@ · Sys %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apps %@ · Sys %@"
           }
         }
       }
@@ -1134,16 +1418,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Votre presse-papiers est vide"
-          }
-        }
-      }
-    },
-    "Your music and clipboard, in the notch." : {
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Votre musique et votre presse-papiers, dans l’encoche."
           }
         }
       }

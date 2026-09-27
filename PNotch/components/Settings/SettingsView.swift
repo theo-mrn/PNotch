@@ -393,7 +393,7 @@ private struct AboutPane: View {
                             .font(.title2.weight(.semibold))
                         Text("Version \(appVersion)")
                             .foregroundStyle(.secondary)
-                        Text("Your music and clipboard, in the notch.")
+                        Text("Music, clipboard and system monitor, in the notch.")
                             .foregroundStyle(.secondary)
                     }
                 }

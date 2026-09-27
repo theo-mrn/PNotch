@@ -116,6 +116,7 @@ extension NotchPage {
         switch self {
         case .music: String(localized: "Music")
         case .clipboard: String(localized: "Clipboard")
+        case .system: String(localized: "System")
         }
     }
 
@@ -123,6 +124,7 @@ extension NotchPage {
         switch self {
         case .music: "music.note"
         case .clipboard: "doc.on.clipboard"
+        case .system: "gauge.with.dots.needle.67percent"
         }
     }
 }

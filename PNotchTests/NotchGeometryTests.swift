@@ -35,20 +35,29 @@ struct NotchGeometryTests {
 
     @Test func windowIsNoWiderThanTheWidestPage() {
         let overflow = NotchCornerRadii.opened.top + NotchMetrics.shadowPadding
-        #expect(macBookPro14.windowFrame.width == MusicMetrics.width + 2 * overflow)
+        #expect(macBookPro14.windowFrame.width == SystemMetricsLayout.width + 2 * overflow)
     }
 
     @Test func musicIsACompactPlayer() {
         let music = macBookPro14.openedSize(for: .music)
 
         #expect(music.width == MusicMetrics.width)
+        #expect(music.width < macBookPro14.openedSize(for: .system).width)
         #expect(macBookPro14.windowFrame.height >= music.height)
+    }
+
+    @Test func systemFitsItsTilesAndTheWindow() {
+        let system = macBookPro14.openedSize(for: .system)
+
+        #expect(system.width == SystemMetricsLayout.width)
+        #expect(macBookPro14.windowFrame.width >= system.width)
+        #expect(macBookPro14.windowFrame.height >= system.height)
     }
 
     @Test func headerWingsHoldTheTabsSideAndTheButtonsSide() {
         // Right of the camera: up to two page buttons (the clipboard's) and settings.
         let buttons = 3 * NotchHeaderMetrics.controlHeight + 2 * 6
-        for layout in [NotchLayout.music, .clipboardList(itemCount: 3)] {
+        for layout in [NotchLayout.music, .system, .clipboardList(itemCount: 3)] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(buttons <= wing, "\(layout)")
@@ -57,7 +66,7 @@ struct NotchGeometryTests {
 
     @Test func everyModuleTabFitsLeftOfTheCameraWithoutScrolling() {
         let all = NotchModules.catalog.count
-        for layout in [NotchLayout.music, .clipboardList(itemCount: 3)] {
+        for layout in [NotchLayout.music, .clipboardList(itemCount: 3), .system] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(NotchHeaderMetrics.iconBarWidth(count: all) <= wing, "\(layout)")

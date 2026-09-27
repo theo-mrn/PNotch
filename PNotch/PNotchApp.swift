@@ -37,6 +37,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var notchViewModel: PNotchViewModel?
     private var clipboard: ClipboardStateViewModel?
     private var music: MusicManager?
+    private let systemMonitor = SystemMonitor()
     let updates = UpdateManager()
     private var notchWindowController: NotchWindowController?
     private var settingsWindowController: SettingsWindowController?
@@ -74,7 +75,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             viewModel: notchViewModel,
             coordinator: coordinator,
             clipboard: clipboard,
-            music: music
+            music: music,
+            system: systemMonitor
         )
 
         // Key down rather than up: holding the shortcut keeps scrolling through the list.
