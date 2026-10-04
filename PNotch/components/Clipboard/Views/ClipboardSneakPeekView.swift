@@ -19,14 +19,15 @@ struct ClipboardSneakPeekView: View {
         .frame(height: notchSize.height)
     }
 
-    @ViewBuilder
     private var leading: some View {
-        if let app = peek.sourceApp, AppIcons.icon(forBundleIdentifier: app.bundleIdentifier) != nil {
-            SourceAppIcon(app: app, size: 18)
-        } else {
-            Image(systemName: "doc.on.clipboard.fill")
-                .font(.system(size: 12, weight: .semibold))
-                .foregroundStyle(Palette.ink)
+        CompanionMessengerFace {
+            if let app = peek.sourceApp, AppIcons.icon(forBundleIdentifier: app.bundleIdentifier) != nil {
+                SourceAppIcon(app: app, size: 18)
+            } else {
+                Image(systemName: "doc.on.clipboard.fill")
+                    .font(.system(size: 12, weight: .semibold))
+                    .foregroundStyle(Palette.ink)
+            }
         }
     }
 
