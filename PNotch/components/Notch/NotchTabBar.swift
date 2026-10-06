@@ -1,12 +1,12 @@
 import Defaults
 import SwiftUI
 
-/// The modules plugged in, always all in view: no scrolling, nothing cut.
+/// The modules plugged in from the Atelier, always all in view: no scrolling, nothing cut.
 /// The selected tab spells out its name when there's room; otherwise every tab is an icon, tighter still
-/// on the widest camera housings.
+/// on the widest camera housings. The Atelier isn't a tab: Pixel, on the right, opens it.
 struct NotchTabBar: View {
     @Environment(PNotchViewModel.self) private var vm
-    /// Observed so the bar follows Settings › Modules.
+    /// Observed so the bar follows the Atelier.
     @Default(.installedModules) private var installedModules
     @Namespace private var selection
 
@@ -27,7 +27,7 @@ struct NotchTabBar: View {
                 NotchTab(page: page, isSelected: vm.page == page, style: style, selection: selection) {
                     select(page)
                 }
-                // A module plugged in pops into place.
+                // A module plugged in from the Atelier pops into place.
                 .transition(.scale(scale: 0.4).combined(with: .opacity))
             }
         }
@@ -117,6 +117,7 @@ extension NotchPage {
         case .music: String(localized: "Music")
         case .clipboard: String(localized: "Clipboard")
         case .system: String(localized: "System")
+        case .companion: String(localized: "Atelier")
         }
     }
 
@@ -125,6 +126,7 @@ extension NotchPage {
         case .music: "music.note"
         case .clipboard: "doc.on.clipboard"
         case .system: "gauge.with.dots.needle.67percent"
+        case .companion: "plus"
         }
     }
 }

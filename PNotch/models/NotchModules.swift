@@ -1,9 +1,10 @@
 import Defaults
 import Foundation
 
-/// The modules plugged into the notch: they are its tabs, in this order.
+/// The modules plugged into the notch from the Atelier: they are its tabs, in this order.
 nonisolated struct NotchModules: Equatable, Sendable {
-    /// Everything that can be plugged in, in the order Settings shows it.
+    /// Everything that can be plugged in, in the order the Atelier shows it.
+    /// The Atelier itself isn't a module: it's always there, and Pixel opens it.
     static let catalog: [NotchPage] = [.music, .clipboard, .system]
 
     /// What a fresh install starts with.
@@ -19,6 +20,7 @@ nonisolated struct NotchModules: Equatable, Sendable {
         }
         self.installed = modules.isEmpty ? Self.defaultInstalled : modules
     }
+
 
     func isInstalled(_ page: NotchPage) -> Bool {
         installed.contains(page)
@@ -65,9 +67,9 @@ nonisolated struct NotchModules: Equatable, Sendable {
         return installed[0]
     }
 
-    /// A page can open once its module is plugged in.
+    /// The Atelier is always available; modules only once plugged in.
     func isAvailable(_ page: NotchPage) -> Bool {
-        installed.contains(page)
+        page == .companion || installed.contains(page)
     }
 }
 
