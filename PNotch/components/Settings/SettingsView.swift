@@ -31,6 +31,7 @@ struct SettingsView: View {
                 case .tabs: ModulesPane()
                 case .clipboard: ClipboardPane()
                 case .music: MusicPane()
+                case .companion: CompanionPane()
                 case .shortcuts: ShortcutsPane()
                 case .about: AboutPane()
                 }
@@ -49,6 +50,7 @@ enum SettingsPane: String, CaseIterable, Identifiable {
     case tabs
     case clipboard
     case music
+    case companion
     case shortcuts
     case about
 
@@ -62,6 +64,7 @@ enum SettingsPane: String, CaseIterable, Identifiable {
         case .tabs: "Modules"
         case .clipboard: "Clipboard"
         case .music: "Music"
+        case .companion: "Companion"
         case .shortcuts: "Shortcuts"
         case .about: "About"
         }
@@ -73,6 +76,7 @@ enum SettingsPane: String, CaseIterable, Identifiable {
         case .tabs: "square.grid.2x2.fill"
         case .clipboard: "doc.on.clipboard.fill"
         case .music: "music.note"
+        case .companion: "face.smiling.inverse"
         case .shortcuts: "command"
         case .about: "info.circle.fill"
         }
@@ -139,7 +143,7 @@ private struct GeneralPane: View {
 // MARK: - Modules
 
 private struct ModulesPane: View {
-    /// Observed so the list follows the tabs.
+    /// Observed so the list follows the Atelier.
     @Default(.installedModules) private var installedModules
     @Default(.startPage) private var startPage
 
@@ -168,14 +172,14 @@ private struct ModulesPane: View {
             } header: {
                 Text("Modules")
             } footer: {
-                Text("The installed modules are the notch's tabs, in this order.")
+                Text("The installed modules are the notch's tabs, in this order. You can also plug them in from the Atelier: click Pixel, on the right of the tabs.")
             }
 
             Section {
                 Picker("Open the notch on", selection: $startPage) {
                     Text("The last page used").tag(NotchPage?.none)
                     Divider()
-                    ForEach(modules.installed, id: \.self) { page in
+                    ForEach(modules.installed + [.companion], id: \.self) { page in
                         Text(page.title).tag(NotchPage?.some(page))
                     }
                 }
@@ -204,7 +208,7 @@ private struct ModuleRow: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Image(systemName: page.symbolName)
+            Image(systemName: page.cardSymbol)
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(Palette.ink)
                 .frame(width: 22, height: 22)
@@ -364,6 +368,25 @@ private struct MusicPane: View {
     }
 }
 
+// MARK: - Companion
+
+private struct CompanionPane: View {
+    @Default(.companionName) private var name
+    @Default(.companionOnEveryPage) private var onEveryPage
+    @Default(.companionAnnouncesCopies) private var announces
+
+    var body: some View {
+        Form {
+            Section {
+                Toggle(String(localized: "Show \(name) on every page"), isOn: $onEveryPage)
+                Toggle("Announce news around the closed notch", isOn: $announces)
+            } footer: {
+                Text("\(name) reacts to what you do everywhere: it dances to your music and catches your copies. In the Atelier, it presents the modules you can plug in. Right-click it to pet it; its looks are behind the paintbrush.")
+            }
+        }
+    }
+}
+
 // MARK: - Shortcuts
 
 private struct ShortcutsPane: View {
@@ -393,7 +416,7 @@ private struct AboutPane: View {
                             .font(.title2.weight(.semibold))
                         Text("Version \(appVersion)")
                             .foregroundStyle(.secondary)
-                        Text("Music, clipboard and system monitor, in the notch.")
+                        Text("Music, clipboard, system monitor and a robot companion, in the notch.")
                             .foregroundStyle(.secondary)
                     }
                 }

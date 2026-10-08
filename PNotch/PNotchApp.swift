@@ -38,6 +38,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var clipboard: ClipboardStateViewModel?
     private var music: MusicManager?
     private let systemMonitor = SystemMonitor()
+    private var companion: CompanionManager?
     let updates = UpdateManager()
     private var notchWindowController: NotchWindowController?
     private var settingsWindowController: SettingsWindowController?
@@ -49,9 +50,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         let clipboard = ClipboardStateViewModel()
         let music = MusicManager()
+        let companion = CompanionManager(music: music, system: systemMonitor)
         let notchViewModel = PNotchViewModel(screen: .preferredNotchScreen)
 
         clipboard.onItemCaptured = { [weak self] item in
+            self?.companion?.noteCopy()
             self?.showCaptureSneakPeek(for: item)
         }
         clipboard.onItemCopied = { [weak notchViewModel] _ in
@@ -70,13 +73,15 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 
         self.clipboard = clipboard
         self.music = music
+        self.companion = companion
         self.notchViewModel = notchViewModel
         notchWindowController = NotchWindowController(
             viewModel: notchViewModel,
             coordinator: coordinator,
             clipboard: clipboard,
             music: music,
-            system: systemMonitor
+            system: systemMonitor,
+            companion: companion
         )
 
         // Key down rather than up: holding the shortcut keeps scrolling through the list.

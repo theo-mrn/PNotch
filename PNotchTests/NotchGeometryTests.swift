@@ -54,10 +54,18 @@ struct NotchGeometryTests {
         #expect(macBookPro14.windowFrame.height >= system.height)
     }
 
-    @Test func headerWingsHoldTheTabsSideAndTheButtonsSide() {
-        // Right of the camera: up to two page buttons (the clipboard's) and settings.
-        let buttons = 3 * NotchHeaderMetrics.controlHeight + 2 * 6
-        for layout in [NotchLayout.music, .system, .clipboardList(itemCount: 3)] {
+    @Test func companionLeavesRoomForTheRobot() {
+        let companion = macBookPro14.openedSize(for: .companion)
+        #expect(companion == CGSize(width: CompanionMetrics.width, height: 32 + CompanionMetrics.bodyHeight))
+        #expect(CompanionMetrics.robotSize.height < CompanionMetrics.bodyHeight)
+        #expect(macBookPro14.windowFrame.width >= companion.width)
+        #expect(macBookPro14.windowFrame.height >= companion.height)
+    }
+
+    @Test func headerWingsHoldTheTabsSideAndTheRobotSide() {
+        // Right of the camera: the robot, up to two page buttons (the clipboard's) and settings.
+        let buttons = CompanionMetrics.headerRobotSize.width + 4 + 3 * NotchHeaderMetrics.controlHeight + 3 * 6
+        for layout in [NotchLayout.music, .system, .companion, .clipboardList(itemCount: 3)] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(buttons <= wing, "\(layout)")
@@ -66,7 +74,7 @@ struct NotchGeometryTests {
 
     @Test func everyModuleTabFitsLeftOfTheCameraWithoutScrolling() {
         let all = NotchModules.catalog.count
-        for layout in [NotchLayout.music, .clipboardList(itemCount: 3), .system] {
+        for layout in [NotchLayout.music, .companion, .clipboardList(itemCount: 3), .system] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(NotchHeaderMetrics.iconBarWidth(count: all) <= wing, "\(layout)")

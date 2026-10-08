@@ -61,6 +61,7 @@ final class PNotchViewModel {
         switch page {
         case .music: .music
         case .system: .system
+        case .companion: .companion
         case .clipboard: .clipboardList(itemCount: listItemCount())
         }
     }
@@ -119,9 +120,9 @@ final class PNotchViewModel {
         Defaults[.lastNotchPage] = page
     }
 
-    /// Rightwards when `page` comes after the current one in the tabs.
+    /// Rightwards when `page` comes after the current one in the tabs, the Atelier being last.
     private func direction(to page: NotchPage) -> CGFloat {
-        let tabs = NotchModules.current.installed
+        let tabs = NotchModules.current.installed + [.companion]
         guard let from = tabs.firstIndex(of: self.page), let to = tabs.firstIndex(of: page), from != to else { return 0 }
         return to > from ? 1 : -1
     }
