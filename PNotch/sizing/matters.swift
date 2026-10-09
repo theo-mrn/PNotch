@@ -47,8 +47,22 @@ nonisolated enum SystemMetricsLayout {
     }
 }
 
+nonisolated enum CompanionMetrics {
+    static let width: CGFloat = 640
+    static let bodyHeight: CGFloat = 156
+    static let robotSize = CGSize(width: 150, height: 142)
+    /// The bust in the header of the other pages, as tall as the header allows.
+    static let headerRobotSize = CGSize(width: 40, height: 30)
+    static let horizontalPadding: CGFloat = NotchMetrics.pageInset
+}
+
+nonisolated enum AtelierMetrics {
+    /// Narrow enough for a card to show cut off at the edge: the shelf scrolls.
+    static let cardWidth: CGFloat = 92
+}
+
 nonisolated enum ClipboardListMetrics {
-    /// As wide as the music page.
+    /// As wide as the music and companion pages.
     static let width: CGFloat = 640
     static let searchHeight: CGFloat = 50
     static let rowHeight: CGFloat = 56

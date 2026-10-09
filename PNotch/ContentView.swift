@@ -121,6 +121,8 @@ struct ContentView: View {
             MusicView()
         case .system:
             SystemView()
+        case .companion:
+            CompanionView()
         case .clipboardList:
             ClipboardListView()
         }

@@ -47,6 +47,11 @@ nonisolated struct NotchGeometry: Equatable, Sendable {
                 width: min(MusicMetrics.width, screenFrame.width - 40),
                 height: notchSize.height + MusicMetrics.bodyHeight
             )
+        case .companion:
+            return CGSize(
+                width: min(CompanionMetrics.width, screenFrame.width - 40),
+                height: notchSize.height + CompanionMetrics.bodyHeight
+            )
         case .system:
             return CGSize(
                 width: min(SystemMetricsLayout.width, screenFrame.width - 40),
@@ -70,7 +75,7 @@ nonisolated struct NotchGeometry: Equatable, Sendable {
     /// Frame of the transparent window hosting the notch: large enough for every opened layout,
     /// their ears and their shadow.
     var windowFrame: CGRect {
-        let largest = [NotchLayout.music, .system, .clipboardList(itemCount: .max)].map(openedSize(for:))
+        let largest = [NotchLayout.music, .system, .companion, .clipboardList(itemCount: .max)].map(openedSize(for:))
         let horizontalOverflow = NotchCornerRadii.opened.top + NotchMetrics.shadowPadding
         let size = CGSize(
             width: min(largest.map(\.width).max()! + horizontalOverflow * 2, screenFrame.width),

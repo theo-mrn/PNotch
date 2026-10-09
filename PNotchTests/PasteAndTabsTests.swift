@@ -31,6 +31,7 @@ struct NotchModulesTests {
         modules.install(.system)
         #expect(modules.installed == [.music, .clipboard, .system])
         modules.install(.system)
+        modules.install(.companion)
         #expect(modules.installed == [.music, .clipboard, .system])
 
         let unplugged = modules.uninstall(.music)
@@ -44,7 +45,7 @@ struct NotchModulesTests {
         #expect(!unplugged)
         #expect(modules.installed == [.clipboard])
         // Nothing valid stored: back to the defaults.
-        #expect(NotchModules(installed: []).installed == NotchModules.defaultInstalled)
+        #expect(NotchModules(installed: [.companion]).installed == NotchModules.defaultInstalled)
         #expect(NotchModules(installed: [.system, .system]).installed == [.system])
     }
 
@@ -74,6 +75,8 @@ struct NotchModulesTests {
         OpeningCase(startPage: nil, lastPage: .clipboard, installed: [.music, .clipboard], expected: .clipboard),
         OpeningCase(startPage: .system, lastPage: .clipboard, installed: [.music, .clipboard], expected: .clipboard),
         OpeningCase(startPage: nil, lastPage: .system, installed: [.music, .clipboard], expected: .music),
+        // The Atelier is always there.
+        OpeningCase(startPage: nil, lastPage: .companion, installed: [.music], expected: .companion),
     ])
     func picksThePageToOpen(_ testCase: OpeningCase) {
         let modules = NotchModules(installed: testCase.installed)

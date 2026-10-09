@@ -134,7 +134,7 @@ enum Motion {
         reducesMotion ? smooth(0.15) : spring(0.3, bounce: 0.42)
     }
 
-    /// A small reward: the bounciest.
+    /// A small reward, like a box ticked or Pixel popping in: the bounciest.
     static var pop: Animation {
         reducesMotion ? smooth(0.2) : spring(0.42, bounce: 0.52)
     }

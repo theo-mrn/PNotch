@@ -12,12 +12,26 @@ extension Defaults.Keys {
     static let lastNotchPage = Key<NotchPage>("lastNotchPage", default: .music)
     /// The page the notch opens on; `nil` reopens the last one used.
     static let startPage = Key<NotchPage?>("startPage", default: nil)
-    /// The modules plugged into the notch, in tab order. `nil` until set: the default modules.
+    /// The modules plugged in from the Atelier, in tab order. `nil` until set: the default modules.
     static let installedModules = Key<[NotchPage]?>("installedModules", default: nil)
 
     // MARK: Music
 
     static let showMusicLiveActivity = Key<Bool>("showMusicLiveActivity", default: true)
+
+    // MARK: Companion
+
+    static let companionName = Key<String>("companionName", default: "Pixel")
+    static let companionAppearance = Key<RobotAppearance>("companionAppearance", default: RobotAppearance())
+    /// The day the robot was first shown, for "together for N days".
+    static let companionBirthDate = Key<Date?>("companionBirthDate", default: nil)
+    static let companionPetCount = Key<Int>("companionPetCount", default: 0)
+    /// Copies the robot has caught and delivered since it arrived.
+    static let companionCopyCount = Key<Int>("companionCopyCount", default: 0)
+    /// The robot lives in the header of every page, not only on its own.
+    static let companionOnEveryPage = Key<Bool>("companionOnEveryPage", default: true)
+    /// The robot's face announces news around the closed notch: copies.
+    static let companionAnnouncesCopies = Key<Bool>("companionAnnouncesCopies", default: true)
 
     // MARK: Clipboard
 

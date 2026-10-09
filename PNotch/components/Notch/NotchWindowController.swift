@@ -24,7 +24,8 @@ final class NotchWindowController: NSWindowController {
         coordinator: PNotchViewCoordinator,
         clipboard: ClipboardStateViewModel,
         music: MusicManager,
-        system: SystemMonitor
+        system: SystemMonitor,
+        companion: CompanionManager
     ) {
         self.viewModel = viewModel
         self.clipboard = clipboard
@@ -38,6 +39,7 @@ final class NotchWindowController: NSWindowController {
             .environment(clipboard)
             .environment(music)
             .environment(system)
+            .environment(companion)
         let hostingView = NSHostingView(rootView: rootView)
         // The window frame is driven by the display geometry, never by the SwiftUI content.
         hostingView.sizingOptions = []
@@ -112,8 +114,8 @@ final class NotchWindowController: NSWindowController {
             return NSApp.sendAction(Selector(("redo:")), to: nil, from: self) ? nil : event
         }
 
-        // Other pages only close with esc; the rest belongs to their text fields.
-        // While writing, esc first stops writing.
+        // Other pages only close with esc; the rest belongs to their text fields (like the
+        // robot's name). While writing, esc first stops writing.
         guard viewModel.page == .clipboard else {
             guard Int(event.keyCode) == kVK_Escape else { return event }
             if isEditingText {

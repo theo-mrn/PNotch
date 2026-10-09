@@ -1,6 +1,6 @@
 # PNotch
 
-A notch app for the MacBook: a music player, a clipboard manager and a system monitor living in the camera housing. Hover the notch and it unfolds under the menu bar: what's playing, your recent copies in a searchable list (text, rich text, code, links with previews, colors, images, files and contacts), or how the Mac is doing.
+A notch app for the MacBook: a music player, a clipboard manager, a system monitor and a small robot companion living in the camera housing. Hover the notch and it unfolds under the menu bar: what's playing, your recent copies in a searchable list (text, rich text, code, links with previews, colors, images, files and contacts), how the Mac is doing, or what your robot is up to.
 
 The interface is in English and French, following the system language.
 
@@ -30,9 +30,24 @@ The interface is in English and French, following the system language.
 - **Sneak peek**: copying something flashes the source app and the content type around the closed notch.
 - **Private by default**: content flagged as confidential by password managers ([nspasteboard.org](http://nspasteboard.org)) is never recorded. History is stored locally in `~/Library/Application Support/com.pnotch.PNotch`.
 
-### Modules
+### Companion
 
-Each page of the notch is a module. The plugged-in modules are the tabs, in order. Settings › Modules plugs them in or out with switches, sets their order and the page the notch opens on. A fresh install starts with Music, Clipboard and System.
+- **On every page**: the robot sits in the header, next to the buttons, with its accessories and its moods, and something to do on each page:
+  - *Music*: headphones always on; it dances while a song plays (notes in the cover's color, a jump at each new song) and nods along, waiting, when paused.
+  - *Clipboard*: it holds a clipboard and reads it, and looks puzzled when a search finds nothing.
+  - *System*: it holds a plug wired to the processor, graphics, memory and network, data climbing each cable as fast as the metric is busy; every few seconds it tugs at them. Its antenna shows the processor's load.
+
+  A click opens the Atelier, its home; a right-click pets it and has the page's shortcuts (play/pause, next track, clear the search, Activity Monitor). It can stay in the Atelier only (Settings › Companion).
+- **A small robot** with its own page, drawn live in 2.5D: metallic shading, a glass visor, glowing eyes, and a highlight that follows your pointer like a light source. Its eyes follow the pointer too, and it blinks, breathes and floats.
+- **Moods from the Mac**: it dances while music plays, sweats when the processor is busy or the Mac runs hot, dozes off late at night or when you're away, and keeps an eye on things the rest of the time.
+- **Messenger**: when you copy something, it jumps and its face announces the news around the closed notch (Settings › Companion).
+- **At home in the Atelier**, where it presents the modules (see below), with its wardrobe behind the paintbrush.
+- **Attachment**: click it to pet it (hearts). Its page counts the days you've been together and the pets.
+- **Customization** (paintbrush button): name, body color, eye color, and something to wear (headphones, crown, glasses, flower). Its name is also its tab's title.
+
+### The Atelier and its modules
+
+Each page of the notch is a module, plugged in from the **Atelier**, behind the « + » at the end of the tabs. That's Pixel's home: it presents every module on a shelf, explains the one you hover in a speech bubble, and plugs it in or unplugs it when you click (with a little jump). The plugged-in modules are the tabs, in order; past what fits next to the camera, they scroll and « + » stays put. Settings › Modules does the same with switches, sets their order and the page the notch opens on. A fresh install starts with Music, Clipboard and System.
 
 ## Requirements
 
@@ -68,8 +83,9 @@ Before a release, on a notched MacBook:
 5. <kbd>⌃⌘V</kbd>: the list opens; pressing it again moves down; <kbd>↩</kbd> pastes.
 6. Play music in Music, Spotify, then a browser: live activity, cover, scrubbing, play/pause, next.
 7. System tab: values move, Activity Monitor opens.
-8. Settings › Modules: unplug and reorder modules, change the start page.
-9. Switch the system language between English and French.
+8. Companion tab: the robot follows the pointer, dances with music, reacts to a click (hearts) and to a copy (jump, face around the closed notch); customization applies right away.
+9. Settings › Tabs: hide and reorder tabs, change the start page.
+10. Switch the system language between English and French.
 
 ## Localization
 
@@ -92,6 +108,7 @@ PNotch/
 │   ├── Notch/                 Window, window controller (keyboard, focus), shape, header and tabs
 │   ├── Music/                 Player page, artwork, progress, controls, equalizer, live activity
 │   ├── System/                Metric tiles, sparklines, system page
+│   ├── Companion/             Robot renderer (Canvas), animator, live view, companion page and customization
 │   ├── Clipboard/
 │   │   ├── Models/            ClipboardItem, ClipboardContent, ClipboardHistory, filters
 │   │   ├── Services/          Pasteboard monitor/reader/writer, classifier, persistence, previews
@@ -101,8 +118,8 @@ PNotch/
 ├── enums/                     Notch states
 ├── extensions/                NSScreen notch geometry, Color helpers
 ├── helpers/                   Image processing, syntax highlighting, app icons, artwork colors, metric readers
-├── managers/                  MusicManager, SystemMonitor, UpdateManager (Sparkle)
-├── models/                    PNotchViewModel, NotchGeometry, modules, PlaybackState, SystemMetrics, Defaults keys
+├── managers/                  MusicManager, SystemMonitor, CompanionManager, UpdateManager (Sparkle)
+├── models/                    PNotchViewModel, NotchGeometry, tabs configuration, PlaybackState, SystemMetrics, companion moods, Defaults keys
 ├── observers/                 NSEvent monitors
 ├── Shortcuts/                 Global keyboard shortcut names
 ├── sizing/                    Metrics

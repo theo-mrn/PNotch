@@ -28,17 +28,21 @@ enum NotchCloseReason {
     case settings
 }
 
-/// Pages of the opened notch: the modules plugged in, which are its tabs.
+/// Pages of the opened notch. The modules plugged in from the Atelier are its tabs;
+/// the Atelier itself, Pixel's home, opens from Pixel in the header.
 nonisolated enum NotchPage: String, CaseIterable, Sendable {
     case music
     case clipboard
     case system
+    /// The Atelier: Pixel presents the modules there, and lives there.
+    case companion
 }
 
 /// What the opened notch shows, which decides its size.
 nonisolated enum NotchLayout: Equatable, Sendable {
     case music
     case system
+    case companion
     /// The searchable list, shrinking around `itemCount` results.
     case clipboardList(itemCount: Int)
 }
