@@ -48,7 +48,7 @@ enum RobotRenderer {
         var activity: CompanionActivity?
         /// Music notes take the cover's color.
         var noteColor: Color?
-        /// The antenna bulb shows something: the processor's load…
+        /// The antenna bulb shows something: the processor's load, Claude at work…
         var bulbColor: Color?
         /// The metrics it's wired to on the System page.
         var cables: [RobotCable] = []
@@ -293,6 +293,11 @@ enum RobotRenderer {
         var face = context
         face.addFilter(.shadow(color: palette.eye.opacity(0.85), radius: 4))
         face.opacity = Double(min(max(pose.glow, 0.3), 1))
+        if pose.expression == .terminal {
+            drawPrompt(cursorVisible: pose.visorTick.isMultiple(of: 2), color: palette.eye, in: face)
+            return
+        }
+
         let offset = CGVector(dx: pose.gaze.dx * 5, dy: pose.gaze.dy * 4)
         for (index, x) in [44.0, 76.0].enumerated() {
             drawEye(at: CGPoint(x: x + offset.dx, y: 56 + offset.dy), isLeft: index == 0, pose: pose, color: palette.eye, in: face)
@@ -300,9 +305,26 @@ enum RobotRenderer {
         drawMouth(at: CGPoint(x: 60 + offset.dx * 0.6, y: 72 + offset.dy * 0.5), expression: pose.expression, color: palette.eye, in: face)
     }
 
+    /// `>_` with a blinking cursor, waiting for a command.
+    private static func drawPrompt(cursorVisible: Bool, color: Color, in context: GraphicsContext) {
+        context.stroke(Path { path in
+            path.move(to: CGPoint(x: 36, y: 49))
+            path.addLine(to: CGPoint(x: 45, y: 57))
+            path.addLine(to: CGPoint(x: 36, y: 65))
+        }, with: .color(color), style: StrokeStyle(lineWidth: 3.6, lineCap: .round, lineJoin: .round))
+        if cursorVisible {
+            context.fill(Path(roundedRect: CGRect(x: 51, y: 62, width: 15, height: 4), cornerRadius: 1.5), with: .color(color))
+        }
+    }
+
     private static func drawEye(at center: CGPoint, isLeft: Bool, pose: RobotPose, color: Color, in context: GraphicsContext) {
         let line = StrokeStyle(lineWidth: 3.4, lineCap: .round, lineJoin: .round)
         switch pose.expression {
+        case .thinking:
+            let frame = ClaudeCodeSpinner.frames[pose.visorTick % ClaudeCodeSpinner.frames.count]
+            context.draw(Text(verbatim: frame).font(.system(size: 19, weight: .bold)).foregroundStyle(Palette.accent), at: center)
+        case .terminal:
+            break
         case .neutral:
             let height = max(15 * (1 - pose.blink), 2.5)
             context.fill(Path(roundedRect: CGRect(x: center.x - 5.5, y: center.y - height / 2, width: 11, height: height), cornerRadius: 5.5), with: .color(color))
@@ -366,6 +388,14 @@ enum RobotRenderer {
             context.stroke(Path { path in
                 path.move(to: CGPoint(x: center.x - 5, y: center.y + 2))
                 path.addQuadCurve(to: CGPoint(x: center.x + 5, y: center.y - 1), control: CGPoint(x: center.x, y: center.y - 2))
+            }, with: .color(color.opacity(0.9)), style: StrokeStyle(lineWidth: 2.2, lineCap: .round))
+        case .terminal:
+            break
+        case .thinking:
+            // Pursed to the side.
+            context.stroke(Path { path in
+                path.move(to: CGPoint(x: center.x, y: center.y + 1))
+                path.addLine(to: CGPoint(x: center.x + 6, y: center.y))
             }, with: .color(color.opacity(0.9)), style: StrokeStyle(lineWidth: 2.2, lineCap: .round))
         case .hot:
             context.stroke(Path { path in
@@ -545,7 +575,7 @@ enum RobotRenderer {
                 at: CGPoint(x: 104 + sin(progress * .pi * 2) * 3, y: 30 - progress * 22)
             )
 
-        case .reading, .wiring:
+        case .reading, .wiring, .terminal, .thinking:
             break
 
         case .puzzled:
@@ -553,6 +583,12 @@ enum RobotRenderer {
             let point = CGPoint(x: 109, y: 16 + sin(t * 2) * 2)
             context.draw(Text(verbatim: "?").font(.system(size: 24, weight: .heavy, design: .rounded)).foregroundStyle(.white.opacity(0.9)), at: point)
 
+        case .alert:
+            let bounce = abs(sin(t * 5)) * 3
+            context.draw(
+                Text(verbatim: "!").font(.system(size: 28, weight: .black, design: .rounded)).foregroundStyle(Palette.accent),
+                at: CGPoint(x: 112, y: 17 - bounce)
+            )
         }
     }
 

@@ -6,6 +6,8 @@ enum CompanionMoodLine {
         let mood = companion.mood(at: date)
         if mood == .excited, let news = companion.lastNews?.kind {
             switch news {
+            case .claudeCodeFinished: return String(localized: "\(name) says Claude Code is done.")
+            case .claudeCodeNeedsYou: return String(localized: "\(name) says Claude Code needs you.")
             case .newTrack: return String(localized: "\(name) likes this song.")
             case .copy: return String(localized: "\(name) caught your copy!")
             case .pluggedIn: return String(localized: "\(name) plugged it in!")

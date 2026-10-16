@@ -12,6 +12,10 @@ enum RobotExpression: Equatable {
     case reading
     /// One eye wide, the other squinting.
     case puzzled
+    /// Claude's star twinkling in each eye.
+    case thinking
+    /// The visor shows a terminal prompt.
+    case terminal
 }
 
 /// Everything that moves, for one frame. Lengths are in the 120 × 140 design space of `RobotRenderer`.
@@ -34,6 +38,8 @@ struct RobotPose: Equatable {
     /// Brightness of the eyes and the antenna bulb.
     var glow: CGFloat = 1
     var blush: CGFloat = 0
+    /// Steps of what the visor shows when it isn't eyes: the star's frame, the cursor blinking.
+    var visorTick = 0
 }
 
 /// Turns a mood and the clock into a pose. Pure functions of time: the same instant always gives the same frame.
@@ -156,6 +162,24 @@ enum RobotAnimator {
             pose.headTilt = .degrees(-2 + 9 * tug)
             pose.bob = -2 * tug
 
+        case .terminal:
+            pose.expression = .terminal
+            pose.visorTick = Int(t / 0.55)
+            pose.headTilt = .degrees(sin(t * 0.8) * 2)
+
+        case .thinking:
+            pose.expression = .thinking
+            pose.visorTick = Int(t / ClaudeCodeSpinner.frameDuration)
+            pose.headTilt = .degrees(-4 + sin(t * 0.7) * 2)
+
+        case .alert:
+            // Startled every second and a half: a quick shake, then still.
+            pose.expression = .excited
+            pose.blink = 0
+            let phase = t.truncatingRemainder(dividingBy: 1.5)
+            let shake = phase < 0.3 ? sin(phase * 60) : 0
+            pose.sway = shake * 1.6
+            pose.antennaAngle = .degrees(shake * 12)
         }
     }
 
