@@ -5,10 +5,10 @@ import Foundation
 nonisolated struct NotchModules: Equatable, Sendable {
     /// Everything that can be plugged in, in the order the Atelier shows it.
     /// The Atelier itself isn't a module: it's always there, and Pixel opens it.
-    static let catalog: [NotchPage] = [.music, .clipboard, .system]
+    static let catalog: [NotchPage] = [.music, .clipboard, .system, .claudeCode]
 
     /// What a fresh install starts with.
-    static let defaultInstalled: [NotchPage] = [.music, .clipboard, .system]
+    static let defaultInstalled: [NotchPage] = [.music, .clipboard, .system, .claudeCode]
 
     /// Installed modules, in tab order. Never empty: the notch always has something to show.
     private(set) var installed: [NotchPage]

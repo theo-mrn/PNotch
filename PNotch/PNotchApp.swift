@@ -39,6 +39,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var music: MusicManager?
     private let systemMonitor = SystemMonitor()
     private var companion: CompanionManager?
+    private let claudeCode = ClaudeCodeManager()
     let updates = UpdateManager()
     private var notchWindowController: NotchWindowController?
     private var settingsWindowController: SettingsWindowController?
@@ -67,8 +68,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         notchViewModel.listItemCount = { [weak clipboard] in
             clipboard?.visibleItems.count ?? 0
         }
+        // A permission request waiting in the notch: opening it goes straight there.
+        notchViewModel.urgentPage = { [claudeCode] in
+            if !claudeCode.approvals.isEmpty, NotchModules.current.isInstalled(.claudeCode) {
+                return .claudeCode
+            }
+            return nil
+        }
         coordinator.onShowSettings = { [weak self] in
             self?.showSettings()
+        }
+        claudeCode.onTransition = { [weak self] session, transition in
+            self?.handleClaudeCode(session, transition)
         }
 
         self.clipboard = clipboard
@@ -81,7 +92,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             clipboard: clipboard,
             music: music,
             system: systemMonitor,
-            companion: companion
+            companion: companion,
+            claudeCode: claudeCode
         )
 
         // Key down rather than up: holding the shortcut keeps scrolling through the list.
@@ -91,6 +103,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         observeScreenParameters()
         clipboard.start()
         music.start()
+        claudeCode.start()
 
         if !LaunchContext.wasLaunchedAtLogin {
             notchViewModel.open(reason: .launch)
@@ -100,6 +113,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationWillTerminate(_: Notification) {
         clipboard?.flushPendingChanges()
         music?.stop()
+        claudeCode.stop()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {
@@ -128,7 +142,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         notchViewModel?.close(reason: .settings)
 
         let controller = settingsWindowController
-            ?? SettingsWindowController(clipboard: clipboard, updates: updates)
+            ?? SettingsWindowController(clipboard: clipboard, updates: updates, claudeCode: claudeCode)
         settingsWindowController = controller
         controller.present()
     }
@@ -136,6 +150,28 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func showCaptureSneakPeek(for item: ClipboardItem) {
         guard Defaults[.showCopySneakPeek], notchViewModel?.notchState == .closed else { return }
         coordinator.showSneakPeek(SneakPeek(item: item))
+    }
+
+    /// The robot brings the news; a sneak peek tells a finished turn, unless it was a quick one in plain sight.
+    /// Waiting for the user needs no sneak peek: the closed notch keeps showing it until answered.
+    private func handleClaudeCode(_ session: ClaudeCodeSession, _ transition: ClaudeCodeSession.Transition) {
+        switch transition {
+        case .startedWaiting:
+            companion?.bring(.claudeCodeNeedsYou)
+        case let .finished(turnDuration):
+            guard ClaudeCodeAttention.announcesFinish(turnDuration: turnDuration, hostIsFrontmost: claudeCode.isFrontmost(session)) else {
+                return
+            }
+            companion?.bring(.claudeCodeFinished)
+            showClaudeCodeSneakPeek(.finished)
+        case .failed:
+            showClaudeCodeSneakPeek(.failed)
+        }
+    }
+
+    private func showClaudeCodeSneakPeek(_ outcome: SneakPeek.ClaudeCodeOutcome) {
+        guard Defaults[.announceClaudeCode], notchViewModel?.notchState == .closed else { return }
+        coordinator.showSneakPeek(SneakPeek(claudeCode: outcome), duration: .seconds(3))
     }
 
     private func observeScreenParameters() {

@@ -171,11 +171,15 @@ struct CompanionActivityTests {
 
         #expect(CompanionActivity.resolve(Inputs(page: .system)) == .wiring)
 
+        #expect(CompanionActivity.resolve(Inputs(page: .claudeCode)) == .terminal)
+        #expect(CompanionActivity.resolve(Inputs(page: .claudeCode, isClaudeCodeWorking: true)) == .thinking)
+        // Waiting for you beats working, even with other sessions busy.
+        #expect(CompanionActivity.resolve(Inputs(page: .claudeCode, isClaudeCodeWorking: true, claudeCodeNeedsYou: true)) == .alert)
     }
 
     @Test func activitiesStayOnTheirPage() {
         let everything = Inputs(
-            page: .companion, isMusicPlaying: true, searchQuery: "x"
+            page: .companion, isMusicPlaying: true, searchQuery: "x", isClaudeCodeWorking: true, claudeCodeNeedsYou: true
         )
         #expect(CompanionActivity.resolve(everything) == nil)
 
@@ -216,6 +220,13 @@ struct CompanionActivityTests {
         #expect(gazes.allSatisfy { $0.dy > 0 })
     }
 
+    @Test func alertShakesThenHoldsStill() {
+        let shaking = RobotAnimator.pose(mood: .content, activity: .alert, time: 0.1, gaze: .zero, sinceReaction: nil)
+        let still = RobotAnimator.pose(mood: .content, activity: .alert, time: 1, gaze: .zero, sinceReaction: nil)
+        #expect(shaking.sway != 0)
+        #expect(still.sway == 0)
+        #expect(still.expression == .excited)
+    }
 }
 
 struct CompanionCablesTests {

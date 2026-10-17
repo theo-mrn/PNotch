@@ -30,8 +30,17 @@ extension Defaults.Keys {
     static let companionCopyCount = Key<Int>("companionCopyCount", default: 0)
     /// The robot lives in the header of every page, not only on its own.
     static let companionOnEveryPage = Key<Bool>("companionOnEveryPage", default: true)
-    /// The robot's face announces news around the closed notch: copies.
+    /// The robot's face announces news around the closed notch: copies, Claude Code done or waiting.
     static let companionAnnouncesCopies = Key<Bool>("companionAnnouncesCopies", default: true)
+
+    // MARK: Claude Code
+
+    /// The closed notch shows when a Claude Code session works or waits for you.
+    static let showClaudeCodeLiveActivity = Key<Bool>("showClaudeCodeLiveActivity", default: true)
+    /// A sneak peek when a Claude Code session is done.
+    static let announceClaudeCode = Key<Bool>("announceClaudeCode", default: true)
+    /// Permission requests wait for an answer in the notch while the session's terminal isn't in front.
+    static let claudeCodeAnswersInNotch = Key<Bool>("claudeCodeAnswersInNotch", default: true)
 
     // MARK: Clipboard
 

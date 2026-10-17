@@ -59,6 +59,7 @@ private struct NotchTab: View {
     let selection: Namespace.ID
     let action: () -> Void
 
+    @Environment(ClaudeCodeManager.self) private var claudeCode
     @State private var isHovered = false
 
     /// Counts the times it was chosen, to make its icon hop.
@@ -106,9 +107,24 @@ private struct NotchTab: View {
                 .font(.system(size: 10.5, weight: .semibold))
                 // Chosen, it hops.
                 .symbolEffect(.bounce.up, value: hops)
+                .overlay(alignment: .topTrailing) {
+                    if let badge {
+                        Circle()
+                            .fill(badge)
+                            .frame(width: 6, height: 6)
+                            .offset(x: 4, y: -3)
+                    }
+                }
         }
     }
 
+    /// A dot when the module needs you: Claude Code waiting.
+    private var badge: Color? {
+        switch page {
+        case .claudeCode where claudeCode.needsAttention: Palette.accent
+        default: nil
+        }
+    }
 }
 
 extension NotchPage {
@@ -118,6 +134,7 @@ extension NotchPage {
         case .clipboard: String(localized: "Clipboard")
         case .system: String(localized: "System")
         case .companion: String(localized: "Atelier")
+        case .claudeCode: "Claude Code"
         }
     }
 
@@ -127,6 +144,7 @@ extension NotchPage {
         case .clipboard: "doc.on.clipboard"
         case .system: "gauge.with.dots.needle.67percent"
         case .companion: "plus"
+        case .claudeCode: "terminal"
         }
     }
 }
