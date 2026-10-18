@@ -1,6 +1,6 @@
 # PNotch
 
-A notch app for the MacBook: a music player, a clipboard manager, a system monitor and a small robot companion living in the camera housing. Hover the notch and it unfolds under the menu bar: what's playing, your recent copies in a searchable list (text, rich text, code, links with previews, colors, images, files and contacts), how the Mac is doing, or what your robot is up to.
+A notch app for the MacBook: a music player, a clipboard manager, a system monitor, a small robot companion and a Claude Code tracker living in the camera housing. Hover the notch and it unfolds under the menu bar: what's playing, your recent copies in a searchable list (text, rich text, code, links with previews, colors, images, files and contacts), how the Mac is doing, what your robot is up to, or what Claude Code is working on.
 
 The interface is in English and French, following the system language.
 
@@ -36,18 +36,28 @@ The interface is in English and French, following the system language.
   - *Music*: headphones always on; it dances while a song plays (notes in the cover's color, a jump at each new song) and nods along, waiting, when paused.
   - *Clipboard*: it holds a clipboard and reads it, and looks puzzled when a search finds nothing.
   - *System*: it holds a plug wired to the processor, graphics, memory and network, data climbing each cable as fast as the metric is busy; every few seconds it tugs at them. Its antenna shows the processor's load.
+  - *Claude Code*: its visor turns into a `>_` terminal while no session is busy, Claude's star twinkles in its eyes while one works, and it calls you with a "!" when a session waits for you; clicking it then takes you there.
 
-  A click opens the Atelier, its home; a right-click pets it and has the page's shortcuts (play/pause, next track, clear the search, Activity Monitor). It can stay in the Atelier only (Settings › Companion).
+  A click opens the Atelier, its home; a right-click pets it and has the page's shortcuts (play/pause, next track, clear the search, Activity Monitor, answer Claude). It can stay in the Atelier only (Settings › Companion).
 - **A small robot** with its own page, drawn live in 2.5D: metallic shading, a glass visor, glowing eyes, and a highlight that follows your pointer like a light source. Its eyes follow the pointer too, and it blinks, breathes and floats.
 - **Moods from the Mac**: it dances while music plays, sweats when the processor is busy or the Mac runs hot, dozes off late at night or when you're away, and keeps an eye on things the rest of the time.
-- **Messenger**: when you copy something, it jumps and its face announces the news around the closed notch (Settings › Companion).
+- **Messenger**: when you copy something, or Claude Code is done or needs you, it jumps and its face announces the news around the closed notch (Settings › Companion).
 - **At home in the Atelier**, where it presents the modules (see below), with its wardrobe behind the paintbrush.
 - **Attachment**: click it to pet it (hearts). Its page counts the days you've been together and the pets.
 - **Customization** (paintbrush button): name, body color, eye color, and something to wear (headphones, crown, glasses, flower). Its name is also its tab's title.
 
+### Claude Code
+
+- **Live activity**: while a Claude Code session works, the closed notch shows Claude's twinkling star and how long it has been at it. When a session waits for you (a permission, a question, a plan to approve), a raised hand stays there until you answer, ahead of the music.
+- **Sneak peek** when a turn is done or stopped on an error, delivered by the robot. Quick answers in the app you're looking at stay quiet.
+- **Sessions page**: every session with its project, your last prompt and what Claude is doing right now ("Running npm test", "Wants to edit ContentView.swift", the start of its last answer). Click one to bring back its terminal or editor.
+- **Answer from the notch**: while you're away from a session's terminal or editor, its permission requests wait in the notch with Deny, Always (Claude Code's suggested rule, e.g. this command in this project) and Allow; opening the notch goes straight to them. In front of the terminal, going back to it, clicking the session, or with PNotch closed, Claude Code asks there as usual. Can be turned off in Settings › Claude Code.
+- **Connecting** (button on the page, or Settings › Claude Code) adds a hook to `~/.claude/settings.json`. Only PNotch's entries are added or removed: the rest of the file keeps its order and formatting, symlinked dotfiles are written through, and the previous version is saved as `settings.json.pnotch-backup`. The hook script, `~/.claude/hooks/pnotch.sh`, runs in the background (except for permission requests, which wait for the notch's answer), does nothing while PNotch is closed, and hands events to PNotch through a Unix socket only your account can open: nothing leaves the Mac. Connections made by an older version are upgraded at launch, with the same backup. Sessions opened before connecting pick it up once restarted.
+- Claude Code doesn't run a hook when you press <kbd>esc</kbd>: PNotch notices the interruption in the session's transcript.
+
 ### The Atelier and its modules
 
-Each page of the notch is a module, plugged in from the **Atelier**, behind the « + » at the end of the tabs. That's Pixel's home: it presents every module on a shelf, explains the one you hover in a speech bubble, and plugs it in or unplugs it when you click (with a little jump). The plugged-in modules are the tabs, in order; past what fits next to the camera, they scroll and « + » stays put. Settings › Modules does the same with switches, sets their order and the page the notch opens on. A fresh install starts with Music, Clipboard and System.
+Each page of the notch is a module, plugged in from the **Atelier**, behind the « + » at the end of the tabs. That's Pixel's home: it presents every module on a shelf, explains the one you hover in a speech bubble, and plugs it in or unplugs it when you click (with a little jump). The plugged-in modules are the tabs, in order; past what fits next to the camera, they scroll and « + » stays put. Settings › Modules does the same with switches, sets their order and the page the notch opens on. A fresh install starts with Music, Clipboard, System and Claude Code.
 
 ## Requirements
 
@@ -84,8 +94,9 @@ Before a release, on a notched MacBook:
 6. Play music in Music, Spotify, then a browser: live activity, cover, scrubbing, play/pause, next.
 7. System tab: values move, Activity Monitor opens.
 8. Companion tab: the robot follows the pointer, dances with music, reacts to a click (hearts) and to a copy (jump, face around the closed notch); customization applies right away.
-9. Settings › Tabs: hide and reorder tabs, change the start page.
-10. Switch the system language between English and French.
+9. Claude Code: connect from the page, start `claude` in Terminal and in VS Code; the star and timer show while it works, the raised hand on a permission prompt, the sneak peek when it's done; esc clears the activity; clicking a session brings back its app; disconnecting restores `~/.claude/settings.json`.
+10. Settings › Tabs: hide and reorder tabs, change the start page.
+11. Switch the system language between English and French.
 
 ## Localization
 
@@ -109,6 +120,7 @@ PNotch/
 │   ├── Music/                 Player page, artwork, progress, controls, equalizer, live activity
 │   ├── System/                Metric tiles, sparklines, system page
 │   ├── Companion/             Robot renderer (Canvas), animator, live view, companion page and customization
+│   ├── ClaudeCode/            Sessions page, live activity and sneak peek, Claude's spinner
 │   ├── Clipboard/
 │   │   ├── Models/            ClipboardItem, ClipboardContent, ClipboardHistory, filters
 │   │   ├── Services/          Pasteboard monitor/reader/writer, classifier, persistence, previews
@@ -117,9 +129,11 @@ PNotch/
 │   └── Settings/              Settings window (General, Tabs, Clipboard, Music, Shortcuts, About)
 ├── enums/                     Notch states
 ├── extensions/                NSScreen notch geometry, Color helpers
-├── helpers/                   Image processing, syntax highlighting, app icons, artwork colors, metric readers
-├── managers/                  MusicManager, SystemMonitor, CompanionManager, UpdateManager (Sparkle)
-├── models/                    PNotchViewModel, NotchGeometry, tabs configuration, PlaybackState, SystemMetrics, companion moods, Defaults keys
+├── helpers/                   Image processing, syntax highlighting, app icons, artwork colors, metric readers,
+│                              order-preserving JSON, Claude Code hook server and installer, process tree
+├── managers/                  MusicManager, SystemMonitor, CompanionManager, ClaudeCodeManager, UpdateManager (Sparkle)
+├── models/                    PNotchViewModel, NotchGeometry, tabs configuration, PlaybackState, SystemMetrics, companion moods,
+│                              Claude Code events and sessions, Defaults keys
 ├── observers/                 NSEvent monitors
 ├── Shortcuts/                 Global keyboard shortcut names
 ├── sizing/                    Metrics
