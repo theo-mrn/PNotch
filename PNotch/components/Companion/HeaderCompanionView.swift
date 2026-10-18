@@ -4,12 +4,14 @@ import SwiftUI
 
 /// The companion on every page, next to the header buttons, with something to do on each:
 /// headphones on for the music, reading the clipboard, wired to the system metrics through the plug it holds,
-/// A click opens the Atelier, its home; a right-click has the page's shortcuts.
+/// Claude's star in its eyes while Claude works. A click opens the Atelier, its home, or takes you
+/// to Claude Code when it calls you; a right-click has the page's shortcuts.
 struct HeaderCompanionView: View {
     @Environment(CompanionManager.self) private var companion
     @Environment(PNotchViewModel.self) private var vm
     @Environment(MusicManager.self) private var music
     @Environment(ClipboardStateViewModel.self) private var clipboard
+    @Environment(ClaudeCodeManager.self) private var claudeCode
     @Default(.companionName) private var name
 
     var body: some View {
@@ -17,7 +19,7 @@ struct HeaderCompanionView: View {
             .frame(width: CompanionMetrics.headerRobotSize.width, height: CompanionMetrics.headerRobotSize.height)
             .contentShape(Rectangle())
             .onTapGesture(perform: handleClick)
-            .help(String(localized: "Atelier: choose the modules of the notch"))
+            .help(activity == .alert ? String(localized: "Answer Claude Code") : String(localized: "Atelier: choose the modules of the notch"))
             .contextMenu {
                 pageActions
                 Divider()
@@ -43,7 +45,9 @@ struct HeaderCompanionView: View {
             page: vm.page,
             isMusicPlaying: music.isPlaying,
             searchQuery: clipboard.searchQuery,
-            searchResultCount: clipboard.visibleItems.count
+            searchResultCount: clipboard.visibleItems.count,
+            isClaudeCodeWorking: claudeCode.sessions.contains(where: \.isWorking),
+            claudeCodeNeedsYou: claudeCode.needsAttention
         ))
     }
 
@@ -69,20 +73,30 @@ struct HeaderCompanionView: View {
     }
 
     private var bulbColor: Color? {
-        guard vm.page == .system, let cpu = companion.system.cpu?.total else { return nil }
-        switch CompanionLoadLevel(cpuUsage: cpu) {
-        case .calm: return Palette.muted
-        case .busy: return Palette.accent
-        case .strained: return Palette.danger
+        switch activity {
+        case .thinking, .alert:
+            return Palette.accent
+        default:
+            guard vm.page == .system, let cpu = companion.system.cpu?.total else { return nil }
+            switch CompanionLoadLevel(cpuUsage: cpu) {
+            case .calm: return Palette.muted
+            case .busy: return Palette.accent
+            case .strained: return Palette.danger
+            }
         }
     }
 
     // MARK: Interactions
 
     private func handleClick() {
-        // Its home: the Atelier.
-        withAnimation(Motion.standard) {
-            vm.select(.companion)
+        if activity == .alert, case let .needsYou(session) = claudeCode.liveActivity {
+            claudeCode.open(session)
+            vm.close(reason: .switchedApp)
+        } else {
+            // Its home: the Atelier.
+            withAnimation(Motion.standard) {
+                vm.select(.companion)
+            }
         }
     }
 
@@ -109,6 +123,13 @@ struct HeaderCompanionView: View {
             Button("Open Activity Monitor") {
                 guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: "com.apple.ActivityMonitor") else { return }
                 NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+            }
+        case .claudeCode:
+            if case let .needsYou(session) = claudeCode.liveActivity {
+                Button(String(localized: "Answer Claude in \(session.projectName)")) {
+                    claudeCode.open(session)
+                    vm.close(reason: .switchedApp)
+                }
             }
         case .companion:
             EmptyView()

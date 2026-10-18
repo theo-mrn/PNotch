@@ -6,7 +6,7 @@ struct RobotVariant: Equatable {
     var activity: CompanionActivity?
     /// Music notes take the cover's color.
     var noteColor: Color?
-    /// The antenna bulb shows something: the processor's load…
+    /// The antenna bulb shows something: the processor's load, Claude at work…
     var bulbColor: Color?
     /// The metrics it's wired to on the System page.
     var cables: [RobotCable] = []

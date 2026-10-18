@@ -1,16 +1,22 @@
 import Observation
 import SwiftUI
 
-/// A short-lived activity shown around the closed notch: something was copied…
+/// A short-lived activity shown around the closed notch: something was copied, Claude Code is done…
 struct SneakPeek: Equatable, Identifiable {
     enum Content: Equatable {
         case copy(Copy)
+        case claudeCode(ClaudeCodeOutcome)
     }
 
     struct Copy: Equatable {
         let kind: ClipboardKind
         let sourceApp: SourceApplication?
         let color: ColorValue?
+    }
+
+    enum ClaudeCodeOutcome: Equatable {
+        case finished
+        case failed
     }
 
     let id = UUID()
@@ -22,6 +28,10 @@ struct SneakPeek: Equatable, Identifiable {
             color = value
         }
         content = .copy(Copy(kind: item.kind, sourceApp: item.sourceApp, color: color))
+    }
+
+    init(claudeCode outcome: ClaudeCodeOutcome) {
+        content = .claudeCode(outcome)
     }
 }
 

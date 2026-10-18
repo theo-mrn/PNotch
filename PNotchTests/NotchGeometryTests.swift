@@ -62,10 +62,19 @@ struct NotchGeometryTests {
         #expect(macBookPro14.windowFrame.height >= companion.height)
     }
 
+    @Test func claudeCodeFitsItsRowsAndTheWindow() {
+        let claudeCode = macBookPro14.openedSize(for: .claudeCode)
+        #expect(claudeCode == CGSize(width: ClaudeCodeMetrics.width, height: 32 + ClaudeCodeMetrics.bodyHeight))
+        // Three sessions are visible without scrolling.
+        let rows = 3 * ClaudeCodeMetrics.rowHeight + 2 * ClaudeCodeMetrics.rowSpacing + 2 * ClaudeCodeMetrics.verticalPadding
+        #expect(rows <= ClaudeCodeMetrics.bodyHeight)
+        #expect(macBookPro14.windowFrame.height >= claudeCode.height)
+    }
+
     @Test func headerWingsHoldTheTabsSideAndTheRobotSide() {
         // Right of the camera: the robot, up to two page buttons (the clipboard's) and settings.
         let buttons = CompanionMetrics.headerRobotSize.width + 4 + 3 * NotchHeaderMetrics.controlHeight + 3 * 6
-        for layout in [NotchLayout.music, .system, .companion, .clipboardList(itemCount: 3)] {
+        for layout in [NotchLayout.music, .system, .companion, .claudeCode, .clipboardList(itemCount: 3)] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(buttons <= wing, "\(layout)")
@@ -74,7 +83,7 @@ struct NotchGeometryTests {
 
     @Test func everyModuleTabFitsLeftOfTheCameraWithoutScrolling() {
         let all = NotchModules.catalog.count
-        for layout in [NotchLayout.music, .companion, .clipboardList(itemCount: 3), .system] {
+        for layout in [NotchLayout.music, .companion, .claudeCode, .clipboardList(itemCount: 3), .system] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(NotchHeaderMetrics.iconBarWidth(count: all) <= wing, "\(layout)")

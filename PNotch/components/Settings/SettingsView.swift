@@ -32,6 +32,7 @@ struct SettingsView: View {
                 case .clipboard: ClipboardPane()
                 case .music: MusicPane()
                 case .companion: CompanionPane()
+                case .claudeCode: ClaudeCodePane()
                 case .shortcuts: ShortcutsPane()
                 case .about: AboutPane()
                 }
@@ -51,6 +52,7 @@ enum SettingsPane: String, CaseIterable, Identifiable {
     case clipboard
     case music
     case companion
+    case claudeCode
     case shortcuts
     case about
 
@@ -65,6 +67,7 @@ enum SettingsPane: String, CaseIterable, Identifiable {
         case .clipboard: "Clipboard"
         case .music: "Music"
         case .companion: "Companion"
+        case .claudeCode: "Claude Code"
         case .shortcuts: "Shortcuts"
         case .about: "About"
         }
@@ -77,6 +80,7 @@ enum SettingsPane: String, CaseIterable, Identifiable {
         case .clipboard: "doc.on.clipboard.fill"
         case .music: "music.note"
         case .companion: "face.smiling.inverse"
+        case .claudeCode: "terminal.fill"
         case .shortcuts: "command"
         case .about: "info.circle.fill"
         }
@@ -381,9 +385,65 @@ private struct CompanionPane: View {
                 Toggle(String(localized: "Show \(name) on every page"), isOn: $onEveryPage)
                 Toggle("Announce news around the closed notch", isOn: $announces)
             } footer: {
-                Text("\(name) reacts to what you do everywhere: it dances to your music and catches your copies. In the Atelier, it presents the modules you can plug in. Right-click it to pet it; its looks are behind the paintbrush.")
+                Text("\(name) reacts to what you do everywhere: it dances to your music, catches your copies and tells you when Claude Code is done or needs you. In the Atelier, it presents the modules you can plug in. Right-click it to pet it; its looks are behind the paintbrush.")
             }
         }
+    }
+}
+
+// MARK: - Claude Code
+
+private struct ClaudeCodePane: View {
+    @Environment(ClaudeCodeManager.self) private var claudeCode
+    @Default(.showClaudeCodeLiveActivity) private var showLiveActivity
+    @Default(.announceClaudeCode) private var announce
+    @Default(.claudeCodeAnswersInNotch) private var answersInNotch
+
+    var body: some View {
+        Form {
+            Section {
+                LabeledContent {
+                    if claudeCode.isConnected {
+                        Button("Disconnect") {
+                            claudeCode.disconnect()
+                        }
+                    } else {
+                        Button("Connect") {
+                            claudeCode.connect()
+                        }
+                    }
+                } label: {
+                    Label {
+                        Text(claudeCode.isConnected ? "Connected to Claude Code" : "Not connected")
+                    } icon: {
+                        Image(systemName: claudeCode.isConnected ? "checkmark.circle.fill" : "circle.dashed")
+                            .foregroundStyle(claudeCode.isConnected ? Palette.accent : .secondary)
+                    }
+                }
+                if let error = claudeCode.connectionError {
+                    Text(error)
+                        .foregroundStyle(Palette.danger)
+                }
+            } header: {
+                Text("Connection")
+            } footer: {
+                Text("PNotch adds a hook to ~/.claude/settings.json (the previous version is kept next to it). Claude Code then tells PNotch what it's doing, through a socket only your account can open: nothing leaves your Mac. Sessions already open pick it up once restarted.")
+            }
+
+            Section {
+                Toggle("Answer permission requests from the notch", isOn: $answersInNotch)
+            } footer: {
+                Text("While you're away from the session's terminal or editor, Claude Code waits for your answer in the notch: allow, always allow or deny. Back in the terminal, or with PNotch closed, it asks there as usual.")
+            }
+
+            Section {
+                Toggle("Show Claude Code's activity around the closed notch", isOn: $showLiveActivity)
+                Toggle("Show a sneak peek when Claude Code is done", isOn: $announce)
+            } footer: {
+                Text("A session waiting for your answer always stays visible until you reply. Quick answers in the app you're using don't get a sneak peek.")
+            }
+        }
+        .onAppear { claudeCode.refreshConnection() }
     }
 }
 

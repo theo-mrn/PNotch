@@ -48,7 +48,7 @@ nonisolated enum CompanionMood: Equatable, Sendable {
     case hot
     /// Late at night, or the user has been away for a while.
     case sleepy
-    /// It just brought news: a copy.
+    /// It just brought news: a copy, Claude Code done or waiting for you.
     case excited
     /// The user just petted it.
     case loved
@@ -102,6 +102,8 @@ nonisolated struct CompanionContext: Sendable {
 /// What the robot announces, as the messenger of the notch.
 nonisolated enum CompanionNews: Equatable, Sendable {
     case copy
+    case claudeCodeFinished
+    case claudeCodeNeedsYou
     /// A new song started while it listens on the music page.
     case newTrack
     /// A module was plugged in from the Atelier.
@@ -123,12 +125,20 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
     case puzzled
     /// System: wired to the metric tiles, it tugs at the cables now and then.
     case wiring
+    /// Claude Code, no session busy: its visor turns into a terminal waiting for a command.
+    case terminal
+    /// Claude Code: a session is working, Claude's star twinkling in its eyes.
+    case thinking
+    /// Claude Code: a session waits for you, and a click on the robot takes you there.
+    case alert
 
     struct Inputs: Sendable {
         var page: NotchPage
         var isMusicPlaying = false
         var searchQuery = ""
         var searchResultCount = 0
+        var isClaudeCodeWorking = false
+        var claudeCodeNeedsYou = false
     }
 
     static func resolve(_ inputs: Inputs) -> CompanionActivity? {
@@ -140,6 +150,11 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
             return isSearching && inputs.searchResultCount == 0 ? .puzzled : .reading
         case .system:
             return .wiring
+        case .claudeCode:
+            if inputs.claudeCodeNeedsYou {
+                return .alert
+            }
+            return inputs.isClaudeCodeWorking ? .thinking : .terminal
         case .companion:
             return nil
         }

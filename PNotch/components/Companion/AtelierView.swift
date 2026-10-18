@@ -191,6 +191,7 @@ extension NotchPage {
         case .music: String(localized: "I show what's playing, cover and all, and let you skip or pause.")
         case .clipboard: String(localized: "I keep everything you copy, to find and paste again.")
         case .system: String(localized: "I watch the processor, memory, network and battery for you.")
+        case .claudeCode: String(localized: "I follow your Claude Code sessions and tell you when they need you.")
         case .companion: ""
         }
     }
@@ -201,6 +202,7 @@ extension NotchPage {
         case .music: "music.note"
         case .clipboard: "doc.on.clipboard.fill"
         case .system: "gauge.with.dots.needle.67percent"
+        case .claudeCode: "terminal.fill"
         case .companion: "plus"
         }
     }

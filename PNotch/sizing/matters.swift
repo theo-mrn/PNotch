@@ -61,8 +61,19 @@ nonisolated enum AtelierMetrics {
     static let cardWidth: CGFloat = 92
 }
 
+nonisolated enum ClaudeCodeMetrics {
+    static let width: CGFloat = 640
+    static let bodyHeight: CGFloat = 156
+    /// Three sessions fit without scrolling.
+    static let rowHeight: CGFloat = 42
+    static let rowSpacing: CGFloat = 6
+    static let rowCornerRadius: CGFloat = 12
+    static let horizontalPadding: CGFloat = 16
+    static let verticalPadding: CGFloat = 8
+}
+
 nonisolated enum ClipboardListMetrics {
-    /// As wide as the music and companion pages.
+    /// As wide as the music, companion and Claude Code pages.
     static let width: CGFloat = 640
     static let searchHeight: CGFloat = 50
     static let rowHeight: CGFloat = 56

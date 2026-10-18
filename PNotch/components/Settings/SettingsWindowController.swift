@@ -6,11 +6,12 @@ import SwiftUI
 /// The SwiftUI `Settings` scene can't be opened reliably from an accessory app's panel,
 /// so PNotch manages the window itself.
 final class SettingsWindowController: NSWindowController {
-    init(clipboard: ClipboardStateViewModel, updates: UpdateManager) {
+    init(clipboard: ClipboardStateViewModel, updates: UpdateManager, claudeCode: ClaudeCodeManager) {
         let hostingController = NSHostingController(
             rootView: SettingsView()
                 .environment(clipboard)
                 .environment(updates)
+                .environment(claudeCode)
         )
         hostingController.sizingOptions = .preferredContentSize
 

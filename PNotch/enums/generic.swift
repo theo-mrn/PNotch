@@ -26,6 +26,8 @@ enum NotchCloseReason {
     case copied
     case pasted
     case settings
+    /// The user jumped to another app from the notch, e.g. to a Claude Code session.
+    case switchedApp
 }
 
 /// Pages of the opened notch. The modules plugged in from the Atelier are its tabs;
@@ -36,6 +38,7 @@ nonisolated enum NotchPage: String, CaseIterable, Sendable {
     case system
     /// The Atelier: Pixel presents the modules there, and lives there.
     case companion
+    case claudeCode
 }
 
 /// What the opened notch shows, which decides its size.
@@ -43,6 +46,7 @@ nonisolated enum NotchLayout: Equatable, Sendable {
     case music
     case system
     case companion
+    case claudeCode
     /// The searchable list, shrinking around `itemCount` results.
     case clipboardList(itemCount: Int)
 }

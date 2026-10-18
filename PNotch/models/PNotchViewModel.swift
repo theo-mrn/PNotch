@@ -20,7 +20,7 @@ final class PNotchViewModel {
     @ObservationIgnored var onKeyboardFocusRequest: ((Bool) -> Void)?
     /// Whether the user is typing in the notch. Read live by the auto-close rules, set by the window controller.
     @ObservationIgnored var isKeyboardFocused: () -> Bool = { false }
-    /// A page that needs the user more than the usual one, e.g. something waiting for an answer.
+    /// A page that needs the user more than the usual one, e.g. Claude Code waiting for an answer.
     /// Opening the notch shows it.
     @ObservationIgnored var urgentPage: () -> NotchPage? = { nil }
     /// Number of items the list shows, so it can shrink around few results.
@@ -62,6 +62,7 @@ final class PNotchViewModel {
         case .music: .music
         case .system: .system
         case .companion: .companion
+        case .claudeCode: .claudeCode
         case .clipboard: .clipboardList(itemCount: listItemCount())
         }
     }
