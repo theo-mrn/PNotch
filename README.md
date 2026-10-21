@@ -102,6 +102,30 @@ Before a release, on a notched MacBook:
 
 Strings live in `PNotch/Localizable.xcstrings` (English source, French translation). Xcode extracts new strings at build time; translate them in the catalog editor.
 
+## Installing on this Mac
+
+`scripts/install.sh` builds PNotch in Release for this Mac's processor, stripped of debug symbols (in `build/install.noindex`, apart from Xcode's builds), quits the running copy, replaces `/Applications/PNotch.app` and opens it. It's signed with the development certificate, like the builds from Xcode: for this Mac only, not to share.
+
+## Distribution
+
+PNotch ships as a signed, notarized DMG, and updates itself with Sparkle from [theo-mrn/pnotch-updates](https://github.com/theo-mrn/pnotch-updates), served by GitHub Pages at `https://theo-mrn.github.io/pnotch-updates/appcast.xml`. That repository only holds what is distributed (DMGs, update archives, `appcast.xml`), never the source.
+
+To release a version:
+
+1. Raise `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION`.
+2. `scripts/release.sh`: archives the app, signs it with Developer ID, notarizes and staples it, builds a signed and notarized DMG (the app next to a link to Applications), and signs the update archive into the appcast. Everything stays in `build/release.noindex` (out of Spotlight's reach): try the DMG first.
+3. `scripts/publish.sh`: pushes the update files to the GitHub Pages repository, where installed copies find them, and attaches the DMG to a GitHub release.
+
+One-time setup, already done on the release Mac:
+
+- **Developer ID Application certificate** for team CLFGDZUD7W: Xcode › Settings › Apple Accounts › *Manage Certificates* › **+**. It expires on 1 February 2027; releases signed before then keep opening, new ones need a renewed certificate.
+- **Notarization credentials**, under the `PNotch` keychain profile, with an app-specific password from account.apple.com:
+  ```sh
+  xcrun notarytool store-credentials PNotch --apple-id <apple id> --team-id CLFGDZUD7W
+  ```
+- **Sparkle signing key**, made by `generate_keys` and kept in the keychain: back it up, it signs every update. Its public half is `SPARKLE_PUBLIC_ED_KEY` in `Configuration/Distribution.xcconfig`, next to `SPARKLE_FEED_URL`.
+- **GitHub CLI** signed in to the account owning the updates repository (`gh auth login`).
+
 ## Project layout
 
 The structure follows [boring.notch](https://github.com/TheBoredTeam/boring.notch):
@@ -138,8 +162,8 @@ PNotch/
 ├── Shortcuts/                 Global keyboard shortcut names
 ├── sizing/                    Metrics
 └── utils/                     Logging
-Configuration/                 Distribution settings (Sparkle feed and key, empty until releases start)
-scripts/                       Icon layer generator
+Configuration/                 Distribution settings (Sparkle feed and key) and export options
+scripts/                       Release pipeline, icon layer generator
 PNotchTests/                   Swift Testing unit tests
 Vendor/MediaRemoteAdapter/     Vendored adapter sources, built by the MediaRemoteAdapter target and embedded in the app
 ```
