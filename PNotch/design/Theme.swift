@@ -40,7 +40,7 @@ enum Palette {
 
     // MARK: Meaning
 
-    /// A second series beside the accent in a chart.
+    /// A second series beside the accent in a chart, a break in the timer.
     static let muted = Color(hex: 0xAEAEB2)
     /// Late, deleting, too hot (system red). Always with a word or a symbol, never alone.
     static let danger = Color(hex: 0xFF453A)

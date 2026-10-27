@@ -39,6 +39,7 @@ nonisolated enum NotchPage: String, CaseIterable, Sendable {
     /// The Atelier: Pixel presents the modules there, and lives there.
     case companion
     case claudeCode
+    case timer
 }
 
 /// What the opened notch shows, which decides its size.
@@ -47,6 +48,7 @@ nonisolated enum NotchLayout: Equatable, Sendable {
     case system
     case companion
     case claudeCode
+    case timer
     /// The searchable list, shrinking around `itemCount` results.
     case clipboardList(itemCount: Int)
 }

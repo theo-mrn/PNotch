@@ -6,6 +6,7 @@ struct SneakPeek: Equatable, Identifiable {
     enum Content: Equatable {
         case copy(Copy)
         case claudeCode(ClaudeCodeOutcome)
+        case focus(FocusTimer.Event)
     }
 
     struct Copy: Equatable {
@@ -32,6 +33,10 @@ struct SneakPeek: Equatable, Identifiable {
 
     init(claudeCode outcome: ClaudeCodeOutcome) {
         content = .claudeCode(outcome)
+    }
+
+    init(focus event: FocusTimer.Event) {
+        content = .focus(event)
     }
 }
 
