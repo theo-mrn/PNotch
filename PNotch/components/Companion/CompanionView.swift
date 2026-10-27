@@ -4,6 +4,7 @@ import SwiftUI
 /// or its wardrobe behind the paintbrush.
 struct CompanionView: View {
     @Environment(CompanionManager.self) private var companion
+    @Environment(FocusManager.self) private var focus
     @State private var isCustomizing = false
 
     var body: some View {
@@ -16,7 +17,7 @@ struct CompanionView: View {
             }
 
             HStack(spacing: 14) {
-                RobotView()
+                RobotView(variant: RobotVariant(activity: activity))
                     .frame(width: CompanionMetrics.robotSize.width, height: CompanionMetrics.robotSize.height)
                     .contentShape(Rectangle())
                     .onTapGesture { companion.pet() }
@@ -42,5 +43,10 @@ struct CompanionView: View {
         // The CPU reading feeds the "hot" mood: sample only while the robot is on screen.
         .onAppear { companion.system.startObserving() }
         .onDisappear { companion.system.stopObserving() }
+    }
+
+    /// Headband on while you focus, a warm drink during the break.
+    private var activity: CompanionActivity? {
+        CompanionActivity.resolve(CompanionActivity.Inputs(page: .companion, focusPhase: focus.runningPhase))
     }
 }

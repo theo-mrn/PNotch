@@ -1,8 +1,8 @@
 import Defaults
 import SwiftUI
 
-/// The robot's face around the closed notch, wide awake to deliver news.
-/// `fallback` is shown instead when its announcements are turned off in Settings.
+/// The robot's face around the closed notch: wide awake to deliver news, or busy with something
+/// like a focus session. `fallback` is shown instead when its announcements are turned off in Settings.
 struct CompanionMessengerFace<Fallback: View>: View {
     var mood: CompanionMood = .excited
     var activity: CompanionActivity?

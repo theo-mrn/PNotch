@@ -172,6 +172,21 @@ enum RobotAnimator {
             pose.visorTick = Int(t / ClaudeCodeSpinner.frameDuration)
             pose.headTilt = .degrees(-4 + sin(t * 0.7) * 2)
 
+        case .focusing:
+            // Still and steady, eyes on the work.
+            pose.expression = .reading
+            pose.gaze = CGVector(dx: sin(t * 0.6) * 0.15, dy: 0.35)
+            pose.headTilt = .degrees(sin(t * 0.5) * 1.5)
+            pose.bob = sin(t * 1.2) * 1
+            pose.antennaAngle = .degrees(sin(t * 0.5) * 2)
+
+        case .resting:
+            pose.expression = .happy
+            pose.blink = 0
+            pose.sway = sin(t * 1.1) * 1.5
+            pose.headTilt = .degrees(sin(t * 1.1) * 4)
+            pose.glow = 0.9
+
         case .alert:
             // Startled every second and a half: a quick shake, then still.
             pose.expression = .excited

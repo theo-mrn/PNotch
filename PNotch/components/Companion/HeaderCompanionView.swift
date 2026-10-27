@@ -12,6 +12,7 @@ struct HeaderCompanionView: View {
     @Environment(MusicManager.self) private var music
     @Environment(ClipboardStateViewModel.self) private var clipboard
     @Environment(ClaudeCodeManager.self) private var claudeCode
+    @Environment(FocusManager.self) private var focus
     @Default(.companionName) private var name
 
     var body: some View {
@@ -47,7 +48,8 @@ struct HeaderCompanionView: View {
             searchQuery: clipboard.searchQuery,
             searchResultCount: clipboard.visibleItems.count,
             isClaudeCodeWorking: claudeCode.sessions.contains(where: \.isWorking),
-            claudeCodeNeedsYou: claudeCode.needsAttention
+            claudeCodeNeedsYou: claudeCode.needsAttention,
+            focusPhase: focus.runningPhase
         ))
     }
 
@@ -129,6 +131,21 @@ struct HeaderCompanionView: View {
                 Button(String(localized: "Answer Claude in \(session.projectName)")) {
                     claudeCode.open(session)
                     vm.close(reason: .switchedApp)
+                }
+            }
+        case .timer:
+            if let session = focus.session {
+                if session.phase != .rest {
+                    Button(session.isPaused ? "Resume" : "Pause") {
+                        session.isPaused ? focus.resume() : focus.pause()
+                    }
+                }
+                Button(session.phase == .rest ? "Skip the break" : "Stop") {
+                    focus.cancel()
+                }
+            } else {
+                Button("Start") {
+                    Defaults[.timerUsesStopwatch] ? focus.startStopwatch() : focus.startFocus()
                 }
             }
         case .companion:
