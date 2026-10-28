@@ -38,7 +38,7 @@ The interface is in English and French, following the system language.
   - *System*: it holds a plug wired to the processor, graphics, memory and network, data climbing each cable as fast as the metric is busy; every few seconds it tugs at them. Its antenna shows the processor's load.
   - *Claude Code*: its visor turns into a `>_` terminal while no session is busy, Claude's star twinkles in its eyes while one works, and it calls you with a "!" when a session waits for you; clicking it then takes you there.
 
-  A click opens the Atelier, its home; a right-click pets it and has the page's shortcuts (play/pause, next track, clear the search, Activity Monitor, answer Claude). It can stay in the Atelier only (Settings › Companion).
+  A click opens the Atelier, its home; a right-click pets it and has the page's shortcuts (play/pause, next track, clear the search, Activity Monitor, answer Claude, start or stop the timer). It can stay in the Atelier only (Settings › Companion).
 - **A small robot** with its own page, drawn live in 2.5D: metallic shading, a glass visor, glowing eyes, and a highlight that follows your pointer like a light source. Its eyes follow the pointer too, and it blinks, breathes and floats.
 - **Moods from the Mac**: it dances while music plays, sweats when the processor is busy or the Mac runs hot, dozes off late at night or when you're away, and keeps an eye on things the rest of the time.
 - **Messenger**: when you copy something, or Claude Code is done or needs you, it jumps and its face announces the news around the closed notch (Settings › Companion).
@@ -58,6 +58,10 @@ The interface is in English and French, following the system language.
 ### The Atelier and its modules
 
 Each page of the notch is a module, plugged in from the **Atelier**, behind the « + » at the end of the tabs. That's Pixel's home: it presents every module on a shelf, explains the one you hover in a speech bubble, and plugs it in or unplugs it when you click (with a little jump). The plugged-in modules are the tabs, in order; past what fits next to the camera, they scroll and « + » stays put. Settings › Modules does the same with switches, sets their order and the page the notch opens on. A fresh install starts with Music, Clipboard, System and Claude Code.
+
+### Timer
+
+Focus sessions and breaks, 25/5 or 50/10, or a stopwatch, in a ring that fills as it goes, the time in LED dots like an old display, with pause, « +5 min » and stop. Pixel puts on a headband and concentrates with you, the time shows in LED dots around the closed notch, and when a session is done it cheers, a chime rings and the break begins (a cup of something warm for it too). Sessions survive quitting PNotch, and the day's sessions and focused minutes are counted. The timer sleeps until the end of the countdown instead of checking the clock every second.
 
 ## Requirements
 
