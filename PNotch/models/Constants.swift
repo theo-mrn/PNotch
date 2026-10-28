@@ -33,6 +33,17 @@ extension Defaults.Keys {
     /// The robot's face announces news around the closed notch: copies, Claude Code done or waiting.
     static let companionAnnouncesCopies = Key<Bool>("companionAnnouncesCopies", default: true)
 
+    // MARK: Focus
+
+    static let focusRhythm = Key<FocusRhythm>("focusRhythm", default: .short)
+    /// The timer counts up instead of running focus sessions.
+    static let timerUsesStopwatch = Key<Bool>("timerUsesStopwatch", default: false)
+    /// The session or break in progress, kept across launches.
+    static let focusSession = Key<FocusSession?>("focusSession", default: nil)
+    static let focusLog = Key<FocusLog?>("focusLog", default: nil)
+    /// A chime when a focus session or a break ends.
+    static let focusPlaysSound = Key<Bool>("focusPlaysSound", default: true)
+
     // MARK: Claude Code
 
     /// The closed notch shows when a Claude Code session works or waits for you.

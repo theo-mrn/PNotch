@@ -378,12 +378,14 @@ private struct CompanionPane: View {
     @Default(.companionName) private var name
     @Default(.companionOnEveryPage) private var onEveryPage
     @Default(.companionAnnouncesCopies) private var announces
+    @Default(.focusPlaysSound) private var focusPlaysSound
 
     var body: some View {
         Form {
             Section {
                 Toggle(String(localized: "Show \(name) on every page"), isOn: $onEveryPage)
                 Toggle("Announce news around the closed notch", isOn: $announces)
+                Toggle("Play a sound when a focus session or a break ends", isOn: $focusPlaysSound)
             } footer: {
                 Text("\(name) reacts to what you do everywhere: it dances to your music, catches your copies and tells you when Claude Code is done or needs you. In the Atelier, it presents the modules you can plug in. Right-click it to pet it; its looks are behind the paintbrush.")
             }

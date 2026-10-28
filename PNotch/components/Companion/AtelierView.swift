@@ -5,6 +5,7 @@ import SwiftUI
 /// clicking plugs it into the notch, or unplugs it.
 struct AtelierView: View {
     @Environment(CompanionManager.self) private var companion
+    @Environment(FocusManager.self) private var focus
     @Default(.companionName) private var name
     /// Observed so the cards follow what's plugged in.
     @Default(.installedModules) private var installedModules
@@ -62,7 +63,7 @@ struct AtelierView: View {
         if let announcement, date.timeIntervalSince(announcement.date) < Self.announcementDuration {
             return announcement.text
         }
-        return CompanionMoodLine.text(name: name, companion: companion, at: date)
+        return CompanionMoodLine.text(name: name, companion: companion, focus: focus, at: date)
     }
 
     private func toggle(_ page: NotchPage) {
@@ -192,6 +193,7 @@ extension NotchPage {
         case .clipboard: String(localized: "I keep everything you copy, to find and paste again.")
         case .system: String(localized: "I watch the processor, memory, network and battery for you.")
         case .claudeCode: String(localized: "I follow your Claude Code sessions and tell you when they need you.")
+        case .timer: String(localized: "Focus sessions and breaks, or a stopwatch: I keep the time.")
         case .companion: ""
         }
     }
@@ -203,6 +205,7 @@ extension NotchPage {
         case .clipboard: "doc.on.clipboard.fill"
         case .system: "gauge.with.dots.needle.67percent"
         case .claudeCode: "terminal.fill"
+        case .timer: "timer"
         case .companion: "plus"
         }
     }

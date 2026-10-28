@@ -135,6 +135,7 @@ extension NotchPage {
         case .system: String(localized: "System")
         case .companion: String(localized: "Atelier")
         case .claudeCode: "Claude Code"
+        case .timer: String(localized: "Timer")
         }
     }
 
@@ -145,6 +146,7 @@ extension NotchPage {
         case .system: "gauge.with.dots.needle.67percent"
         case .companion: "plus"
         case .claudeCode: "terminal"
+        case .timer: "timer"
         }
     }
 }

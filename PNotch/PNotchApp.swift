@@ -40,6 +40,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let systemMonitor = SystemMonitor()
     private var companion: CompanionManager?
     private let claudeCode = ClaudeCodeManager()
+    private let focus = FocusManager()
     let updates = UpdateManager()
     private var notchWindowController: NotchWindowController?
     private var settingsWindowController: SettingsWindowController?
@@ -81,6 +82,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         claudeCode.onTransition = { [weak self] session, transition in
             self?.handleClaudeCode(session, transition)
         }
+        focus.onEvent = { [weak self] event in
+            self?.handleFocus(event)
+        }
 
         self.clipboard = clipboard
         self.music = music
@@ -93,7 +97,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             music: music,
             system: systemMonitor,
             companion: companion,
-            claudeCode: claudeCode
+            claudeCode: claudeCode,
+            focus: focus
         )
 
         // Key down rather than up: holding the shortcut keeps scrolling through the list.
@@ -104,6 +109,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         clipboard.start()
         music.start()
         claudeCode.start()
+        focus.start()
 
         if !LaunchContext.wasLaunchedAtLogin {
             notchViewModel.open(reason: .launch)
@@ -114,6 +120,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         clipboard?.flushPendingChanges()
         music?.stop()
         claudeCode.stop()
+        focus.stop()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {
@@ -166,6 +173,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             showClaudeCodeSneakPeek(.finished)
         case .failed:
             showClaudeCodeSneakPeek(.failed)
+        }
+    }
+
+    /// The robot cheers a completed session, a chime rings, and the closed notch shows it.
+    private func handleFocus(_ event: FocusTimer.Event) {
+        companion?.bring(event == .focusFinished ? .focusDone : .breakOver)
+        if Defaults[.focusPlaysSound] {
+            NSSound(named: event == .focusFinished ? "Glass" : "Hero")?.play()
+        }
+        if notchViewModel?.notchState == .closed {
+            coordinator.showSneakPeek(SneakPeek(focus: event), duration: .seconds(3))
         }
     }
 

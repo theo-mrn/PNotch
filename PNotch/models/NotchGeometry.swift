@@ -57,6 +57,11 @@ nonisolated struct NotchGeometry: Equatable, Sendable {
                 width: min(ClaudeCodeMetrics.width, screenFrame.width - 40),
                 height: notchSize.height + ClaudeCodeMetrics.bodyHeight
             )
+        case .timer:
+            return CGSize(
+                width: min(TimerMetrics.width, screenFrame.width - 40),
+                height: notchSize.height + TimerMetrics.bodyHeight
+            )
         case .system:
             return CGSize(
                 width: min(SystemMetricsLayout.width, screenFrame.width - 40),
@@ -80,7 +85,7 @@ nonisolated struct NotchGeometry: Equatable, Sendable {
     /// Frame of the transparent window hosting the notch: large enough for every opened layout,
     /// their ears and their shadow.
     var windowFrame: CGRect {
-        let largest = [NotchLayout.music, .system, .companion, .claudeCode, .clipboardList(itemCount: .max)].map(openedSize(for:))
+        let largest = [NotchLayout.music, .system, .companion, .claudeCode, .timer, .clipboardList(itemCount: .max)].map(openedSize(for:))
         let horizontalOverflow = NotchCornerRadii.opened.top + NotchMetrics.shadowPadding
         let size = CGSize(
             width: min(largest.map(\.width).max()! + horizontalOverflow * 2, screenFrame.width),

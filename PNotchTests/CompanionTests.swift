@@ -177,6 +177,17 @@ struct CompanionActivityTests {
         #expect(CompanionActivity.resolve(Inputs(page: .claudeCode, isClaudeCodeWorking: true, claudeCodeNeedsYou: true)) == .alert)
     }
 
+    @Test func focusesWithYouOnItsPage() {
+        #expect(CompanionActivity.resolve(Inputs(page: .companion, focusPhase: .focus)) == .focusing)
+        #expect(CompanionActivity.resolve(Inputs(page: .companion, focusPhase: .rest)) == .resting)
+        #expect(CompanionActivity.resolve(Inputs(page: .companion, focusPhase: .stopwatch)) == .focusing)
+        #expect(CompanionActivity.resolve(Inputs(page: .timer, focusPhase: .focus)) == .focusing)
+        #expect(CompanionActivity.resolve(Inputs(page: .timer)) == nil)
+        #expect(CompanionActivity.resolve(Inputs(page: .companion)) == nil)
+        // The other pages keep their own activity during a session.
+        #expect(CompanionActivity.resolve(Inputs(page: .system, focusPhase: .focus)) == .wiring)
+    }
+
     @Test func activitiesStayOnTheirPage() {
         let everything = Inputs(
             page: .companion, isMusicPlaying: true, searchQuery: "x", isClaudeCodeWorking: true, claudeCodeNeedsYou: true
@@ -280,3 +291,22 @@ struct CompanionCablesTests {
     }
 }
 
+struct DotMatrixFontTests {
+    @Test func laysOutATimeWithGapsBetweenGlyphs() {
+        let layout = DotMatrixFont.layout("25:00")
+        // Four 5-wide digits, a 1-wide colon, four gaps.
+        #expect(layout.columns == 4 * 5 + 1 + 4)
+        #expect(layout.dots.allSatisfy { $0.count == DotMatrixFont.rows })
+        // The gap after the first digit has no dots at all.
+        #expect(layout.dots[5].allSatisfy { $0 == nil })
+        // The colon lights two dots.
+        #expect(layout.dots[12].compactMap { $0 }.filter { $0 }.count == 2)
+    }
+
+    @Test func everyDigitHasAGlyph() {
+        for digit in "0123456789" {
+            #expect(DotMatrixFont.layout(String(digit)).columns == 5, "\(digit)")
+        }
+        #expect(DotMatrixFont.layout("é").columns == 0)
+    }
+}

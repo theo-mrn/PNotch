@@ -28,15 +28,15 @@ struct PasteActivationTests {
 struct NotchModulesTests {
     @Test func plugsAndUnplugs() {
         var modules = NotchModules(installed: [.music, .clipboard])
-        modules.install(.system)
-        #expect(modules.installed == [.music, .clipboard, .system])
-        modules.install(.system)
+        modules.install(.timer)
+        #expect(modules.installed == [.music, .clipboard, .timer])
+        modules.install(.timer)
         modules.install(.companion)
-        #expect(modules.installed == [.music, .clipboard, .system])
+        #expect(modules.installed == [.music, .clipboard, .timer])
 
         let unplugged = modules.uninstall(.music)
         #expect(unplugged)
-        #expect(modules.installed == [.clipboard, .system])
+        #expect(modules.installed == [.clipboard, .timer])
     }
 
     @Test func neverRunsOutOfModules() {
@@ -74,7 +74,7 @@ struct NotchModulesTests {
         OpeningCase(startPage: .system, lastPage: .music, installed: [.music, .system], expected: .system),
         OpeningCase(startPage: nil, lastPage: .clipboard, installed: [.music, .clipboard], expected: .clipboard),
         OpeningCase(startPage: .system, lastPage: .clipboard, installed: [.music, .clipboard], expected: .clipboard),
-        OpeningCase(startPage: nil, lastPage: .system, installed: [.music, .clipboard], expected: .music),
+        OpeningCase(startPage: nil, lastPage: .timer, installed: [.music, .clipboard], expected: .music),
         // The Atelier is always there.
         OpeningCase(startPage: nil, lastPage: .companion, installed: [.music], expected: .companion),
     ])

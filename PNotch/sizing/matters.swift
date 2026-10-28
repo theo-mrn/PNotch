@@ -17,6 +17,8 @@ nonisolated enum NotchMetrics {
     static let shadowPadding: CGFloat = 36
     /// Width added on each side of the notch while a sneak peek is shown.
     static let sneakPeekSideWidth: CGFloat = 40
+    /// Wider sides while the timer runs, for its LED digits to read.
+    static let timerSideWidth: CGFloat = 58
     /// Growth of the closed notch while the pointer rests on it.
     static let hoverGrowth = CGSize(width: 14, height: 3)
     /// Free space kept around the camera housing in the opened header.
@@ -59,6 +61,14 @@ nonisolated enum CompanionMetrics {
 nonisolated enum AtelierMetrics {
     /// Narrow enough for a card to show cut off at the edge: the shelf scrolls.
     static let cardWidth: CGFloat = 92
+}
+
+nonisolated enum TimerMetrics {
+    static let width: CGFloat = 640
+    static let bodyHeight: CGFloat = 156
+    /// As big as the music's cover: the two pages line up.
+    static let ringSize: CGFloat = 120
+    static let horizontalPadding: CGFloat = NotchMetrics.pageInset
 }
 
 nonisolated enum ClaudeCodeMetrics {

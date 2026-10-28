@@ -106,6 +106,10 @@ nonisolated enum CompanionNews: Equatable, Sendable {
     case claudeCodeNeedsYou
     /// A new song started while it listens on the music page.
     case newTrack
+    /// A focus session was completed.
+    case focusDone
+    /// The break is over.
+    case breakOver
     /// A module was plugged in from the Atelier.
     case pluggedIn
 }
@@ -131,6 +135,10 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
     case thinking
     /// Claude Code: a session waits for you, and a click on the robot takes you there.
     case alert
+    /// Its own page, during a focus session: headband on, concentrating with you.
+    case focusing
+    /// Its own page, during the break: a cup of something warm.
+    case resting
 
     struct Inputs: Sendable {
         var page: NotchPage
@@ -139,6 +147,8 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
         var searchResultCount = 0
         var isClaudeCodeWorking = false
         var claudeCodeNeedsYou = false
+        /// The focus phase running, if any.
+        var focusPhase: FocusSession.Phase?
     }
 
     static func resolve(_ inputs: Inputs) -> CompanionActivity? {
@@ -155,8 +165,12 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
                 return .alert
             }
             return inputs.isClaudeCodeWorking ? .thinking : .terminal
-        case .companion:
-            return nil
+        case .companion, .timer:
+            switch inputs.focusPhase {
+            case .focus, .stopwatch: return .focusing
+            case .rest: return .resting
+            case nil: return nil
+            }
         }
     }
 }

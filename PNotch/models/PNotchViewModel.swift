@@ -63,6 +63,7 @@ final class PNotchViewModel {
         case .system: .system
         case .companion: .companion
         case .claudeCode: .claudeCode
+        case .timer: .timer
         case .clipboard: .clipboardList(itemCount: listItemCount())
         }
     }

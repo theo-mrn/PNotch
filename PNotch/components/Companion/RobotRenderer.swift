@@ -222,6 +222,10 @@ enum RobotRenderer {
             Gradient(colors: [.white.opacity(0.6), .white.opacity(0)]), startPoint: CGPoint(x: 60, y: 23), endPoint: CGPoint(x: 60, y: 60)
         ), lineWidth: 1.5)
 
+        if scene.activity == .focusing, !scene.mood.isReaction {
+            drawHeadband(time: scene.time, clippedTo: head, in: context)
+        }
+
         drawVisor(scene, in: context)
 
         switch accessory {
@@ -412,6 +416,27 @@ enum RobotRenderer {
 
     // MARK: Accessories
 
+    /// A red headband for concentrating, its knot's tails fluttering on the side.
+    private static func drawHeadband(time t: TimeInterval, clippedTo head: Path, in context: GraphicsContext) {
+        let red = Color(hex: 0xE5484D)
+        var band = context
+        band.clip(to: head)
+        band.fill(Path(CGRect(x: 0, y: 24, width: 120, height: 8)), with: .linearGradient(
+            Gradient(colors: [Color(hex: 0xFF6B6F), red]), startPoint: CGPoint(x: 60, y: 24), endPoint: CGPoint(x: 60, y: 32)
+        ))
+        let flutter = sin(t * 3) * 2
+        for (index, length) in [14.0, 11.0].enumerated() {
+            context.stroke(Path { path in
+                path.move(to: CGPoint(x: 107, y: 29))
+                path.addQuadCurve(
+                    to: CGPoint(x: 107 + length, y: 34 + Double(index) * 6 + flutter),
+                    control: CGPoint(x: 112 + length / 3, y: 26 + Double(index) * 4 - flutter)
+                )
+            }, with: .color(red), style: StrokeStyle(lineWidth: 3.2, lineCap: .round))
+        }
+        context.fill(Path(ellipseIn: CGRect(x: 104, y: 26, width: 7, height: 7)), with: .color(red))
+    }
+
     /// The plug it holds, one cable per metric coming up to it from below the frame, data climbing to the robot.
     private static func drawCables(_ cables: [RobotCable], time t: TimeInterval, in context: GraphicsContext) {
         let tug = CompanionCables.tug(at: t)
@@ -575,8 +600,23 @@ enum RobotRenderer {
                 at: CGPoint(x: 104 + sin(progress * .pi * 2) * 3, y: 30 - progress * 22)
             )
 
-        case .reading, .wiring, .terminal, .thinking:
+        case .reading, .wiring, .terminal, .thinking, .focusing:
             break
+
+        case .resting:
+            // A warm drink, steaming.
+            context.draw(Text(verbatim: "☕").font(.system(size: 16)), at: CGPoint(x: 107, y: 24))
+            for index in 0 ..< 2 {
+                let progress = ((t * 0.6 + Double(index) * 0.5).truncatingRemainder(dividingBy: 1))
+                var steam = context
+                steam.opacity = sin(progress * .pi) * 0.6
+                let x = 104 + Double(index) * 6
+                let y = 14 - progress * 10
+                steam.stroke(Path { path in
+                    path.move(to: CGPoint(x: x, y: y + 5))
+                    path.addQuadCurve(to: CGPoint(x: x, y: y - 3), control: CGPoint(x: x + 3, y: y + 1))
+                }, with: .color(.white), style: StrokeStyle(lineWidth: 1.6, lineCap: .round))
+            }
 
         case .puzzled:
             // Big enough to read on the small robot of the header.

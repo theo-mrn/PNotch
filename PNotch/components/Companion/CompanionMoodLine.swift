@@ -1,17 +1,27 @@
 import Foundation
 
-/// What Pixel says about itself: the news it just brought, or its mood.
+/// What Pixel says about itself: the news it just brought, what it's doing with you, or its mood.
 enum CompanionMoodLine {
-    static func text(name: String, companion: CompanionManager, at date: Date) -> String {
+    static func text(name: String, companion: CompanionManager, focus: FocusManager, at date: Date) -> String {
         let mood = companion.mood(at: date)
         if mood == .excited, let news = companion.lastNews?.kind {
             switch news {
+            case .focusDone: return String(localized: "\(name) is proud of you!")
+            case .breakOver: return String(localized: "\(name) is ready when you are.")
             case .claudeCodeFinished: return String(localized: "\(name) says Claude Code is done.")
             case .claudeCodeNeedsYou: return String(localized: "\(name) says Claude Code needs you.")
             case .newTrack: return String(localized: "\(name) likes this song.")
             case .copy: return String(localized: "\(name) caught your copy!")
             case .pluggedIn: return String(localized: "\(name) plugged it in!")
             }
+        }
+        if let session = focus.session {
+            if session.isPaused {
+                return String(localized: "\(name) is waiting for you.")
+            }
+            return session.phase == .rest
+                ? String(localized: "\(name) is taking a break too.")
+                : String(localized: "\(name) is focusing with you.")
         }
 
         switch mood {

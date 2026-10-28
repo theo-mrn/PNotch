@@ -8,6 +8,7 @@ struct ContentView: View {
     @Environment(PNotchViewCoordinator.self) private var coordinator
     @Environment(MusicManager.self) private var music
     @Environment(ClaudeCodeManager.self) private var claudeCode
+    @Environment(FocusManager.self) private var focus
     @Default(.showMusicLiveActivity) private var showMusicLiveActivity
     @Default(.showClaudeCodeLiveActivity) private var showClaudeCodeLiveActivity
     @State private var hoverFeedbackTrigger = false
@@ -29,7 +30,7 @@ struct ContentView: View {
     }
 
     // What the closed notch shows around the camera, most important first: a sneak peek, a Claude Code
-    // session waiting for you, the music, then a busy Claude Code session.
+    // session waiting for you, the focus countdown, the music, then a busy Claude Code session.
 
     private var isClosedAndFree: Bool {
         !isOpen && sneakPeek == nil
@@ -40,28 +41,36 @@ struct ContentView: View {
         return activity
     }
 
+    private var focusSession: FocusSession? {
+        guard isClosedAndFree, claudeCodeWaiting == nil else { return nil }
+        return focus.session
+    }
+
     /// The closed notch widens around the camera while music plays.
     private var showsMusicActivity: Bool {
-        isClosedAndFree && claudeCodeWaiting == nil && showMusicLiveActivity && music.isPlaying
+        isClosedAndFree && claudeCodeWaiting == nil && focusSession == nil && showMusicLiveActivity && music.isPlaying
     }
 
     private var claudeCodeActivity: ClaudeCodeManager.LiveActivity? {
         if let claudeCodeWaiting {
             return claudeCodeWaiting
         }
-        guard isClosedAndFree, !showsMusicActivity, showClaudeCodeLiveActivity else { return nil }
+        guard isClosedAndFree, focusSession == nil, !showsMusicActivity, showClaudeCodeLiveActivity else { return nil }
         return claudeCode.liveActivity
     }
 
     /// Something is shown on both sides of the camera.
     private var showsSideActivity: Bool {
-        sneakPeek != nil || claudeCodeActivity != nil || showsMusicActivity
+        sneakPeek != nil || claudeCodeActivity != nil || focusSession != nil || showsMusicActivity
     }
 
     /// Size of the notch body, ears excluded.
     private var bodySize: CGSize {
         if isOpen {
             return vm.openedSize
+        }
+        if sneakPeek == nil, claudeCodeWaiting == nil, focusSession != nil {
+            return vm.geometry.sideActivitySize(sideWidth: NotchMetrics.timerSideWidth)
         }
         if showsSideActivity {
             return vm.geometry.sneakPeekSize
@@ -100,11 +109,17 @@ struct ContentView: View {
                         ClipboardSneakPeekView(peek: copy, id: sneakPeek.id, notchSize: vm.geometry.notchSize)
                     case let .claudeCode(outcome):
                         ClaudeCodeSneakPeekView(outcome: outcome, notchSize: vm.geometry.notchSize)
+                    case let .focus(event):
+                        FocusSneakPeekView(event: event, notchSize: vm.geometry.notchSize)
                     }
                 }
                 .transition(.opacity.combined(with: .blur(radius: 6)))
             } else if let claudeCodeWaiting {
                 ClaudeCodeLiveActivityView(activity: claudeCodeWaiting, notchSize: vm.geometry.notchSize)
+                    .transition(.opacity.combined(with: .blur(radius: 6)))
+            } else if let focusSession {
+                FocusLiveActivityView(session: focusSession, notchSize: vm.geometry.notchSize)
+                    .id(focusSession.phase)
                     .transition(.opacity.combined(with: .blur(radius: 6)))
             } else if let claudeCodeActivity {
                 ClaudeCodeLiveActivityView(activity: claudeCodeActivity, notchSize: vm.geometry.notchSize)
@@ -136,6 +151,7 @@ struct ContentView: View {
         .animation(.sneakPeek, value: sneakPeek)
         .animation(.sneakPeek, value: showsMusicActivity)
         .animation(.sneakPeek, value: claudeCodeActivity?.isWaiting)
+        .animation(.sneakPeek, value: focusSession?.phase)
         .animation(.notchHover, value: vm.isHovering)
     }
 
@@ -150,6 +166,8 @@ struct ContentView: View {
             CompanionView()
         case .claudeCode:
             ClaudeCodeView()
+        case .timer:
+            TimerView()
         case .clipboardList:
             ClipboardListView()
         }
