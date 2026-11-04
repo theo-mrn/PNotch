@@ -168,6 +168,8 @@ struct ContentView: View {
             ClaudeCodeView()
         case .timer:
             TimerView()
+        case .reminders:
+            RemindersView()
         case .clipboardList:
             ClipboardListView()
         }

@@ -183,6 +183,8 @@ struct CompanionActivityTests {
         #expect(CompanionActivity.resolve(Inputs(page: .companion, focusPhase: .stopwatch)) == .focusing)
         #expect(CompanionActivity.resolve(Inputs(page: .timer, focusPhase: .focus)) == .focusing)
         #expect(CompanionActivity.resolve(Inputs(page: .timer)) == nil)
+        #expect(CompanionActivity.resolve(Inputs(page: .reminders)) == .reading)
+        #expect(CompanionActivity.resolve(Inputs(page: .reminders, isReminderRinging: true)) == .alert)
         #expect(CompanionActivity.resolve(Inputs(page: .companion)) == nil)
         // The other pages keep their own activity during a session.
         #expect(CompanionActivity.resolve(Inputs(page: .system, focusPhase: .focus)) == .wiring)

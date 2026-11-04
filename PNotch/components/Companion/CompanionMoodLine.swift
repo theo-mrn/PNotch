@@ -13,6 +13,8 @@ enum CompanionMoodLine {
             case .newTrack: return String(localized: "\(name) likes this song.")
             case .copy: return String(localized: "\(name) caught your copy!")
             case .pluggedIn: return String(localized: "\(name) plugged it in!")
+            case .reminder: return String(localized: "\(name) has a reminder for you.")
+            case .reminderDone: return String(localized: "\(name) ticked it off with you!")
             }
         }
         if let session = focus.session {

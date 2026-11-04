@@ -74,7 +74,7 @@ struct NotchGeometryTests {
     @Test func headerWingsHoldTheTabsSideAndTheRobotSide() {
         // Right of the camera: the robot, up to two page buttons (the clipboard's) and settings.
         let buttons = CompanionMetrics.headerRobotSize.width + 4 + 3 * NotchHeaderMetrics.controlHeight + 3 * 6
-        for layout in [NotchLayout.music, .system, .companion, .claudeCode, .timer, .clipboardList(itemCount: 3)] {
+        for layout in [NotchLayout.music, .system, .companion, .claudeCode, .timer, .reminders(.browse), .reminders(.settings), .clipboardList(itemCount: 3)] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(buttons <= wing, "\(layout)")
@@ -83,7 +83,7 @@ struct NotchGeometryTests {
 
     @Test func everyModuleTabFitsLeftOfTheCameraWithoutScrolling() {
         let all = NotchModules.catalog.count
-        for layout in [NotchLayout.music, .companion, .claudeCode, .timer, .clipboardList(itemCount: 3), .system] {
+        for layout in [NotchLayout.music, .companion, .claudeCode, .timer, .reminders(.browse), .reminders(.settings), .clipboardList(itemCount: 3), .system] {
             let width = macBookPro14.openedSize(for: layout).width
             let wing = (width - 2 * NotchHeaderMetrics.horizontalPadding - 185 - NotchMetrics.cameraClearance) / 2
             #expect(NotchHeaderMetrics.iconBarWidth(count: all) <= wing, "\(layout)")

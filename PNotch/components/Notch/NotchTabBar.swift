@@ -60,6 +60,7 @@ private struct NotchTab: View {
     let action: () -> Void
 
     @Environment(ClaudeCodeManager.self) private var claudeCode
+    @Environment(RemindersManager.self) private var reminders
     @State private var isHovered = false
 
     /// Counts the times it was chosen, to make its icon hop.
@@ -118,10 +119,11 @@ private struct NotchTab: View {
         }
     }
 
-    /// A dot when the module needs you: Claude Code waiting.
+    /// A dot when the module needs you: Claude Code waiting, a reminder ringing.
     private var badge: Color? {
         switch page {
         case .claudeCode where claudeCode.needsAttention: Palette.accent
+        case .reminders where reminders.isRinging: Palette.accent
         default: nil
         }
     }
@@ -136,6 +138,7 @@ extension NotchPage {
         case .companion: String(localized: "Atelier")
         case .claudeCode: "Claude Code"
         case .timer: String(localized: "Timer")
+        case .reminders: String(localized: "Reminders")
         }
     }
 
@@ -147,6 +150,7 @@ extension NotchPage {
         case .companion: "plus"
         case .claudeCode: "terminal"
         case .timer: "timer"
+        case .reminders: "bell"
         }
     }
 }

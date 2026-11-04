@@ -41,6 +41,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var companion: CompanionManager?
     private let claudeCode = ClaudeCodeManager()
     private let focus = FocusManager()
+    private let reminders = RemindersManager()
     let updates = UpdateManager()
     private var notchWindowController: NotchWindowController?
     private var settingsWindowController: SettingsWindowController?
@@ -69,10 +70,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         notchViewModel.listItemCount = { [weak clipboard] in
             clipboard?.visibleItems.count ?? 0
         }
-        // A permission request waiting in the notch: opening it goes straight there.
-        notchViewModel.urgentPage = { [claudeCode] in
-            if !claudeCode.approvals.isEmpty, NotchModules.current.isInstalled(.claudeCode) {
+        notchViewModel.remindersPanel = { [reminders] in
+            reminders.panel
+        }
+        // A permission request waiting in the notch, or a reminder ringing: opening it goes straight there.
+        notchViewModel.urgentPage = { [claudeCode, reminders] in
+            let modules = NotchModules.current
+            if !claudeCode.approvals.isEmpty, modules.isInstalled(.claudeCode) {
                 return .claudeCode
+            }
+            if reminders.isRinging, modules.isInstalled(.reminders) {
+                return .reminders
             }
             return nil
         }
@@ -84,6 +92,9 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         }
         focus.onEvent = { [weak self] event in
             self?.handleFocus(event)
+        }
+        reminders.onRing = { [weak self] due in
+            self?.handleReminder(due)
         }
 
         self.clipboard = clipboard
@@ -98,7 +109,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             system: systemMonitor,
             companion: companion,
             claudeCode: claudeCode,
-            focus: focus
+            focus: focus,
+            reminders: reminders
         )
 
         // Key down rather than up: holding the shortcut keeps scrolling through the list.
@@ -110,6 +122,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         music.start()
         claudeCode.start()
         focus.start()
+        reminders.start()
 
         if !LaunchContext.wasLaunchedAtLogin {
             notchViewModel.open(reason: .launch)
@@ -121,6 +134,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         music?.stop()
         claudeCode.stop()
         focus.stop()
+        reminders.stop()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {
@@ -185,6 +199,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         if notchViewModel?.notchState == .closed {
             coordinator.showSneakPeek(SneakPeek(focus: event), duration: .seconds(3))
         }
+    }
+
+    /// A reminder's time has come: Pixel brings the news, a chime rings, and the notch opens on it
+    /// unless it's already open, where the tab shows a dot.
+    private func handleReminder(_ due: [Reminder]) {
+        guard NotchModules.current.isInstalled(.reminders) else { return }
+        companion?.bring(.reminder)
+        if Defaults[.remindersPlaySound] {
+            NSSound(named: "Submarine")?.play()
+        }
+        guard let notchViewModel, notchViewModel.notchState == .closed else { return }
+        notchViewModel.open(reason: .reminder, page: .reminders)
     }
 
     private func showClaudeCodeSneakPeek(_ outcome: SneakPeek.ClaudeCodeOutcome) {

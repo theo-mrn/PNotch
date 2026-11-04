@@ -13,6 +13,7 @@ struct HeaderCompanionView: View {
     @Environment(ClipboardStateViewModel.self) private var clipboard
     @Environment(ClaudeCodeManager.self) private var claudeCode
     @Environment(FocusManager.self) private var focus
+    @Environment(RemindersManager.self) private var reminders
     @Default(.companionName) private var name
 
     var body: some View {
@@ -49,7 +50,8 @@ struct HeaderCompanionView: View {
             searchResultCount: clipboard.visibleItems.count,
             isClaudeCodeWorking: claudeCode.sessions.contains(where: \.isWorking),
             claudeCodeNeedsYou: claudeCode.needsAttention,
-            focusPhase: focus.runningPhase
+            focusPhase: focus.runningPhase,
+            isReminderRinging: reminders.isRinging
         ))
     }
 
@@ -148,6 +150,8 @@ struct HeaderCompanionView: View {
                     Defaults[.timerUsesStopwatch] ? focus.startStopwatch() : focus.startFocus()
                 }
             }
+        case .reminders:
+            EmptyView()
         case .companion:
             EmptyView()
         }
