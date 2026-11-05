@@ -63,6 +63,16 @@ Each page of the notch is a module, plugged in from the **Atelier**, behind the 
 
 Focus sessions and breaks, 25/5 or 50/10, or a stopwatch, in a ring that fills as it goes, the time in LED dots like an old display, with pause, « +5 min » and stop. Pixel puts on a headband and concentrates with you, the time shows in LED dots around the closed notch, and when a session is done it cheers, a chime rings and the break begins (a cup of something warm for it too). Sessions survive quitting PNotch, and the day's sessions and focused minutes are counted. The timer sleeps until the end of the countdown instead of checking the clock every second.
 
+### Reminders
+
+- **Text first**: « + » opens a large field — « Que dois-je vous rappeler ? » — with a note under it. ↩ saves at any time.
+- **Settings button** (next to the field, or the date chip): the notch unfolds on three columns. Date, with its switch and the month's calendar. Time, with its switch and the LED display: click the hours or the minutes and type them (↑ ↓ step, ← → or ⇥ switch, the hours move on to the minutes by themselves), or use the arrows above and below (minutes go by five). Options: repeat (every day, weekdays, every week, every month, every year), its end (never, after 3/5/10/30 times, or in a month, three, six, a year), and an early alert (5, 15 or 30 min, 1 h or 1 day before).
+- **Plain words** fill the settings too, in French or in English: « appeler Léa demain à 14h », « sortir les poubelles tous les lundis à 19h », « payer le loyer chaque mois », « dans 10 min », « tomorrow at 2pm ». A date picked by hand stays while you keep typing; the date words leave the saved title.
+- **Three layouts**, chosen in Settings › Modules › Layout: the next one in large (its time on the LED display, its repeat and its note, « Fait », « +10 min » and « Modifier », the following ones on a line below), an airy list like the alarms of the Clock app, or a card per reminder. A click on a reminder, or right-click › Modifier…, opens it in the editor, which can also delete it.
+- **Ringing**: at its time, and earlier with an early alert, Pixel raises its « ! », a chime plays (Settings › Companion) and the notch opens on it. If the notch is already open, the tab shows a dot. A reminder missed by more than an hour only shows as overdue, in red. Reminders ring only while the module is plugged in.
+- Ticking a reminder fills its box; a moment later it leaves, or comes back at its next occurrence if it repeats. A second click keeps it.
+- Nothing runs in the background but one wait until the next ring; the countdowns follow the minute only while the page is on screen.
+
 ## Requirements
 
 - macOS 14 Sonoma or later

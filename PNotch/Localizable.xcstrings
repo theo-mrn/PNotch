@@ -24,6 +24,16 @@
         }
       }
     },
+    "%@ has a reminder for you." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ a un rappel pour vous."
+          }
+        }
+      }
+    },
     "%@ is dancing to “%@”." : {
       "localizations" : {
         "fr" : {
@@ -188,12 +198,12 @@
         }
       }
     },
-    "%@ reacts to what you do everywhere: it dances to your music, catches your copies and tells you when Claude Code is done or needs you. In the Atelier, it presents the modules you can plug in. Right-click it to pet it; its looks are behind the paintbrush." : {
+    "%@ reacts to what you do everywhere: it dances to your music, catches your copies, rings your reminders and tells you when Claude Code is done or needs you. In the Atelier, it presents the modules you can plug in. Right-click it to pet it; its looks are behind the paintbrush." : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "%@ réagit à ce que vous faites, partout : il danse sur votre musique, attrape vos copies et vous prévient quand Claude Code a terminé ou a besoin de vous. Dans l’Atelier, il présente les modules à brancher. Clic droit dessus pour le caresser ; son apparence se règle derrière le pinceau."
+            "value" : "%@ réagit à ce que vous faites, partout : il danse sur votre musique, attrape vos copies, sonne vos rappels et vous prévient quand Claude Code a terminé ou a besoin de vous. Dans l’Atelier, il présente les modules à brancher. Clic droit dessus pour le caresser ; son apparence se règle derrière le pinceau."
           }
         }
       }
@@ -218,6 +228,16 @@
         }
       }
     },
+    "%@ ticked it off with you!" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ l’a cochée avec vous !"
+          }
+        }
+      }
+    },
     "%@, %@" : {
       "localizations" : {
         "fr" : {
@@ -234,6 +254,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%@ : %@"
+          }
+        }
+      }
+    },
+    "%lld day before" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld jour avant"
           }
         }
       }
@@ -288,12 +318,42 @@
         }
       }
     },
+    "%lld h before" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld h avant"
+          }
+        }
+      }
+    },
     "%lld items" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "%lld éléments"
+          }
+        }
+      }
+    },
+    "%lld min ago" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "il y a %lld min"
+          }
+        }
+      }
+    },
+    "%lld min before" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min avant"
           }
         }
       }
@@ -468,6 +528,16 @@
         }
       }
     },
+    "+5 min" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "+5 min"
+          }
+        }
+      }
+    },
     "^[%lld result](inflect: true)" : {
       "localizations" : {
         "fr" : {
@@ -484,6 +554,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "~/.claude/settings.json n’est pas un JSON valide. Corrigez-le, puis réessayez."
+          }
+        }
+      }
+    },
+    "↩ to save" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "↩ pour enregistrer"
           }
         }
       }
@@ -540,12 +620,52 @@
         }
       }
     },
+    "Add a date" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une date"
+          }
+        }
+      }
+    },
+    "Add a note" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une note"
+          }
+        }
+      }
+    },
     "Adds a hook to ~/.claude/settings.json" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ajoute un hook à ~/.claude/settings.json"
+          }
+        }
+      }
+    },
+    "After %lld times" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Après %lld fois"
+          }
+        }
+      }
+    },
+    "Airy list" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Liste aérée"
           }
         }
       }
@@ -721,6 +841,26 @@
         }
       }
     },
+    "Cancel" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "Cards" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cartes"
+          }
+        }
+      }
+    },
     "Charging" : {
       "localizations" : {
         "fr" : {
@@ -837,6 +977,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cliquez à nouveau pour effacer les éléments non épinglés"
+          }
+        }
+      }
+    },
+    "Click and type the hour" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez et tapez l’heure"
+          }
+        }
+      }
+    },
+    "Click and type the minutes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cliquez et tapez les minutes"
           }
         }
       }
@@ -1021,6 +1181,26 @@
         }
       }
     },
+    "Date" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date"
+          }
+        }
+      }
+    },
+    "Date, time and options" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date, heure et options"
+          }
+        }
+      }
+    },
     "Delete" : {
       "localizations" : {
         "fr" : {
@@ -1093,6 +1273,36 @@
         }
       }
     },
+    "Early alert" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappel anticipé"
+          }
+        }
+      }
+    },
+    "Edit" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier"
+          }
+        }
+      }
+    },
+    "Edit…" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modifier…"
+          }
+        }
+      }
+    },
     "Editing %@" : {
       "localizations" : {
         "fr" : {
@@ -1103,12 +1313,62 @@
         }
       }
     },
+    "End" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fin"
+          }
+        }
+      }
+    },
     "Ends at %@" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fin à %@"
+          }
+        }
+      }
+    },
+    "Every day" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque jour"
+          }
+        }
+      }
+    },
+    "Every month" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque mois"
+          }
+        }
+      }
+    },
+    "Every week" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque semaine"
+          }
+        }
+      }
+    },
+    "Every year" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Chaque année"
           }
         }
       }
@@ -1330,6 +1590,16 @@
         }
       }
     },
+    "Hide the settings" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Masquer les réglages"
+          }
+        }
+      }
+    },
     "History" : {
       "localizations" : {
         "fr" : {
@@ -1440,6 +1710,36 @@
         }
       }
     },
+    "in %lld h" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dans %lld h"
+          }
+        }
+      }
+    },
+    "in %lld h %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dans %lld h %@"
+          }
+        }
+      }
+    },
+    "in %lld min" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dans %lld min"
+          }
+        }
+      }
+    },
     "In the notch" : {
       "localizations" : {
         "fr" : {
@@ -1480,6 +1780,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Il est tard, %@ pique du nez."
+          }
+        }
+      }
+    },
+    "It's time" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "C’est l’heure"
           }
         }
       }
@@ -1525,6 +1835,16 @@
         }
       }
     },
+    "Layout" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mise en page"
+          }
+        }
+      }
+    },
     "Link" : {
       "localizations" : {
         "fr" : {
@@ -1541,6 +1861,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Liens"
+          }
+        }
+      }
+    },
+    "Mark Done" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fait"
           }
         }
       }
@@ -1650,6 +1980,16 @@
         }
       }
     },
+    "Needs a time" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il faut une heure"
+          }
+        }
+      }
+    },
     "Needs Accessibility access to paste" : {
       "localizations" : {
         "fr" : {
@@ -1680,6 +2020,46 @@
         }
       }
     },
+    "Never" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jamais"
+          }
+        }
+      }
+    },
+    "New reminder" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouveau rappel"
+          }
+        }
+      }
+    },
+    "Next" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ensuite"
+          }
+        }
+      }
+    },
+    "Next month" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mois suivant"
+          }
+        }
+      }
+    },
     "Next track" : {
       "localizations" : {
         "fr" : {
@@ -1696,6 +2076,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aucune session Claude Code"
+          }
+        }
+      }
+    },
+    "No date" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sans date"
           }
         }
       }
@@ -1720,6 +2110,16 @@
         }
       }
     },
+    "No reminders" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun rappel"
+          }
+        }
+      }
+    },
     "No results" : {
       "localizations" : {
         "fr" : {
@@ -1740,6 +2140,16 @@
         }
       }
     },
+    "None" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucun"
+          }
+        }
+      }
+    },
     "Not connected" : {
       "localizations" : {
         "fr" : {
@@ -1750,12 +2160,32 @@
         }
       }
     },
+    "Note" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Note"
+          }
+        }
+      }
+    },
     "Nothing" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Rien"
+          }
+        }
+      }
+    },
+    "Nothing else planned" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rien d’autre de prévu"
           }
         }
       }
@@ -1856,6 +2286,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ouvrir le lecteur"
+          }
+        }
+      }
+    },
+    "Options" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Options"
           }
         }
       }
@@ -2010,6 +2450,16 @@
         }
       }
     },
+    "Play a sound for reminders" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jouer un son pour les rappels"
+          }
+        }
+      }
+    },
     "Play a sound when a focus session or a break ends" : {
       "localizations" : {
         "fr" : {
@@ -2102,6 +2552,16 @@
         }
       }
     },
+    "Previous month" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mois précédent"
+          }
+        }
+      }
+    },
     "Previous track" : {
       "localizations" : {
         "fr" : {
@@ -2142,6 +2602,46 @@
         }
       }
     },
+    "Remind Me in 5 Minutes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Me le rappeler dans 5 minutes"
+          }
+        }
+      }
+    },
+    "Reminder" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappel"
+          }
+        }
+      }
+    },
+    "Reminders" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappels"
+          }
+        }
+      }
+    },
+    "Repeat" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Répéter"
+          }
+        }
+      }
+    },
     "Resume" : {
       "localizations" : {
         "fr" : {
@@ -2172,6 +2672,16 @@
         }
       }
     },
+    "Rings this long before its time too" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonne aussi ce temps-là avant l’heure"
+          }
+        }
+      }
+    },
     "Running %@" : {
       "localizations" : {
         "fr" : {
@@ -2198,6 +2708,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Lance un agent : %@"
+          }
+        }
+      }
+    },
+    "Save" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enregistrer"
           }
         }
       }
@@ -2514,6 +3034,26 @@
         }
       }
     },
+    "Tell me what and when, in plain words: I'll remind you when it's time." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites-moi quoi et quand, comme vous parlez : je vous préviens le moment venu."
+          }
+        }
+      }
+    },
+    "Tell me what and when, the way you'd say it." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dites-moi quoi et quand, comme vous le diriez."
+          }
+        }
+      }
+    },
     "Text" : {
       "localizations" : {
         "fr" : {
@@ -2564,12 +3104,32 @@
         }
       }
     },
+    "The next one in large" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le prochain en grand"
+          }
+        }
+      }
+    },
     "Thinking…" : {
       "localizations" : {
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Réfléchit…"
+          }
+        }
+      }
+    },
+    "Time" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Heure"
           }
         }
       }
@@ -2582,6 +3142,26 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Minuteur"
+          }
+        }
+      }
+    },
+    "Today" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aujourd’hui"
+          }
+        }
+      }
+    },
+    "Tomorrow" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demain"
           }
         }
       }
@@ -2636,6 +3216,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Débranché. Il reste ici si vous le voulez à nouveau."
+          }
+        }
+      }
+    },
+    "Until %@" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Jusqu’au %@"
           }
         }
       }
@@ -2820,6 +3410,26 @@
         }
       }
     },
+    "Weekdays" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En semaine"
+          }
+        }
+      }
+    },
+    "What should I remind you of?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Que dois-je vous rappeler ?"
+          }
+        }
+      }
+    },
     "While you're away from the session's terminal or editor, Claude Code waits for your answer in the notch: allow, always allow or deny. Back in the terminal, or with PNotch closed, it asks there as usual." : {
       "comment" : "A description of the settings related to Claude Code.",
       "isCommentAutoGenerated" : true,
@@ -2848,6 +3458,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Écrit %@"
+          }
+        }
+      }
+    },
+    "Yesterday" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hier"
           }
         }
       }
