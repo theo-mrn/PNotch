@@ -150,6 +150,7 @@ private struct ModulesPane: View {
     /// Observed so the list follows the Atelier.
     @Default(.installedModules) private var installedModules
     @Default(.startPage) private var startPage
+    @Default(.remindersLayout) private var remindersLayout
 
     var body: some View {
         let modules = installedModules.map { NotchModules(installed: $0) } ?? NotchModules.current
@@ -177,6 +178,16 @@ private struct ModulesPane: View {
                 Text("Modules")
             } footer: {
                 Text("The installed modules are the notch's tabs, in this order. You can also plug them in from the Atelier: click Pixel, on the right of the tabs.")
+            }
+
+            Section {
+                Picker("Reminders", selection: $remindersLayout) {
+                    Text("The next one in large").tag(RemindersLayout.spotlight)
+                    Text("Airy list").tag(RemindersLayout.list)
+                    Text("Cards").tag(RemindersLayout.cards)
+                }
+            } header: {
+                Text("Layout")
             }
 
             Section {
@@ -379,6 +390,7 @@ private struct CompanionPane: View {
     @Default(.companionOnEveryPage) private var onEveryPage
     @Default(.companionAnnouncesCopies) private var announces
     @Default(.focusPlaysSound) private var focusPlaysSound
+    @Default(.remindersPlaySound) private var remindersPlaySound
 
     var body: some View {
         Form {
@@ -386,8 +398,9 @@ private struct CompanionPane: View {
                 Toggle(String(localized: "Show \(name) on every page"), isOn: $onEveryPage)
                 Toggle("Announce news around the closed notch", isOn: $announces)
                 Toggle("Play a sound when a focus session or a break ends", isOn: $focusPlaysSound)
+                Toggle("Play a sound for reminders", isOn: $remindersPlaySound)
             } footer: {
-                Text("\(name) reacts to what you do everywhere: it dances to your music, catches your copies and tells you when Claude Code is done or needs you. In the Atelier, it presents the modules you can plug in. Right-click it to pet it; its looks are behind the paintbrush.")
+                Text("\(name) reacts to what you do everywhere: it dances to your music, catches your copies, rings your reminders and tells you when Claude Code is done or needs you. In the Atelier, it presents the modules you can plug in. Right-click it to pet it; its looks are behind the paintbrush.")
             }
         }
     }

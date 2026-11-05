@@ -71,6 +71,32 @@ nonisolated enum TimerMetrics {
     static let horizontalPadding: CGFloat = NotchMetrics.pageInset
 }
 
+nonisolated enum RemindersMetrics {
+    static let width: CGFloat = 640
+    static let horizontalPadding: CGFloat = NotchMetrics.pageInset
+
+    /// The reminders; the editor, shorter; the editor with its settings, the notch unfolded.
+    static func bodyHeight(_ panel: RemindersPanel) -> CGFloat {
+        switch panel {
+        case .browse: 156
+        case let .list(rows): listHeight(rows: rows)
+        case .compose: 124
+        case .settings: 300
+        }
+    }
+
+    /// Rows of the list before it scrolls.
+    static let maxListRows = 3
+    static let listRowHeight: CGFloat = 34
+
+    /// The list, its « New reminder » right under the last row: as tall as what it shows.
+    static func listHeight(rows: Int) -> CGFloat {
+        let rows = CGFloat(min(max(rows, 1), maxListRows))
+        return 8 + rows * listRowHeight + 6 + 30 + 10
+    }
+
+}
+
 nonisolated enum ClaudeCodeMetrics {
     static let width: CGFloat = 640
     static let bodyHeight: CGFloat = 156

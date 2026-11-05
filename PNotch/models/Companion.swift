@@ -112,6 +112,10 @@ nonisolated enum CompanionNews: Equatable, Sendable {
     case breakOver
     /// A module was plugged in from the Atelier.
     case pluggedIn
+    /// A reminder rang.
+    case reminder
+    /// A reminder was done.
+    case reminderDone
 }
 
 // MARK: - Page activities
@@ -133,7 +137,7 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
     case terminal
     /// Claude Code: a session is working, Claude's star twinkling in its eyes.
     case thinking
-    /// Claude Code: a session waits for you, and a click on the robot takes you there.
+    /// Claude Code: a session waits for you, and a click on the robot takes you there. Tasks: a reminder rings.
     case alert
     /// Its own page, during a focus session: headband on, concentrating with you.
     case focusing
@@ -149,6 +153,7 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
         var claudeCodeNeedsYou = false
         /// The focus phase running, if any.
         var focusPhase: FocusSession.Phase?
+        var isReminderRinging = false
     }
 
     static func resolve(_ inputs: Inputs) -> CompanionActivity? {
@@ -165,6 +170,9 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
                 return .alert
             }
             return inputs.isClaudeCodeWorking ? .thinking : .terminal
+        case .reminders:
+            // It reads the list it holds, until a reminder rings.
+            return inputs.isReminderRinging ? .alert : .reading
         case .companion, .timer:
             switch inputs.focusPhase {
             case .focus, .stopwatch: return .focusing

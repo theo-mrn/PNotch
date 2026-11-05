@@ -15,6 +15,8 @@ enum NotchOpenReason {
     case keyboard
     /// The user launched PNotch: the notch introduces itself until the next click elsewhere.
     case launch
+    /// A task's reminder rang: the notch shows it until the next click elsewhere.
+    case reminder
 }
 
 /// Why the notch folded back. Logged, to make unexpected closings easy to trace.
@@ -40,6 +42,8 @@ nonisolated enum NotchPage: String, CaseIterable, Sendable {
     case companion
     case claudeCode
     case timer
+    /// Stored as "tasks", its first name.
+    case reminders = "tasks"
 }
 
 /// What the opened notch shows, which decides its size.
@@ -49,6 +53,8 @@ nonisolated enum NotchLayout: Equatable, Sendable {
     case companion
     case claudeCode
     case timer
+    /// The reminders, or the editor, which unfolds for its settings.
+    case reminders(RemindersPanel)
     /// The searchable list, shrinking around `itemCount` results.
     case clipboardList(itemCount: Int)
 }

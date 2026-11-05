@@ -25,6 +25,8 @@ final class PNotchViewModel {
     @ObservationIgnored var urgentPage: () -> NotchPage? = { nil }
     /// Number of items the list shows, so it can shrink around few results.
     @ObservationIgnored var listItemCount: () -> Int = { .max }
+    /// How much of the Reminders page shows: the editor makes it shorter, its settings unfold it.
+    @ObservationIgnored var remindersPanel: () -> RemindersPanel = { .browse }
 
     @ObservationIgnored private let pointerLocation: () -> CGPoint
     @ObservationIgnored private var hoverTask: Task<Void, Never>?
@@ -64,6 +66,7 @@ final class PNotchViewModel {
         case .companion: .companion
         case .claudeCode: .claudeCode
         case .timer: .timer
+        case .reminders: .reminders(remindersPanel())
         case .clipboard: .clipboardList(itemCount: listItemCount())
         }
     }

@@ -44,6 +44,14 @@ extension Defaults.Keys {
     /// A chime when a focus session or a break ends.
     static let focusPlaysSound = Key<Bool>("focusPlaysSound", default: true)
 
+    // MARK: Reminders
+
+    /// Stored under its first name, from when the module was called Tasks.
+    static let reminders = Key<[Reminder]>("tasks", default: [])
+    /// A chime when a reminder rings.
+    static let remindersPlaySound = Key<Bool>("remindersPlaySound", default: true)
+    static let remindersLayout = Key<RemindersLayout>("remindersLayout", default: .spotlight)
+
     // MARK: Claude Code
 
     /// The closed notch shows when a Claude Code session works or waits for you.
@@ -67,4 +75,14 @@ extension Defaults.Keys {
 let clipboardHistoryLimitOptions = [50, 100, 200, 500]
 
 extension NotchPage: Defaults.Serializable {}
+
+/// How the Reminders page looks, chosen in Settings › Modules.
+nonisolated enum RemindersLayout: String, CaseIterable, Sendable, Defaults.Serializable {
+    /// The next reminder in large, the following ones on a line.
+    case spotlight
+    /// Airy rows, like the alarms of the Clock app.
+    case list
+    /// A card per reminder.
+    case cards
+}
 
