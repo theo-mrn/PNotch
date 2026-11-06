@@ -151,6 +151,7 @@ private struct ModulesPane: View {
     @Default(.installedModules) private var installedModules
     @Default(.startPage) private var startPage
     @Default(.remindersLayout) private var remindersLayout
+    @Default(.notesLayout) private var notesLayout
 
     var body: some View {
         let modules = installedModules.map { NotchModules(installed: $0) } ?? NotchModules.current
@@ -185,6 +186,11 @@ private struct ModulesPane: View {
                     Text("The next one in large").tag(RemindersLayout.spotlight)
                     Text("Airy list").tag(RemindersLayout.list)
                     Text("Cards").tag(RemindersLayout.cards)
+                }
+                Picker("Notes", selection: $notesLayout) {
+                    Text("A single sheet").tag(NotesLayout.sheet)
+                    Text("Several notes").tag(NotesLayout.list)
+                    Text("Post-it").tag(NotesLayout.stickies)
                 }
             } header: {
                 Text("Layout")

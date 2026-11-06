@@ -42,6 +42,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let claudeCode = ClaudeCodeManager()
     private let focus = FocusManager()
     private let reminders = RemindersManager()
+    private let notes = NotesManager()
     let updates = UpdateManager()
     private var notchWindowController: NotchWindowController?
     private var settingsWindowController: SettingsWindowController?
@@ -110,7 +111,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             companion: companion,
             claudeCode: claudeCode,
             focus: focus,
-            reminders: reminders
+            reminders: reminders,
+            notes: notes
         )
 
         // Key down rather than up: holding the shortcut keeps scrolling through the list.
@@ -135,6 +137,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         claudeCode.stop()
         focus.stop()
         reminders.stop()
+        notes.flush()
     }
 
     func applicationShouldTerminateAfterLastWindowClosed(_: NSApplication) -> Bool {

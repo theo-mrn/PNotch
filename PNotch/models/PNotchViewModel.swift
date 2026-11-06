@@ -67,6 +67,7 @@ final class PNotchViewModel {
         case .claudeCode: .claudeCode
         case .timer: .timer
         case .reminders: .reminders(remindersPanel())
+        case .notes: .notes
         case .clipboard: .clipboardList(itemCount: listItemCount())
         }
     }

@@ -139,6 +139,7 @@ extension NotchPage {
         case .claudeCode: "Claude Code"
         case .timer: String(localized: "Timer")
         case .reminders: String(localized: "Reminders")
+        case .notes: String(localized: "Notes")
         }
     }
 
@@ -151,6 +152,7 @@ extension NotchPage {
         case .claudeCode: "terminal"
         case .timer: "timer"
         case .reminders: "bell"
+        case .notes: "note.text"
         }
     }
 }
