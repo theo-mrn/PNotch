@@ -286,6 +286,50 @@ struct RemindersManagerTests {
     }
 }
 
+struct NotesTests {
+    @Test func readsTitleAndPreview() {
+        let note = Note(text: "\n  Idées cadeau \n- livre pour Tom\n\n- resto", createdAt: .now, modifiedAt: .now)
+        #expect(note.title == "Idées cadeau")
+        #expect(note.bodyLines == ["• livre pour Tom", "• resto"])
+        #expect(note.preview == "livre pour Tom")
+        #expect(Note(text: " \n ", createdAt: .now, modifiedAt: .now).isBlank)
+    }
+
+    @MainActor
+    @Test func keepsNotesLastEditedFirstAndDropsBlankOnes() throws {
+        let file = FileManager.default.temporaryDirectory.appending(path: "notes-\(UUID().uuidString).json")
+        defer { try? FileManager.default.removeItem(at: file) }
+        var date = Date(timeIntervalSinceReferenceDate: 800_000_000)
+        let manager = NotesManager(now: { date }, store: NotesStore(fileURL: file))
+
+        manager.setSheetText("courses")
+        let groceries = try #require(manager.notes.first)
+        date += 60
+        let ideas = manager.create()
+        manager.update(ideas.id, text: "idées")
+        #expect(manager.notes.map(\.id) == [ideas.id, groceries.id])
+
+        date += 60
+        manager.update(groceries.id, text: "courses\nlait")
+        #expect(manager.notes.map(\.id) == [groceries.id, ideas.id])
+        #expect(manager.sheetText == "courses\nlait")
+
+        // A new note left blank goes once another is opened.
+        let blank = manager.create()
+        #expect(manager.selectedID == blank.id)
+        manager.select(ideas.id)
+        #expect(manager.notes.count == 2)
+
+        manager.flush()
+        let reloaded = NotesManager(store: NotesStore(fileURL: file))
+        #expect(reloaded.notes.map(\.text) == ["courses\nlait", "idées"])
+
+        manager.delete(ideas.id)
+        #expect(manager.selectedID == nil)
+        #expect(manager.notes.map(\.id) == [groceries.id])
+    }
+}
+
 struct ReminderRepeatTests {
     private typealias F = RemindersFixture
 

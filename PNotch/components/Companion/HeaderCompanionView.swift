@@ -14,6 +14,7 @@ struct HeaderCompanionView: View {
     @Environment(ClaudeCodeManager.self) private var claudeCode
     @Environment(FocusManager.self) private var focus
     @Environment(RemindersManager.self) private var reminders
+    @Environment(NotesManager.self) private var notes
     @Default(.companionName) private var name
 
     var body: some View {
@@ -152,6 +153,10 @@ struct HeaderCompanionView: View {
             }
         case .reminders:
             EmptyView()
+        case .notes:
+            Button("New Note") {
+                notes.create()
+            }
         case .companion:
             EmptyView()
         }

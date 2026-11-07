@@ -28,7 +28,8 @@ final class NotchWindowController: NSWindowController {
         companion: CompanionManager,
         claudeCode: ClaudeCodeManager,
         focus: FocusManager,
-        reminders: RemindersManager
+        reminders: RemindersManager,
+        notes: NotesManager
     ) {
         self.viewModel = viewModel
         self.clipboard = clipboard
@@ -46,6 +47,7 @@ final class NotchWindowController: NSWindowController {
             .environment(claudeCode)
             .environment(focus)
             .environment(reminders)
+            .environment(notes)
         let hostingView = NSHostingView(rootView: rootView)
         // The window frame is driven by the display geometry, never by the SwiftUI content.
         hostingView.sizingOptions = []

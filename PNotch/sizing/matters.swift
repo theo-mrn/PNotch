@@ -97,6 +97,12 @@ nonisolated enum RemindersMetrics {
 
 }
 
+nonisolated enum NotesMetrics {
+    static let width: CGFloat = 640
+    static let bodyHeight: CGFloat = 156
+    static let horizontalPadding: CGFloat = NotchMetrics.pageInset
+}
+
 nonisolated enum ClaudeCodeMetrics {
     static let width: CGFloat = 640
     static let bodyHeight: CGFloat = 156

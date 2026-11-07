@@ -44,13 +44,14 @@ extension Defaults.Keys {
     /// A chime when a focus session or a break ends.
     static let focusPlaysSound = Key<Bool>("focusPlaysSound", default: true)
 
-    // MARK: Reminders
+    // MARK: Reminders and notes
 
     /// Stored under its first name, from when the module was called Tasks.
     static let reminders = Key<[Reminder]>("tasks", default: [])
     /// A chime when a reminder rings.
     static let remindersPlaySound = Key<Bool>("remindersPlaySound", default: true)
     static let remindersLayout = Key<RemindersLayout>("remindersLayout", default: .spotlight)
+    static let notesLayout = Key<NotesLayout>("notesLayout", default: .sheet)
 
     // MARK: Claude Code
 
@@ -86,3 +87,12 @@ nonisolated enum RemindersLayout: String, CaseIterable, Sendable, Defaults.Seria
     case cards
 }
 
+/// How the Notes page looks, chosen in Settings › Modules.
+nonisolated enum NotesLayout: String, CaseIterable, Sendable, Defaults.Serializable {
+    /// One sheet across the notch.
+    case sheet
+    /// The notes on the left, the open one on the right.
+    case list
+    /// Small paper notes side by side.
+    case stickies
+}

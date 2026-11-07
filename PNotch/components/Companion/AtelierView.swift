@@ -195,6 +195,7 @@ extension NotchPage {
         case .claudeCode: String(localized: "I follow your Claude Code sessions and tell you when they need you.")
         case .timer: String(localized: "Focus sessions and breaks, or a stopwatch: I keep the time.")
         case .reminders: String(localized: "Tell me what and when, in plain words: I'll remind you when it's time.")
+        case .notes: String(localized: "Somewhere to jot things down, kept until you need them.")
         case .companion: ""
         }
     }
@@ -208,6 +209,7 @@ extension NotchPage {
         case .claudeCode: "terminal.fill"
         case .timer: "timer"
         case .reminders: "bell.fill"
+        case .notes: "note.text"
         case .companion: "plus"
         }
     }

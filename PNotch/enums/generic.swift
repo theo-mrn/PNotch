@@ -44,6 +44,7 @@ nonisolated enum NotchPage: String, CaseIterable, Sendable {
     case timer
     /// Stored as "tasks", its first name.
     case reminders = "tasks"
+    case notes
 }
 
 /// What the opened notch shows, which decides its size.
@@ -55,6 +56,7 @@ nonisolated enum NotchLayout: Equatable, Sendable {
     case timer
     /// The reminders, or the editor, which unfolds for its settings.
     case reminders(RemindersPanel)
+    case notes
     /// The searchable list, shrinking around `itemCount` results.
     case clipboardList(itemCount: Int)
 }

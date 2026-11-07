@@ -73,6 +73,12 @@ Focus sessions and breaks, 25/5 or 50/10, or a stopwatch, in a ring that fills a
 - Ticking a reminder fills its box; a moment later it leaves, or comes back at its next occurrence if it repeats. A second click keeps it.
 - Nothing runs in the background but one wait until the next ring; the countdowns follow the minute only while the page is on screen.
 
+### Notes
+
+- **Three layouts**, chosen in Settings › Modules › Layout: a single sheet across the notch, several notes (the list on the left, the open one on the right), or Post-it notes side by side that open to write in.
+- The first line of a note is its title; lines starting with « - » show as bullets in the previews. Notes are saved as you type, in `~/Library/Application Support/com.pnotch.PNotch/notes.json`; a note left blank goes away. Switching layouts keeps every note: the single sheet is the last one written.
+- While writing, <kbd>esc</kbd> first stops writing, then closes the notch.
+
 ## Requirements
 
 - macOS 14 Sonoma or later

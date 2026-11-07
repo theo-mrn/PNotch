@@ -173,6 +173,8 @@ nonisolated enum CompanionActivity: Equatable, Sendable {
         case .reminders:
             // It reads the list it holds, until a reminder rings.
             return inputs.isReminderRinging ? .alert : .reading
+        case .notes:
+            return .reading
         case .companion, .timer:
             switch inputs.focusPhase {
             case .focus, .stopwatch: return .focusing

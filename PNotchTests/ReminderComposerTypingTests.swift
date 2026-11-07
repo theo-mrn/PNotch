@@ -55,6 +55,7 @@ struct ReminderComposerTypingTests {
             .environment(ClaudeCodeManager())
             .environment(FocusManager())
             .environment(reminders)
+            .environment(NotesManager(store: NotesStore(fileURL: Self.directory.appending(path: "notes.json"))))
             .environment(\.colorScheme, .dark)
 
         // The notch's own kind of window: a non-activating panel.
@@ -79,7 +80,7 @@ struct ReminderComposerTypingTests {
     private func withModules(_ body: () async throws -> Void) async rethrows {
         let savedModules = Defaults[.installedModules]
         defer { Defaults[.installedModules] = savedModules }
-        Defaults[.installedModules] = [.music, .clipboard, .claudeCode, .reminders]
+        Defaults[.installedModules] = [.music, .clipboard, .claudeCode, .reminders, .notes]
         try await body()
     }
 
