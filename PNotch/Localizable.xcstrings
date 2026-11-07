@@ -578,6 +578,16 @@
         }
       }
     },
+    "A single sheet" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Une seule feuille"
+          }
+        }
+      }
+    },
     "About" : {
       "localizations" : {
         "fr" : {
@@ -807,6 +817,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "o"
+          }
+        }
+      }
+    },
+    "Back to the notes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revenir aux notes"
           }
         }
       }
@@ -2030,6 +2050,26 @@
         }
       }
     },
+    "New note" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle note"
+          }
+        }
+      }
+    },
+    "New Note" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nouvelle note"
+          }
+        }
+      }
+    },
     "New reminder" : {
       "localizations" : {
         "fr" : {
@@ -2110,6 +2150,16 @@
         }
       }
     },
+    "No notes yet" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aucune note"
+          }
+        }
+      }
+    },
     "No reminders" : {
       "localizations" : {
         "fr" : {
@@ -2166,6 +2216,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Note"
+          }
+        }
+      }
+    },
+    "Notes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notes"
           }
         }
       }
@@ -2542,6 +2602,16 @@
         }
       }
     },
+    "Post-it" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Post-it"
+          }
+        }
+      }
+    },
     "Press the list shortcut again to move to the next item, then ↩ to use it." : {
       "localizations" : {
         "fr" : {
@@ -2812,6 +2882,16 @@
         }
       }
     },
+    "Several notes" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plusieurs notes"
+          }
+        }
+      }
+    },
     "Shortcuts" : {
       "localizations" : {
         "fr" : {
@@ -2908,6 +2988,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Passer la pause"
+          }
+        }
+      }
+    },
+    "Somewhere to jot things down, kept until you need them." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "De quoi noter vite une idée, gardée jusqu’à ce que vous en ayez besoin."
           }
         }
       }
@@ -3448,6 +3538,16 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Fonctionne avec toute app qui alimente « À l’écoute » : Musique, Spotify, podcasts, vidéo dans un navigateur…"
+          }
+        }
+      }
+    },
+    "Write anything here. It stays until you erase it." : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Écrivez ce que vous voulez. Tout reste là jusqu’à ce que vous l’effaciez."
           }
         }
       }
