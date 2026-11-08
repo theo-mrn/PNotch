@@ -46,6 +46,11 @@ final class RemindersManager {
         !ringing.isEmpty
     }
 
+    /// The reminder ringing shown first: the soonest.
+    var ringingReminder: Reminder? {
+        reminders.first { ringing.contains($0.id) }
+    }
+
     /// In the order they show.
     var reminders: [Reminder] {
         board.sorted
@@ -59,6 +64,9 @@ final class RemindersManager {
     /// How much of the page shows: the reminders, the editor, or the editor and its settings.
     var panel: RemindersPanel {
         guard let editor else {
+            if isRinging {
+                return .alert
+            }
             if layout() == .list, !reminders.isEmpty {
                 return .list(rows: min(reminders.count, RemindersMetrics.maxListRows))
             }

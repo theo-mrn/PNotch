@@ -82,6 +82,7 @@ nonisolated enum RemindersMetrics {
         case let .list(rows): listHeight(rows: rows)
         case .compose: 124
         case .settings: 300
+        case .alert: 104
         }
     }
 
@@ -95,6 +96,10 @@ nonisolated enum RemindersMetrics {
         return 8 + rows * listRowHeight + 6 + 30 + 10
     }
 
+    /// The reminder ringing needs less room than the page.
+    static func width(_ panel: RemindersPanel) -> CGFloat {
+        panel == .alert ? 420 : width
+    }
 }
 
 nonisolated enum NotesMetrics {

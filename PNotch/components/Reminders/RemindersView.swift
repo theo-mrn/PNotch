@@ -9,6 +9,18 @@ struct RemindersView: View {
 
     var body: some View {
         VStack(spacing: 0) {
+            if reminders.panel == .alert, let ringing = reminders.ringingReminder {
+                ReminderAlertView(reminder: ringing)
+                    .transition(.opacity)
+            } else {
+                page
+            }
+        }
+        .onDisappear { reminders.stopRinging() }
+    }
+
+    private var page: some View {
+        VStack(spacing: 0) {
             NotchHeaderView()
 
             Group {
@@ -33,7 +45,6 @@ struct RemindersView: View {
             .frame(height: RemindersMetrics.bodyHeight(reminders.panel), alignment: .top)
             .pageEntrance()
         }
-        .onDisappear { reminders.stopRinging() }
     }
 }
 

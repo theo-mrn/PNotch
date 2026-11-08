@@ -64,7 +64,7 @@ nonisolated struct NotchGeometry: Equatable, Sendable {
             )
         case let .reminders(panel):
             return CGSize(
-                width: min(RemindersMetrics.width, screenFrame.width - 40),
+                width: min(RemindersMetrics.width(panel), screenFrame.width - 40),
                 height: notchSize.height + RemindersMetrics.bodyHeight(panel)
             )
         case .notes:

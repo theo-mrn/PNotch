@@ -30,6 +30,8 @@ enum NotchCloseReason {
     case settings
     /// The user jumped to another app from the notch, e.g. to a Claude Code session.
     case switchedApp
+    /// The reminder that opened it was snoozed or done.
+    case answered
 }
 
 /// Pages of the opened notch. The modules plugged in from the Atelier are its tabs;
