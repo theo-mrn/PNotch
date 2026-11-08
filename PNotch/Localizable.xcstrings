@@ -568,6 +568,16 @@
         }
       }
     },
+    "5 min" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "5 min"
+          }
+        }
+      }
+    },
     "A session waiting for your answer always stays visible until you reply. Quick answers in the app you're using don't get a sneak peek." : {
       "localizations" : {
         "fr" : {

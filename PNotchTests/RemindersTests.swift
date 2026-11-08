@@ -265,6 +265,25 @@ struct RemindersManagerTests {
         #expect(RemindersMetrics.bodyHeight(.list(rows: 3)) <= RemindersMetrics.bodyHeight(.browse))
     }
 
+    @Test func aReminderRingingShowsAsAnAlertUntilAnswered() throws {
+        let clock = Clock()
+        let manager = makeManager(clock: clock, saved: Saved())
+        defer { manager.stop() }
+        let item = try #require(manager.add("sortir le chien dans 10 min"))
+        #expect(manager.panel == .browse)
+
+        clock.date = F.now + 11 * 60
+        manager.checkRinging()
+        #expect(manager.panel == .alert)
+        #expect(manager.ringingReminder?.id == item.id)
+        // Five minutes later, as the alert's button says.
+        #expect(ReminderTiming.snooze == 5 * 60)
+
+        manager.snooze(item.id)
+        #expect(manager.panel == .browse)
+        #expect(manager.ringingReminder == nil)
+    }
+
     @Test func aTickedReminderLeavesUnlessTickedAgain() async throws {
         let manager = makeManager(clock: Clock(), saved: Saved())
         defer { manager.stop() }

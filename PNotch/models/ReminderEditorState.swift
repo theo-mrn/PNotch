@@ -16,6 +16,8 @@ nonisolated enum RemindersPanel: Equatable, Sendable {
     case compose
     /// Its date, time and options too, the notch unfolded.
     case settings
+    /// A reminder ringing: Pixel brings it, in a small notch, to snooze or mark done.
+    case alert
 }
 
 /// The reminder being written: its text first; its date, time and options behind the settings button.
