@@ -71,6 +71,14 @@ struct NotchGeometryTests {
         #expect(macBookPro14.windowFrame.height >= claudeCode.height)
     }
 
+    @Test func aReminderRingingOpensASmallNotchThatFitsTheWindow() {
+        let alert = macBookPro14.openedSize(for: .reminders(.alert))
+        #expect(alert == CGSize(width: 420, height: 32 + RemindersMetrics.bodyHeight(.alert)))
+        #expect(alert.width < macBookPro14.openedSize(for: .reminders(.browse)).width)
+        #expect(macBookPro14.windowFrame.height >= alert.height)
+        #expect(macBookPro14.windowFrame.width >= alert.width)
+    }
+
     @Test func headerWingsHoldTheTabsSideAndTheRobotSide() {
         // Right of the camera: the robot, up to two page buttons (the clipboard's) and settings.
         let buttons = CompanionMetrics.headerRobotSize.width + 4 + 3 * NotchHeaderMetrics.controlHeight + 3 * 6
