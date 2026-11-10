@@ -94,6 +94,28 @@ nonisolated struct SystemSample: Sendable {
     var battery: BatteryStatus?
     var thermalState: ProcessInfo.ThermalState
     var uptime: TimeInterval
+
+    init(
+        date: Date,
+        cpuTicks: CPUTicks?,
+        memory: MemoryUsage? = nil,
+        network: NetworkCounters? = nil,
+        storage: StorageUsage? = nil,
+        gpuUtilization: Double? = nil,
+        battery: BatteryStatus? = nil,
+        thermalState: ProcessInfo.ThermalState,
+        uptime: TimeInterval
+    ) {
+        self.date = date
+        self.cpuTicks = cpuTicks
+        self.memory = memory
+        self.network = network
+        self.storage = storage
+        self.gpuUtilization = gpuUtilization
+        self.battery = battery
+        self.thermalState = thermalState
+        self.uptime = uptime
+    }
 }
 
 /// Fixed-size history feeding the sparklines: the oldest value goes when a new one arrives.

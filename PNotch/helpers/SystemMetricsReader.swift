@@ -22,6 +22,16 @@ nonisolated enum SystemMetricsReader {
         )
     }
 
+    /// Only what Pixel needs to know whether the Mac runs hot: the processor's load. A fraction of the full cost.
+    static func loadSample() -> SystemSample {
+        SystemSample(
+            date: .now,
+            cpuTicks: cpuTicks(),
+            thermalState: ProcessInfo.processInfo.thermalState,
+            uptime: ProcessInfo.processInfo.systemUptime
+        )
+    }
+
     // MARK: CPU
 
     static func cpuTicks() -> CPUTicks? {

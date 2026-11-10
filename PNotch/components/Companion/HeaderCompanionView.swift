@@ -37,8 +37,8 @@ struct HeaderCompanionView: View {
                 }
             }
             // The CPU reading feeds the "hot" mood and the antenna on the System page.
-            .onAppear { companion.system.startObserving() }
-            .onDisappear { companion.system.stopObserving() }
+            .onAppear { companion.system.startObserving(.load) }
+            .onDisappear { companion.system.stopObserving(.load) }
     }
 
     // MARK: Variant
