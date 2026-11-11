@@ -1,0 +1,9 @@
+version: 2
+updates:
+  # Keeps the CI's actions up to date, once a month.
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: ci

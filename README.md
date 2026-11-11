@@ -1,5 +1,7 @@
 # PNotch
 
+[![CI](https://github.com/theo-mrn/PNotch/actions/workflows/ci.yml/badge.svg)](https://github.com/theo-mrn/PNotch/actions/workflows/ci.yml)
+
 A notch app for the MacBook: a music player, a clipboard manager, a system monitor, a small robot companion and a Claude Code tracker living in the camera housing. Hover the notch and it unfolds under the menu bar: what's playing, your recent copies in a searchable list (text, rich text, code, links with previews, colors, images, files and contacts), how the Mac is doing, what your robot is up to, or what Claude Code is working on.
 
 The interface is in English and French, following the system language.
