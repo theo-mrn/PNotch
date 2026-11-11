@@ -3,18 +3,19 @@
 #
 #   scripts/release.sh
 #
-# One-time setup, see README › Distribution:
+# One-time setup, see docs/RELEASING.md:
 #   1. A "Developer ID Application" certificate (Xcode › Settings › Accounts › Manage Certificates).
 #   2. Notarization credentials stored under a keychain profile (PNotch by default):
 #        xcrun notarytool store-credentials PNotch --apple-id <apple id> --team-id CLFGDZUD7W
 #   3. Sparkle signing keys, and the feed URL and public key in Configuration/Distribution.xcconfig.
 #
-# Environment: NOTARY_PROFILE (default: PNotch).
+# Environment: NOTARY_PROFILE (default: PNotch), PNOTCH_RELEASES_REPO (default: theo-mrn/PNotch).
 set -euo pipefail
 
 cd "${0:A:h}/.."
 
 NOTARY_PROFILE="${NOTARY_PROFILE:-PNotch}"
+RELEASES_REPO="${PNOTCH_RELEASES_REPO:-theo-mrn/PNotch}"
 # Absolute: xcodebuild doesn't resolve packages into a relative -clonedSourcePackagesDirPath.
 # `.noindex` keeps Spotlight from listing the copies of the app built there next to the installed one.
 BUILD_DIR="$PWD/build/release.noindex"
@@ -105,9 +106,10 @@ if [[ -n "$feed_url" ]]; then
     sparkle_bin=$(find "$PACKAGES_DIR/artifacts" -type d -path "*Sparkle/bin" | head -1)
     [[ -n "$sparkle_bin" ]] || fail "Sparkle's tools were not found in $PACKAGES_DIR."
     # Signs the archive with the EdDSA key stored in the keychain by generate_keys.
-    "$sparkle_bin/generate_appcast" --download-url-prefix "${feed_url%/*}/" "$UPDATES_DIR"
+    # The archive, and any delta made from older versions, are attached to this version's release by scripts/publish.sh.
+    "$sparkle_bin/generate_appcast" --download-url-prefix "https://github.com/$RELEASES_REPO/releases/download/v$VERSION/" "$UPDATES_DIR"
 fi
 
 print "✓ PNotch $VERSION is ready:"
 print "  • $DMG — to share for a first install"
-[[ -n "$feed_url" ]] && print "  • $UPDATES_DIR — to upload next to ${feed_url}"
+[[ -n "$feed_url" ]] && print "  • $UPDATES_DIR — the appcast and the update archive, for scripts/publish.sh"
