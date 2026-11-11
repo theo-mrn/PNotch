@@ -1,197 +1,158 @@
-# PNotch
+<p align="center">
+  <img src=".github/assets/icon.png" width="128" height="128" alt="PNotch app icon: Pixel the robot">
+</p>
 
-[![CI](https://github.com/theo-mrn/PNotch/actions/workflows/ci.yml/badge.svg)](https://github.com/theo-mrn/PNotch/actions/workflows/ci.yml)
+<h1 align="center">PNotch</h1>
 
-A notch app for the MacBook: a music player, a clipboard manager, a system monitor, a small robot companion and a Claude Code tracker living in the camera housing. Hover the notch and it unfolds under the menu bar: what's playing, your recent copies in a searchable list (text, rich text, code, links with previews, colors, images, files and contacts), how the Mac is doing, what your robot is up to, or what Claude Code is working on.
+<p align="center">
+  <b>Your MacBook's notch, put to work. With a little robot living in it.</b><br>
+  Music, clipboard, system stats, a focus timer, reminders, notes and your Claude Code sessions, one hover away.
+</p>
 
-The interface is in English and French, following the system language.
+<p align="center">
+  <a href="https://github.com/theo-mrn/PNotch/releases/latest"><img src="https://img.shields.io/github/v/release/theo-mrn/PNotch?label=version&color=F2A65A" alt="Latest version"></a>
+  <a href="https://github.com/theo-mrn/PNotch/releases"><img src="https://img.shields.io/github/downloads/theo-mrn/PNotch/total?color=F2A65A" alt="Downloads"></a>
+  <a href="https://github.com/theo-mrn/PNotch/actions/workflows/ci.yml"><img src="https://github.com/theo-mrn/PNotch/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <img src="https://img.shields.io/badge/macOS-14%2B-black?logo=apple" alt="macOS 14 or later">
+  <img src="https://img.shields.io/badge/Swift-6-F05138?logo=swift&logoColor=white" alt="Swift 6">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/theo-mrn/PNotch?color=lightgrey" alt="MIT license"></a>
+</p>
+
+<p align="center">
+  <a href="https://github.com/theo-mrn/PNotch/releases/latest/download/PNotch.dmg"><img src=".github/assets/download.svg" width="264" height="56" alt="Download for macOS"></a>
+</p>
+
+<p align="center">
+  <sub>Free and open source · macOS 14 Sonoma or later · Apple silicon and Intel · English and French</sub>
+</p>
+
+<p align="center">
+  <img src=".github/assets/demo.webp" width="100%" alt="The notch opens on the music, then shows the clipboard, the focus timer, Claude Code sessions and reminders">
+</p>
+
+PNotch turns the black camera housing of your MacBook into a small, quiet control center. Hover it and it unfolds under the menu bar. Move away and it folds back. In between, **Pixel**, a small robot, lives up there: it dances to your music, reads your clipboard, sweats when the processor works hard and calls you when Claude Code needs an answer.
+
+- **Native and light.** SwiftUI and Swift 6, no web view. Pages only take their readings while they're on screen.
+- **Yours.** No account, no analytics. Your clipboard, notes and reminders stay on your Mac.
+- **Keyboard friendly.** Open the clipboard with <kbd>⌃⌘V</kbd>, then type, arrow, <kbd>↩</kbd>.
+- **Pick your pages.** Every page is a module you plug in or out, in any order.
+- **No notch? No problem.** On a display without one, PNotch draws its own.
 
 ## Features
 
 ### Music
 
-- **Now playing** from any app that reports to the system: Music, Spotify, podcasts, video in a browser… Cover with the player's icon, title, artist, scrubbable progress, previous / play-pause / next, and a halo in the cover's color.
-- **Live activity**: while music plays, the closed notch widens to show the cover and a bouncing equalizer.
-- Since macOS 15.4 only Apple processes may read the system "Now Playing". PNotch uses [MediaRemoteAdapter](Vendor/MediaRemoteAdapter/README.md), loaded into `/usr/bin/perl`, like boring.notch does.
+What's playing in Music, Spotify, a podcast app or a browser tab: the cover, a progress bar you can drag, and play, pause and skip. While a song plays, the closed notch widens around the camera with the cover and a small equalizer.
 
-### System
-
-- **Live metrics**: CPU (user and system), GPU, memory (colored by memory pressure), network download and upload, free storage, battery and time left (uptime on desktop Macs). Each with its last minute as a chart.
-- Read with public APIs (Mach, sysctl, IOKit), sampled every second only while the page is on screen.
-- A button opens Activity Monitor for a closer look.
+<img src=".github/assets/screenshots/music.png" alt="Music page: cover, title, progress and playback controls">
 
 ### Clipboard
 
-- **A list that drops from the notch**, as wide as the other pages, the header split around the camera housing. It shrinks around the results. Displays without a notch get a drawn one.
-- **Typed previews**: colors show as swatches, code with its syntax colors, links with their page preview, images and files as thumbnails, vCards as contact avatars.
-- **Direct paste**: choosing an item (click or <kbd>↩</kbd>) pastes it into the app you were using. Hold <kbd>⌥</kbd> to only copy it. Pasting needs the Accessibility permission (System Settings › Privacy & Security › Accessibility); without it PNotch copies and asks once.
-- **Shortcut** (<kbd>⌃⌘V</kbd>, changeable in Settings): opens the list with the cursor in the search field. Press it again (or <kbd>↓</kbd>) to move to the next item, <kbd>↩</kbd> to use it.
-- **Search** at the top of the list: every word you type must match (case and accents ignored) the content, the type or the source app, and matches are highlighted. Clicking the notch opens it with the cursor in the search; hovering never steals the keyboard. <kbd>esc</kbd> clears it.
-- **Filters** next to the search: All, Images (including picture files copied from Finder) and Links.
-- **Keyboard first**: <kbd>↑</kbd> <kbd>↓</kbd> to select (even while typing a search), <kbd>↩</kbd> to paste, <kbd>⌥↩</kbd> to only copy, <kbd>⇧↩</kbd> for plain text, <kbd>⌘P</kbd> to pin, <kbd>⌘⌫</kbd> to delete, <kbd>esc</kbd> to close. Right-click an item for the same actions.
-- **Sneak peek**: copying something flashes the source app and the content type around the closed notch.
-- **Private by default**: content flagged as confidential by password managers ([nspasteboard.org](http://nspasteboard.org)) is never recorded. History is stored locally in `~/Library/Application Support/com.pnotch.PNotch`.
+Everything you copy, in a searchable list. Colors show as swatches, code keeps its syntax colors, links get their page preview, and images and files show as thumbnails. Pick an item and it is pasted straight into the app you were using.
 
-### Companion
+- <kbd>⌃⌘V</kbd> opens the list with the cursor in the search field; press it again to move down.
+- Filter by images or links. Pin what you reuse.
+- Passwords copied from password managers are never recorded.
 
-- **On every page**: the robot sits in the header, next to the buttons, with its accessories and its moods, and something to do on each page:
-  - *Music*: headphones always on; it dances while a song plays (notes in the cover's color, a jump at each new song) and nods along, waiting, when paused.
-  - *Clipboard*: it holds a clipboard and reads it, and looks puzzled when a search finds nothing.
-  - *System*: it holds a plug wired to the processor, graphics, memory and network, data climbing each cable as fast as the metric is busy; every few seconds it tugs at them. Its antenna shows the processor's load.
-  - *Claude Code*: its visor turns into a `>_` terminal while no session is busy, Claude's star twinkles in its eyes while one works, and it calls you with a "!" when a session waits for you; clicking it then takes you there.
+<img src=".github/assets/screenshots/clipboard.png" alt="Clipboard list with a link, code, a color, an image and text">
 
-  A click opens the Atelier, its home; a right-click pets it and has the page's shortcuts (play/pause, next track, clear the search, Activity Monitor, answer Claude, start or stop the timer). It can stay in the Atelier only (Settings › Companion).
-- **A small robot** with its own page, drawn live in 2.5D: metallic shading, a glass visor, glowing eyes, and a highlight that follows your pointer like a light source. Its eyes follow the pointer too, and it blinks, breathes and floats.
-- **Moods from the Mac**: it dances while music plays, sweats when the processor is busy or the Mac runs hot, dozes off late at night or when you're away, and keeps an eye on things the rest of the time.
-- **Messenger**: when you copy something, or Claude Code is done or needs you, it jumps and its face announces the news around the closed notch (Settings › Companion).
-- **At home in the Atelier**, where it presents the modules (see below), with its wardrobe behind the paintbrush.
-- **Attachment**: click it to pet it (hearts). Its page counts the days you've been together and the pets.
-- **Customization** (paintbrush button): name, body color, eye color, and something to wear (headphones, crown, glasses, flower). Its name is also its tab's title.
+### System
+
+CPU, GPU, memory, network, storage and battery, each with its last minute as a chart. One click opens Activity Monitor.
+
+<img src=".github/assets/screenshots/system.png" alt="System page with six live metric tiles">
 
 ### Claude Code
 
-- **Live activity**: while a Claude Code session works, the closed notch shows Claude's twinkling star and how long it has been at it. When a session waits for you (a permission, a question, a plan to approve), a raised hand stays there until you answer, ahead of the music.
-- **Sneak peek** when a turn is done or stopped on an error, delivered by the robot. Quick answers in the app you're looking at stay quiet.
-- **Sessions page**: every session with its project, your last prompt and what Claude is doing right now ("Running npm test", "Wants to edit ContentView.swift", the start of its last answer). Click one to bring back its terminal or editor.
-- **Answer from the notch**: while you're away from a session's terminal or editor, its permission requests wait in the notch with Deny, Always (Claude Code's suggested rule, e.g. this command in this project) and Allow; opening the notch goes straight to them. In front of the terminal, going back to it, clicking the session, or with PNotch closed, Claude Code asks there as usual. Can be turned off in Settings › Claude Code.
-- **Connecting** (button on the page, or Settings › Claude Code) adds a hook to `~/.claude/settings.json`. Only PNotch's entries are added or removed: the rest of the file keeps its order and formatting, symlinked dotfiles are written through, and the previous version is saved as `settings.json.pnotch-backup`. The hook script, `~/.claude/hooks/pnotch.sh`, runs in the background (except for permission requests, which wait for the notch's answer), does nothing while PNotch is closed, and hands events to PNotch through a Unix socket only your account can open: nothing leaves the Mac. Connections made by an older version are upgraded at launch, with the same backup. Sessions opened before connecting pick it up once restarted.
-- Claude Code doesn't run a hook when you press <kbd>esc</kbd>: PNotch notices the interruption in the session's transcript.
+Every [Claude Code](https://www.anthropic.com/claude-code) session at a glance: the project, your last prompt and what Claude is doing right now. When a session needs you, the notch says so, and you can allow or deny a permission request without leaving what you're doing. Click a session to jump back to its terminal or editor.
 
-### The Atelier and its modules
+Connecting adds a hook to `~/.claude/settings.json`, with a backup. Events travel through a local socket only your account can open.
 
-Each page of the notch is a module, plugged in from the **Atelier**, behind the « + » at the end of the tabs. That's Pixel's home: it presents every module on a shelf, explains the one you hover in a speech bubble, and plugs it in or unplugs it when you click (with a little jump). The plugged-in modules are the tabs, in order; past what fits next to the camera, they scroll and « + » stays put. Settings › Modules does the same with switches, sets their order and the page the notch opens on. A fresh install starts with Music, Clipboard, System and Claude Code.
+<img src=".github/assets/screenshots/claude-code.png" alt="Claude Code sessions: one waiting for a permission, one running tests, one done">
 
-### Timer
+### Focus timer
 
-Focus sessions and breaks, 25/5 or 50/10, or a stopwatch, in a ring that fills as it goes, the time in LED dots like an old display, with pause, « +5 min » and stop. Pixel puts on a headband and concentrates with you, the time shows in LED dots around the closed notch, and when a session is done it cheers, a chime rings and the break begins (a cup of something warm for it too). Sessions survive quitting PNotch, and the day's sessions and focused minutes are counted. The timer sleeps until the end of the countdown instead of checking the clock every second.
+25/5 or 50/10 focus sessions, or a stopwatch. The countdown stays around the closed notch, Pixel puts on a headband and works with you, and a chime starts your break.
+
+<img src=".github/assets/screenshots/timer.png" alt="Focus timer with a ring and a dot-matrix countdown">
 
 ### Reminders
 
-- **Text first**: « + » opens a large field — « Que dois-je vous rappeler ? » — with a note under it. ↩ saves at any time.
-- **Settings button** (next to the field, or the date chip): the notch unfolds on three columns. Date, with its switch and the month's calendar. Time, with its switch and the LED display: click the hours or the minutes and type them (↑ ↓ step, ← → or ⇥ switch, the hours move on to the minutes by themselves), or use the arrows above and below (minutes go by five). Options: repeat (every day, weekdays, every week, every month, every year), its end (never, after 3/5/10/30 times, or in a month, three, six, a year), and an early alert (5, 15 or 30 min, 1 h or 1 day before).
-- **Plain words** fill the settings too, in French or in English: « appeler Léa demain à 14h », « sortir les poubelles tous les lundis à 19h », « payer le loyer chaque mois », « dans 10 min », « tomorrow at 2pm ». A date picked by hand stays while you keep typing; the date words leave the saved title.
-- **Three layouts**, chosen in Settings › Modules › Layout: the next one in large (its time on the LED display, its repeat and its note, « Fait », « +10 min » and « Modifier », the following ones on a line below), an airy list like the alarms of the Clock app, or a card per reminder. A click on a reminder, or right-click › Modifier…, opens it in the editor, which can also delete it.
-- **Ringing**: at its time, and earlier with an early alert, Pixel raises its « ! », a chime plays (Settings › Companion) and the notch opens on it. If the notch is already open, the tab shows a dot. A reminder missed by more than an hour only shows as overdue, in red. Reminders ring only while the module is plugged in.
-- Ticking a reminder fills its box; a moment later it leaves, or comes back at its next occurrence if it repeats. A second click keeps it.
-- Nothing runs in the background but one wait until the next ring; the countdowns follow the minute only while the page is on screen.
+Type it the way you'd say it, in English or French: "call Lea tomorrow at 2pm", "take out the trash every Monday at 7pm". When it's time, Pixel calls you with a « ! », a chime plays and the notch opens on it.
+
+<img src=".github/assets/screenshots/reminders.png" alt="Next reminder in large, the following ones below">
+<img src=".github/assets/screenshots/reminder-alert.png" alt="A ringing reminder with snooze and done buttons">
 
 ### Notes
 
-- **Three layouts**, chosen in Settings › Modules › Layout: a single sheet across the notch, several notes (the list on the left, the open one on the right), or Post-it notes side by side that open to write in.
-- The first line of a note is its title; lines starting with « - » show as bullets in the previews. Notes are saved as you type, in `~/Library/Application Support/com.pnotch.PNotch/notes.json`; a note left blank goes away. Switching layouts keeps every note: the single sheet is the last one written.
-- While writing, <kbd>esc</kbd> first stops writing, then closes the notch.
+A sheet of paper across the notch, a list of notes, or sticky notes side by side: your choice. Notes save as you type.
 
-## Requirements
+<img src=".github/assets/screenshots/notes.png" alt="Three sticky notes and a new note button">
 
-- macOS 14 Sonoma or later
-- Xcode 16 or later (the project uses folder-synchronized groups)
+### Pixel
 
-## Building
+Pixel is drawn live, with a metal body, a glass visor and eyes that follow your pointer. Its mood follows your Mac, and it carries the news: a copy, a finished Claude Code turn, a reminder. Give it a name, colors and something to wear.
+
+## Install
+
+1. [Download PNotch](https://github.com/theo-mrn/PNotch/releases/latest/download/PNotch.dmg).
+2. Open the DMG and drag PNotch to Applications.
+3. Open PNotch and move the pointer to the notch.
+
+PNotch is signed and notarized by Apple, so it opens without warnings. New versions install themselves.
+
+To paste straight into other apps, PNotch needs the Accessibility permission (System Settings › Privacy & Security › Accessibility). It asks the first time; without it, items are copied and you paste them yourself.
+
+## Using PNotch
+
+| Gesture or key | What it does |
+| --- | --- |
+| Hover the notch | Opens it; moving away closes it |
+| Click the notch | Opens it; on the clipboard, type to search right away |
+| <kbd>⌃⌘V</kbd> | Opens the clipboard; again to move down, <kbd>↩</kbd> to paste |
+| <kbd>⌥</kbd> <kbd>↩</kbd> / <kbd>⇧</kbd> <kbd>↩</kbd> | Copy only / paste as plain text |
+| <kbd>⌘P</kbd> / <kbd>⌘⌫</kbd> | Pin / delete a clipboard item |
+| Right-click Pixel | Pet it, and the current page's shortcuts |
+| <kbd>esc</kbd> | Clears the search, then closes |
+
+Everything else lives in Settings, from the menu bar icon or the gear in the notch.
+
+## Roadmap
+
+- [x] Music, clipboard and system monitor
+- [x] Pixel, the companion
+- [x] Claude Code sessions and permission requests
+- [x] Focus timer, reminders and notes
+- [x] Modules to pick and reorder
+- [x] Automatic updates
+- [ ] A file shelf, with AirDrop
+- [ ] Your calendar's next event
+- [ ] More live activities: charging, low battery, a new song
+- [ ] Clipboard pinboards and apps to ignore
+- [ ] Volume and lyrics for the music
+- [ ] Install with Homebrew
+
+Ideas and bug reports are welcome in [issues](https://github.com/theo-mrn/PNotch/issues).
+
+## Building from source
+
+You need Xcode 27 (Swift 6) on macOS 14 or later.
 
 ```sh
+git clone https://github.com/theo-mrn/PNotch.git
+cd PNotch
 open PNotch.xcodeproj
 ```
 
-Run the `PNotch` scheme. Swift packages ([Defaults](https://github.com/sindresorhus/Defaults), [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts), [Sparkle](https://sparkle-project.org)) are resolved by Xcode.
+Run the `PNotch` scheme. Swift packages are resolved by Xcode. In *Signing & Capabilities*, choose your own team. [CONTRIBUTING.md](CONTRIBUTING.md) covers the tests, the translations and the project's layout.
 
-Development builds are signed with the team's *Apple Development* certificate (team `CLFGDZUD7W`, set in the project). A stable signature matters: macOS ties the Accessibility permission to it, so it survives rebuilds.
+## Acknowledgements
 
-Tests use Swift Testing and always run in English:
-
-```sh
-xcodebuild test -project PNotch.xcodeproj -scheme PNotch -destination 'platform=macOS'
-```
-
-> When Xcode is open on the project, it holds SwiftPM's download locks: add `-packageCachePath <some folder>` to command-line builds so they don't wait for it.
-
-### Manual test checklist
-
-Before a release, on a notched MacBook:
-
-1. Hover the notch: it opens on the expected page; leaving with the pointer closes it, typing in the search doesn't.
-2. Click the notch: the cursor is in the search; <kbd>esc</kbd> clears it, then closes.
-3. Copy text, a link, an image, a Finder file: each lands in the list with the right preview, the sneak peek shows around the closed notch.
-4. Click an item (permission granted): it's pasted into the app in use; <kbd>⌥</kbd>-click only copies.
-5. <kbd>⌃⌘V</kbd>: the list opens; pressing it again moves down; <kbd>↩</kbd> pastes.
-6. Play music in Music, Spotify, then a browser: live activity, cover, scrubbing, play/pause, next.
-7. System tab: values move, Activity Monitor opens.
-8. Companion tab: the robot follows the pointer, dances with music, reacts to a click (hearts) and to a copy (jump, face around the closed notch); customization applies right away.
-9. Claude Code: connect from the page, start `claude` in Terminal and in VS Code; the star and timer show while it works, the raised hand on a permission prompt, the sneak peek when it's done; esc clears the activity; clicking a session brings back its app; disconnecting restores `~/.claude/settings.json`.
-10. Settings › Tabs: hide and reorder tabs, change the start page.
-11. Switch the system language between English and French.
-
-## Localization
-
-Strings live in `PNotch/Localizable.xcstrings` (English source, French translation). Xcode extracts new strings at build time; translate them in the catalog editor.
-
-## Installing on this Mac
-
-`scripts/install.sh` builds PNotch in Release for this Mac's processor, stripped of debug symbols (in `build/install.noindex`, apart from Xcode's builds), quits the running copy, replaces `/Applications/PNotch.app` and opens it. It's signed with the development certificate, like the builds from Xcode: for this Mac only, not to share.
-
-## Distribution
-
-PNotch ships as a signed, notarized DMG, and updates itself with Sparkle from [theo-mrn/pnotch-updates](https://github.com/theo-mrn/pnotch-updates), served by GitHub Pages at `https://theo-mrn.github.io/pnotch-updates/appcast.xml`. That repository only holds what is distributed (DMGs, update archives, `appcast.xml`), never the source.
-
-To release a version:
-
-1. Raise `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION`.
-2. `scripts/release.sh`: archives the app, signs it with Developer ID, notarizes and staples it, builds a signed and notarized DMG (the app next to a link to Applications), and signs the update archive into the appcast. Everything stays in `build/release.noindex` (out of Spotlight's reach): try the DMG first.
-3. `scripts/publish.sh`: pushes the update files to the GitHub Pages repository, where installed copies find them, and attaches the DMG to a GitHub release.
-
-One-time setup, already done on the release Mac:
-
-- **Developer ID Application certificate** for team CLFGDZUD7W: Xcode › Settings › Apple Accounts › *Manage Certificates* › **+**. It expires on 1 February 2027; releases signed before then keep opening, new ones need a renewed certificate.
-- **Notarization credentials**, under the `PNotch` keychain profile, with an app-specific password from account.apple.com:
-  ```sh
-  xcrun notarytool store-credentials PNotch --apple-id <apple id> --team-id CLFGDZUD7W
-  ```
-- **Sparkle signing key**, made by `generate_keys` and kept in the keychain: back it up, it signs every update. Its public half is `SPARKLE_PUBLIC_ED_KEY` in `Configuration/Distribution.xcconfig`, next to `SPARKLE_FEED_URL`.
-- **GitHub CLI** signed in to the account owning the updates repository (`gh auth login`).
-
-## Project layout
-
-The structure follows [boring.notch](https://github.com/TheBoredTeam/boring.notch):
-
-```
-PNotch/
-├── PNotchApp.swift            App entry point, menu bar extra and AppDelegate
-├── AppIcon.icon               App icon (Icon Composer): Pixel, drawn by the app's own renderer
-├── Localizable.xcstrings      English and French strings
-├── ContentView.swift          Root notch view: shape, hover, open/close animation
-├── PNotchViewCoordinator.swift App-wide UI state (sneak peeks, Settings)
-├── MediaControllers/          Now Playing through MediaRemoteAdapter (stream, commands, parsing)
-├── animations/                Springs and transitions
-├── components/
-│   ├── Notch/                 Window, window controller (keyboard, focus), shape, header and tabs
-│   ├── Music/                 Player page, artwork, progress, controls, equalizer, live activity
-│   ├── System/                Metric tiles, sparklines, system page
-│   ├── Companion/             Robot renderer (Canvas), animator, live view, companion page and customization
-│   ├── ClaudeCode/            Sessions page, live activity and sneak peek, Claude's spinner
-│   ├── Clipboard/
-│   │   ├── Models/            ClipboardItem, ClipboardContent, ClipboardHistory, filters
-│   │   ├── Services/          Pasteboard monitor/reader/writer, classifier, persistence, previews
-│   │   ├── ViewModels/        ClipboardStateViewModel
-│   │   └── Views/             List, rows, search field, filter chips, item menu, sneak peek
-│   └── Settings/              Settings window (General, Tabs, Clipboard, Music, Shortcuts, About)
-├── enums/                     Notch states
-├── extensions/                NSScreen notch geometry, Color helpers
-├── helpers/                   Image processing, syntax highlighting, app icons, artwork colors, metric readers,
-│                              order-preserving JSON, Claude Code hook server and installer, process tree
-├── managers/                  MusicManager, SystemMonitor, CompanionManager, ClaudeCodeManager, UpdateManager (Sparkle)
-├── models/                    PNotchViewModel, NotchGeometry, tabs configuration, PlaybackState, SystemMetrics, companion moods,
-│                              Claude Code events and sessions, Defaults keys
-├── observers/                 NSEvent monitors
-├── Shortcuts/                 Global keyboard shortcut names
-├── sizing/                    Metrics
-└── utils/                     Logging
-Configuration/                 Distribution settings (Sparkle feed and key) and export options
-scripts/                       Release pipeline: build, notarize, publish, install locally
-PNotchTests/                   Swift Testing unit tests
-Vendor/MediaRemoteAdapter/     Vendored adapter sources, built by the MediaRemoteAdapter target and embedded in the app
-```
-
-## Credits
-
+- [boring.notch](https://github.com/TheBoredTeam/boring.notch) showed what a notch app can be, and PNotch's folder layout follows it.
 - `NotchShape` is adapted from [DynamicNotchKit](https://github.com/MrKai77/DynamicNotchKit) (MIT).
 - Now Playing relies on [mediaremote-adapter](https://github.com/ungive/mediaremote-adapter) by Jonas van den Berg (BSD 3-Clause), vendored in `Vendor/MediaRemoteAdapter`.
-- Updates by [Sparkle](https://sparkle-project.org) (MIT).
+- [Sparkle](https://sparkle-project.org) for updates, and [Defaults](https://github.com/sindresorhus/Defaults) and [KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts) by Sindre Sorhus.
+
+## License
+
+PNotch is released under the [MIT license](LICENSE).

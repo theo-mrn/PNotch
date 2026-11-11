@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="264" height="56" viewBox="0 0 264 56" role="img" aria-label="Download for macOS">
+  <rect width="264" height="56" rx="14" fill="#F2A65A"/>
+  <g transform="translate(26 16)" fill="none" stroke="#1F1205" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12 2v14M6.5 10.5 12 16l5.5-5.5M4 22h16"/>
+  </g>
+  <text x="60" y="34.5" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="600" fill="#1F1205">Download for macOS</text>
+</svg>
