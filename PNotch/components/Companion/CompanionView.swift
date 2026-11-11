@@ -41,8 +41,8 @@ struct CompanionView: View {
             .pageEntrance()
         }
         // The CPU reading feeds the "hot" mood: sample only while the robot is on screen.
-        .onAppear { companion.system.startObserving() }
-        .onDisappear { companion.system.stopObserving() }
+        .onAppear { companion.system.startObserving(.load) }
+        .onDisappear { companion.system.stopObserving(.load) }
     }
 
     /// Headband on while you focus, a warm drink during the break.

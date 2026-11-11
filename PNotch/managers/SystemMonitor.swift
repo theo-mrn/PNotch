@@ -21,38 +21,71 @@ final class SystemMonitor {
     private(set) var downloadHistory = MetricHistory(capacity: historyLength)
     private(set) var uploadHistory = MetricHistory(capacity: historyLength)
 
-    @ObservationIgnored private let interval: Duration
-    @ObservationIgnored private let sampler: @Sendable () -> SystemSample
-    @ObservationIgnored private var samplingTask: Task<Void, Never>?
-    @ObservationIgnored private var observerCount = 0
-    @ObservationIgnored private var previousSample: SystemSample?
-
-    init(interval: Duration = .seconds(1), sampler: @escaping @Sendable () -> SystemSample = SystemMetricsReader.sample) {
-        self.interval = interval
-        self.sampler = sampler
+    /// How much is read. Pixel only needs the processor's load; the System page needs everything.
+    enum Detail {
+        case load
+        case full
     }
 
-    /// Starts sampling for one more observer. Every call must be balanced by `stopObserving()`.
-    func startObserving() {
-        observerCount += 1
-        guard observerCount == 1 else { return }
+    @ObservationIgnored private let interval: Duration
+    @ObservationIgnored private let sampler: @Sendable () -> SystemSample
+    @ObservationIgnored private let loadSampler: @Sendable () -> SystemSample
+    @ObservationIgnored private var samplingTask: Task<Void, Never>?
+    @ObservationIgnored private var observerCount = 0
+    @ObservationIgnored private var fullObserverCount = 0
+    @ObservationIgnored private var previousSample: SystemSample?
 
-        resetHistory()
-        samplingTask = Task { [weak self, interval, sampler] in
-            while !Task.isCancelled {
-                let sample = await Task.detached(priority: .utility) { sampler() }.value
-                guard let self, !Task.isCancelled else { return }
-                apply(sample)
-                try? await Task.sleep(for: interval)
-            }
+    init(
+        interval: Duration = .seconds(1),
+        sampler: @escaping @Sendable () -> SystemSample = SystemMetricsReader.sample,
+        loadSampler: @escaping @Sendable () -> SystemSample = SystemMetricsReader.loadSample
+    ) {
+        self.interval = interval
+        self.sampler = sampler
+        self.loadSampler = loadSampler
+    }
+
+    /// Whether everything is being read, or only the load.
+    var isReadingEverything: Bool {
+        fullObserverCount > 0
+    }
+
+    /// Starts sampling for one more observer. Every call must be balanced by `stopObserving` with the same detail.
+    func startObserving(_ detail: Detail = .full) {
+        observerCount += 1
+        if detail == .full {
+            fullObserverCount += 1
+        }
+        // The first observer starts the readings; the first one wanting everything gets them at once.
+        if observerCount == 1 || (detail == .full && fullObserverCount == 1) {
+            restartSampling()
         }
     }
 
-    func stopObserving() {
+    func stopObserving(_ detail: Detail = .full) {
         observerCount = max(observerCount - 1, 0)
+        if detail == .full {
+            fullObserverCount = max(fullObserverCount - 1, 0)
+        }
         guard observerCount == 0 else { return }
         samplingTask?.cancel()
         samplingTask = nil
+    }
+
+    /// Everything each second while the System page shows; the load alone every other second otherwise.
+    private func restartSampling() {
+        samplingTask?.cancel()
+        resetHistory()
+        samplingTask = Task { [weak self, interval, sampler, loadSampler] in
+            while !Task.isCancelled {
+                guard let full = self?.isReadingEverything else { return }
+                let read = full ? sampler : loadSampler
+                let sample = await Task.detached(priority: .utility) { read() }.value
+                guard let self, !Task.isCancelled else { return }
+                apply(sample)
+                try? await Task.sleep(for: full ? interval : interval * 2)
+            }
+        }
     }
 
     // MARK: Updates
@@ -80,8 +113,12 @@ final class SystemMonitor {
             self.memory = memory
             memoryHistory.append(memory.fraction)
         }
-        storage = sample.storage
-        battery = sample.battery
+        if sample.storage != nil || isReadingEverything {
+            storage = sample.storage
+        }
+        if sample.battery != nil || isReadingEverything {
+            battery = sample.battery
+        }
         thermalState = sample.thermalState
         uptime = sample.uptime
         previousSample = sample

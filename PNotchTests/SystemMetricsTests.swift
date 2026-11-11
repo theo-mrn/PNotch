@@ -105,6 +105,44 @@ struct SystemMonitorTests {
         #expect(monitor.cpuHistory.values == [0.5])
         #expect(monitor.downloadHistory.values == [3000])
     }
+
+    /// Counts the readings of each kind, from any thread.
+    private nonisolated final class Readings: @unchecked Sendable {
+        private let lock = NSLock()
+        private var counts = (full: 0, load: 0)
+        var full: Int { lock.withLock { counts.full } }
+        var load: Int { lock.withLock { counts.load } }
+        func read(full: Bool) { lock.withLock { full ? (counts.full += 1) : (counts.load += 1) } }
+    }
+
+    /// Pixel alone only needs the load; the System page gets everything, at once.
+    @Test func pixelReadsTheLoadOnlyAndTheSystemPageEverything() async throws {
+        let readings = Readings()
+        let blank = SystemSample(date: .now, cpuTicks: nil, thermalState: .nominal, uptime: 0)
+        let monitor = SystemMonitor(
+            interval: .milliseconds(20),
+            sampler: { readings.read(full: true); return blank },
+            loadSampler: { readings.read(full: false); return blank }
+        )
+        defer { monitor.stopObserving(.load) }
+
+        monitor.startObserving(.load)
+        try await Task.sleep(for: .milliseconds(150))
+        #expect(readings.load > 0)
+        #expect(readings.full == 0)
+        #expect(!monitor.isReadingEverything)
+
+        monitor.startObserving(.full)
+        #expect(monitor.isReadingEverything)
+        let deadline = ContinuousClock.now + .seconds(3)
+        while readings.full == 0, ContinuousClock.now < deadline {
+            try await Task.sleep(for: .milliseconds(10))
+        }
+        #expect(readings.full > 0)
+
+        monitor.stopObserving(.full)
+        #expect(!monitor.isReadingEverything)
+    }
 }
 
 /// Reads the real machine: values must exist and be plausible.

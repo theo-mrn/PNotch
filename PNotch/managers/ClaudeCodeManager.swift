@@ -86,13 +86,6 @@ final class ClaudeCodeManager {
             Logger.claudeCode.error("Failed to listen for Claude Code hooks: \(String(describing: error))")
         }
 
-        housekeeping = Task { [weak self] in
-            while !Task.isCancelled {
-                try? await Task.sleep(for: .seconds(3))
-                await self?.tidyUp()
-            }
-        }
-
         // Back in the session's terminal or editor: Claude Code asks there instead.
         activationObserver = NSWorkspace.shared.notificationCenter.addObserver(
             forName: NSWorkspace.didActivateApplicationNotification,
@@ -109,6 +102,7 @@ final class ClaudeCodeManager {
 
     func stop() {
         housekeeping?.cancel()
+        housekeeping = nil
         if let activationObserver {
             NSWorkspace.shared.notificationCenter.removeObserver(activationObserver)
         }
@@ -262,6 +256,7 @@ final class ClaudeCodeManager {
             sessions[index] = session
         } else {
             sessions.append(session)
+            startHousekeeping()
         }
         if let transition {
             onTransition?(session, transition)
@@ -283,6 +278,22 @@ final class ClaudeCodeManager {
     }
 
     // MARK: Housekeeping
+
+    /// Tidies up every 3 seconds while there are sessions; with none, it stops, until the next one comes.
+    private func startHousekeeping() {
+        guard housekeeping == nil else { return }
+        housekeeping = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(for: .seconds(3), tolerance: .seconds(1))
+                guard let self else { return }
+                await tidyUp()
+                if sessions.isEmpty {
+                    housekeeping = nil
+                    return
+                }
+            }
+        }
+    }
 
     /// Forgets sessions whose Claude Code quit without a word, and notices interrupted turns:
     /// Claude Code doesn't run any hook when the user presses esc.

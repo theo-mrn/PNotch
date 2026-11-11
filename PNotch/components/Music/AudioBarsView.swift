@@ -16,7 +16,7 @@ struct AudioBarsView: View {
     ]
 
     var body: some View {
-        TimelineView(.animation(minimumInterval: 1 / 30, paused: !isPlaying)) { context in
+        TimelineView(.animation(minimumInterval: 1 / 20, paused: !isPlaying)) { context in
             let time = context.date.timeIntervalSinceReferenceDate
 
             HStack(alignment: .center, spacing: barWidth * 0.7) {
@@ -28,7 +28,7 @@ struct AudioBarsView: View {
             }
             .frame(height: height)
         }
-        .animation(.smooth(duration: 0.35), value: isPlaying)
+        .animation(Motion.fade, value: isPlaying)
         .accessibilityHidden(true)
     }
 

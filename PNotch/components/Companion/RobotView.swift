@@ -25,6 +25,9 @@ struct RobotView: View {
     @Default(.companionAppearance) private var appearance
 
     var body: some View {
+        // Decoded from the preferences once per update, not on every frame.
+        let appearance = dressed(appearance)
+
         GeometryReader { proxy in
             let frameInWindow = proxy.frame(in: .global)
 
@@ -36,7 +39,7 @@ struct RobotView: View {
                 let gaze = followsPointer ? pointerGaze(from: frameInWindow) : .zero
                 let pose = RobotAnimator.pose(mood: mood, activity: variant.activity, time: time, gaze: gaze, sinceReaction: reaction)
                 let scene = RobotRenderer.Scene(
-                    appearance: dressed(appearance),
+                    appearance: appearance,
                     pose: pose,
                     mood: mood,
                     time: time,
@@ -72,7 +75,8 @@ struct RobotView: View {
     private var frameInterval: TimeInterval {
         switch framing {
         case .full: 1.0 / 60
-        case .bust, .face: 1.0 / 30
+        // A few dozen points wide: 24 frames a second keep its blinks and sways smooth.
+        case .bust, .face: 1.0 / 24
         }
     }
 
