@@ -15,3 +15,7 @@ xcuserdata/
 
 # Coverage output
 *.profraw
+
+# CI
+.spm/
+TestResults.xcresult/

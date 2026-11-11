@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# A new push to the same branch or pull request cancels the run it replaces.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  # The Xcode PNotch is developed with. The xcode-27 image ships several; this one is pinned.
+  DEVELOPER_DIR: /Applications/Xcode_27.2.app/Contents/Developer
+  # The runners have no signing certificate: sign ad hoc, which is enough to build and run the tests.
+  SIGNING: CODE_SIGN_IDENTITY=- CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM= CODE_SIGNING_REQUIRED=NO
+
+jobs:
+  test:
+    name: Build and test
+    runs-on: xcode-27
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Toolchain
+        run: |
+          xcodebuild -version
+          swift --version
+
+      - name: Cache Swift packages
+        uses: actions/cache@v6
+        with:
+          path: .spm
+          key: spm-${{ runner.os }}-${{ hashFiles('PNotch.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      - name: Build and test
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project PNotch.xcodeproj \
+            -scheme PNotch \
+            -destination 'platform=macOS,arch=arm64' \
+            -clonedSourcePackagesDirPath .spm \
+            -resultBundlePath TestResults.xcresult \
+            $SIGNING \
+            | xcbeautify --renderer github-actions
+
+      - name: Test summary
+        if: always() && hashFiles('TestResults.xcresult/Info.plist') != ''
+        run: python3 scripts/test-summary.py TestResults.xcresult >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Keep the test results
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: TestResults
+          path: TestResults.xcresult
+          retention-days: 14
+
+  release-build:
+    name: Release build (universal)
+    runs-on: xcode-27
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Cache Swift packages
+        uses: actions/cache@v6
+        with:
+          path: .spm
+          key: spm-${{ runner.os }}-${{ hashFiles('PNotch.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+          restore-keys: spm-${{ runner.os }}-
+
+      # Optimized, for Apple silicon and Intel, as releases are: catches what only breaks there.
+      - name: Build
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project PNotch.xcodeproj \
+            -scheme PNotch \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -clonedSourcePackagesDirPath .spm \
+            $SIGNING \
+            | xcbeautify --renderer github-actions
+
+  translations:
+    name: French translations
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+      - name: Every string has a French translation
+        run: python3 scripts/check-translations.py
